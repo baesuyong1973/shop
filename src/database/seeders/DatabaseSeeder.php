@@ -25,5 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PrefectureSeeder::class);
         $this->call(UnitSeeder::class);
         $this->call(AdminSeeder::class);
+        $this->call(ProductSeeder::class);
     }
 }

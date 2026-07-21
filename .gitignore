@@ -1,0 +1,6 @@
+/src/vendor
+/src/node_modules
+/src/.env
+/src/storage/*.key
+/src/cookies.txt
+docker/mysql/data

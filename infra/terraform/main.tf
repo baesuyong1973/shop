@@ -31,7 +31,7 @@ resource "aws_key_pair" "this" {
 
 resource "aws_security_group" "this" {
   name        = "${var.project_name}-sg"
-  description = "Allow SSH from my IP and HTTP from anywhere"
+  description = "Allow SSH from my IP and HTTP/HTTPS from anywhere"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
@@ -46,6 +46,14 @@ resource "aws_security_group" "this" {
     description = "HTTP"
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTPS"
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

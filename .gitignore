@@ -4,6 +4,8 @@
 /src/storage/*.key
 /src/cookies.txt
 docker/mysql/data
+docker/certbot/conf
+docker/certbot/www
 /.env
 
 infra/terraform/.terraform

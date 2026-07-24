@@ -22,8 +22,8 @@ export default function Edit({ admin, shops }) {
             </nav>
 
             <div className="py-12">
-                <div className="mx-auto max-w-xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                <div className="mx-auto max-w-xl px-4 sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         <AdminForm admin={admin} shops={shops} />
                     </div>
                 </div>

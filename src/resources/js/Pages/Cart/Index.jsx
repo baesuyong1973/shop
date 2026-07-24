@@ -28,7 +28,7 @@ export default function Index({ shop, items, total, status, error }) {
             />
 
             <div className="py-12">
-                <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
                     {status && (
                         <div className="mb-4 rounded-md bg-green-50 p-4 text-sm font-medium text-green-700">
                             {status}
@@ -40,14 +40,84 @@ export default function Index({ shop, items, total, status, error }) {
                         </div>
                     )}
 
-                    <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                    <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         {items.length === 0 ? (
                             <p className="py-12 text-center text-sm text-gray-500">
                                 カートに商品がありません。
                             </p>
                         ) : (
                             <>
-                                <div className="overflow-x-auto">
+                                {/* スマホ表示: カード形式 */}
+                                <div className="space-y-4 sm:hidden">
+                                    {items.map((item) => (
+                                        <div
+                                            key={item.product.id}
+                                            className="rounded-lg border border-gray-200 p-4"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <img
+                                                    src={`/storage/${item.product.image_path}`}
+                                                    alt={item.product.name}
+                                                    className="h-16 w-16 flex-shrink-0 rounded object-cover"
+                                                />
+                                                <span className="text-sm font-medium text-gray-900">
+                                                    {item.product.name}
+                                                </span>
+                                            </div>
+
+                                            <dl className="mt-3 grid grid-cols-2 gap-y-1 text-sm text-gray-700">
+                                                <dt className="text-gray-500">
+                                                    単価
+                                                </dt>
+                                                <dd className="text-right">
+                                                    ¥
+                                                    {Number(
+                                                        item.product.price,
+                                                    ).toLocaleString()}
+                                                </dd>
+
+                                                <dt className="text-gray-500">
+                                                    単位
+                                                </dt>
+                                                <dd className="text-right">
+                                                    {item.product.unit
+                                                        ? `${item.product.unit_quantity ?? 1}${item.product.unit.name}`
+                                                        : '-'}
+                                                </dd>
+
+                                                <dt className="text-gray-500">
+                                                    数量
+                                                </dt>
+                                                <dd className="text-right">
+                                                    {item.quantity}
+                                                </dd>
+
+                                                <dt className="text-gray-500">
+                                                    小計
+                                                </dt>
+                                                <dd className="text-right font-semibold text-gray-900">
+                                                    ¥
+                                                    {Number(
+                                                        item.subtotal,
+                                                    ).toLocaleString()}
+                                                </dd>
+                                            </dl>
+
+                                            <div className="mt-3 text-right">
+                                                <DangerButton
+                                                    onClick={() =>
+                                                        remove(item.product)
+                                                    }
+                                                >
+                                                    削除
+                                                </DangerButton>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* PC/タブレット表示: テーブル形式 */}
+                                <div className="hidden overflow-x-auto sm:block">
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead>
                                             <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -132,14 +202,17 @@ export default function Index({ shop, items, total, status, error }) {
                                     </table>
                                 </div>
 
-                                <div className="mt-6 flex flex-col items-end gap-4">
-                                    <div className="text-xl font-bold text-gray-900">
+                                <div className="mt-6 flex flex-col items-stretch gap-4 sm:items-end">
+                                    <div className="text-right text-xl font-bold text-gray-900">
                                         合計金額：¥
                                         {Number(total).toLocaleString()}
                                     </div>
 
                                     {auth.user ? (
-                                        <PrimaryButton onClick={checkout}>
+                                        <PrimaryButton
+                                            className="justify-center"
+                                            onClick={checkout}
+                                        >
                                             注文する
                                         </PrimaryButton>
                                     ) : (
@@ -149,7 +222,7 @@ export default function Index({ shop, items, total, status, error }) {
                                             </p>
                                             <Link
                                                 href={route('login')}
-                                                className="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700"
+                                                className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 sm:w-auto"
                                             >
                                                 ログインして注文する
                                             </Link>

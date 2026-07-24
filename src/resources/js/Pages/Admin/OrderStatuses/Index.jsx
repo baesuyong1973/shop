@@ -32,7 +32,7 @@ export default function Index({ statuses, status, error }) {
             </nav>
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {status && (
                         <div className="mb-4 rounded-md bg-green-50 p-4 text-sm font-medium text-green-700">
                             {status}
@@ -44,7 +44,7 @@ export default function Index({ statuses, status, error }) {
                         </div>
                     )}
 
-                    <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                    <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         <div className="mb-4 flex justify-end">
                             <Link href={route('admin.order-statuses.create')}>
                                 <PrimaryButton>
@@ -53,7 +53,80 @@ export default function Index({ statuses, status, error }) {
                             </Link>
                         </div>
 
-                        <div className="overflow-x-auto">
+                        {/* スマホ表示: カード形式 */}
+                        <div className="space-y-4 sm:hidden">
+                            {statuses.map((s) => (
+                                <div
+                                    key={s.id}
+                                    className="rounded-lg border border-gray-200 p-4"
+                                >
+                                    <div className="flex items-center justify-between gap-2">
+                                        <span className="text-sm font-medium text-gray-900">
+                                            {s.label}
+                                        </span>
+                                        <span className="text-xs text-gray-500">
+                                            並び順: {s.sort_order}
+                                        </span>
+                                    </div>
+
+                                    {(s.is_initial || s.is_void) && (
+                                        <div className="mt-1 flex gap-1">
+                                            {s.is_initial && (
+                                                <span className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-800">
+                                                    初期状態
+                                                </span>
+                                            )}
+                                            {s.is_void && (
+                                                <span className="rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
+                                                    キャンセル相当
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    <dl className="mt-3 grid grid-cols-2 gap-y-1 text-sm text-gray-700">
+                                        <dt className="text-gray-500">
+                                            キー
+                                        </dt>
+                                        <dd className="text-right">
+                                            {s.key}
+                                        </dd>
+
+                                        <dt className="text-gray-500">
+                                            遷移可能な次の状態
+                                        </dt>
+                                        <dd className="text-right">
+                                            {s.next_statuses.length === 0
+                                                ? '-'
+                                                : s.next_statuses
+                                                      .map((n) => n.label)
+                                                      .join('、')}
+                                        </dd>
+                                    </dl>
+
+                                    <div className="mt-3 flex justify-end gap-2">
+                                        <Link
+                                            href={route(
+                                                'admin.order-statuses.edit',
+                                                s,
+                                            )}
+                                        >
+                                            <SecondaryButton>
+                                                編集
+                                            </SecondaryButton>
+                                        </Link>
+                                        <DangerButton
+                                            onClick={() => destroy(s)}
+                                        >
+                                            削除
+                                        </DangerButton>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* PC/タブレット表示: テーブル形式 */}
+                        <div className="hidden overflow-x-auto sm:block">
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead>
                                     <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">

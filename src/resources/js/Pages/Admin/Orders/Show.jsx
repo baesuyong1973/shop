@@ -47,14 +47,14 @@ export default function Show({ shop, order, status }) {
             </nav>
 
             <div className="py-12">
-                <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
                     {status && (
                         <div className="mb-4 rounded-md bg-green-50 p-4 text-sm font-medium text-green-700">
                             {status}
                         </div>
                     )}
 
-                    <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                    <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         <dl className="divide-y divide-gray-200">
                             <div className="grid grid-cols-3 gap-4 py-3">
                                 <dt className="text-sm font-medium text-gray-500">
@@ -104,7 +104,56 @@ export default function Show({ shop, order, status }) {
                             注文商品
                         </h2>
 
-                        <div className="mt-2 overflow-x-auto">
+                        {/* スマホ表示: カード形式 */}
+                        <div className="mt-2 space-y-4 sm:hidden">
+                            {order.items.map((item) => (
+                                <div
+                                    key={item.id}
+                                    className="rounded-lg border border-gray-200 p-4"
+                                >
+                                    <div className="text-sm font-medium text-gray-900">
+                                        {item.product_name}
+                                        {!item.product && (
+                                            <span className="ml-2 text-xs text-gray-400">
+                                                （削除済み商品）
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <dl className="mt-3 grid grid-cols-2 gap-y-1 text-sm text-gray-700">
+                                        <dt className="text-gray-500">
+                                            単価
+                                        </dt>
+                                        <dd className="text-right">
+                                            ¥
+                                            {Number(
+                                                item.unit_price,
+                                            ).toLocaleString()}
+                                        </dd>
+
+                                        <dt className="text-gray-500">
+                                            数量
+                                        </dt>
+                                        <dd className="text-right">
+                                            {item.quantity}
+                                        </dd>
+
+                                        <dt className="text-gray-500">
+                                            小計
+                                        </dt>
+                                        <dd className="text-right font-semibold text-gray-900">
+                                            ¥
+                                            {Number(
+                                                item.subtotal,
+                                            ).toLocaleString()}
+                                        </dd>
+                                    </dl>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* PC/タブレット表示: テーブル形式 */}
+                        <div className="mt-2 hidden overflow-x-auto sm:block">
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead>
                                     <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -152,7 +201,7 @@ export default function Show({ shop, order, status }) {
                         </div>
 
                         {order.available_transitions?.length > 0 && (
-                            <div className="mt-6 flex justify-end gap-3 border-t border-gray-200 pt-6">
+                            <div className="mt-6 flex flex-wrap justify-end gap-3 border-t border-gray-200 pt-6">
                                 {order.available_transitions.map(
                                     (transition) => {
                                         const ButtonComponent =

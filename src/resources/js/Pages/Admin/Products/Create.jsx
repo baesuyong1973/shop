@@ -22,8 +22,8 @@ export default function Create({ shop, prefectures, units }) {
             </nav>
 
             <div className="py-12">
-                <div className="mx-auto max-w-2xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         <ProductForm
                             shop={shop}
                             prefectures={prefectures}

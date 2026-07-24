@@ -86,8 +86,8 @@ export default function ProductForm({
                 <InputError className="mt-2" message={errors.image} />
             </div>
 
-            <div className="flex gap-4">
-                <div className="flex-1">
+            <div className="flex flex-col gap-4 sm:flex-row">
+                <div className="w-full sm:flex-1">
                     <InputLabel htmlFor="price" value="価格（円）" />
                     <TextInput
                         id="price"
@@ -101,7 +101,7 @@ export default function ProductForm({
                     <InputError className="mt-2" message={errors.price} />
                 </div>
 
-                <div className="w-24">
+                <div className="w-full sm:w-24">
                     <InputLabel htmlFor="unit_quantity" value="数量" />
                     <TextInput
                         id="unit_quantity"
@@ -119,7 +119,7 @@ export default function ProductForm({
                     />
                 </div>
 
-                <div className="w-40">
+                <div className="w-full sm:w-40">
                     <InputLabel htmlFor="unit_id" value="単位" />
                     <select
                         id="unit_id"

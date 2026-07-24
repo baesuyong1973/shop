@@ -51,8 +51,8 @@ export default function Summary({ shop, summary, dateFrom, dateTo }) {
             </nav>
 
             <div className="py-12">
-                <div className="mx-auto max-w-4xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         <form
                             onSubmit={submit}
                             className="mb-6 flex flex-wrap items-end gap-4"
@@ -110,42 +110,66 @@ export default function Summary({ shop, summary, dateFrom, dateTo }) {
                                 : 'すべての注文（キャンセルを除く）を商品ごとに集計しています。'}
                         </p>
 
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                        <th className="px-4 py-3">商品名</th>
-                                        <th className="px-4 py-3">
-                                            合計数量
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    {summary.length === 0 && (
-                                        <tr>
-                                            <td
-                                                colSpan={2}
-                                                className="px-4 py-6 text-center text-sm text-gray-500"
-                                            >
-                                                該当する注文がありません。
-                                            </td>
-                                        </tr>
-                                    )}
-
+                        {summary.length === 0 ? (
+                            <p className="py-6 text-center text-sm text-gray-500">
+                                該当する注文がありません。
+                            </p>
+                        ) : (
+                            <>
+                                {/* スマホ表示: カード形式 */}
+                                <div className="space-y-4 sm:hidden">
                                     {summary.map((row) => (
-                                        <tr key={row.product_name}>
-                                            <td className="px-4 py-3 text-sm text-gray-900">
+                                        <div
+                                            key={row.product_name}
+                                            className="rounded-lg border border-gray-200 p-4"
+                                        >
+                                            <div className="text-sm font-medium text-gray-900">
                                                 {row.product_name}
-                                            </td>
-                                            <td className="px-4 py-3 text-sm text-gray-900">
-                                                {row.total_quantity}
-                                                {row.unit_name}
-                                            </td>
-                                        </tr>
+                                            </div>
+
+                                            <dl className="mt-3 grid grid-cols-2 gap-y-1 text-sm text-gray-700">
+                                                <dt className="text-gray-500">
+                                                    合計数量
+                                                </dt>
+                                                <dd className="text-right">
+                                                    {row.total_quantity}
+                                                    {row.unit_name}
+                                                </dd>
+                                            </dl>
+                                        </div>
                                     ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                </div>
+
+                                {/* PC/タブレット表示: テーブル形式 */}
+                                <div className="hidden overflow-x-auto sm:block">
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead>
+                                            <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                <th className="px-4 py-3">
+                                                    商品名
+                                                </th>
+                                                <th className="px-4 py-3">
+                                                    合計数量
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-200">
+                                            {summary.map((row) => (
+                                                <tr key={row.product_name}>
+                                                    <td className="px-4 py-3 text-sm text-gray-900">
+                                                        {row.product_name}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-sm text-gray-900">
+                                                        {row.total_quantity}
+                                                        {row.unit_name}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

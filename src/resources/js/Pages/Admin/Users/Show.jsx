@@ -74,8 +74,8 @@ export default function Show({ shop, user, orders }) {
             </nav>
 
             <div className="py-12">
-                <div className="mx-auto max-w-2xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         <dl className="divide-y divide-gray-200">
                             <div className="grid grid-cols-3 gap-4 py-3">
                                 <dt className="text-sm font-medium text-gray-500">
@@ -167,7 +167,7 @@ export default function Show({ shop, user, orders }) {
                             </div>
                         </dl>
 
-                        <div className="mt-6 flex gap-2">
+                        <div className="mt-6 flex flex-wrap gap-2">
                             <SecondaryButton onClick={toggleActive}>
                                 {user.is_active
                                     ? 'このユーザーを無効化する'
@@ -183,7 +183,7 @@ export default function Show({ shop, user, orders }) {
                     </div>
 
                     {orders && isScoped && (
-                        <div className="mt-6 overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                        <div className="mt-6 overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                             <h3 className="mb-4 text-base font-semibold text-gray-900">
                                 注文履歴（自店舗）
                             </h3>
@@ -212,7 +212,7 @@ export default function Show({ shop, user, orders }) {
                                                     order.total_amount,
                                                 ).toLocaleString()}
                                             </div>
-                                            <div className="flex gap-2">
+                                            <div className="flex flex-wrap gap-2">
                                                 {order.available_transitions?.map(
                                                     (transition) => {
                                                         const ButtonComponent =
@@ -252,55 +252,111 @@ export default function Show({ shop, user, orders }) {
                                             </div>
                                         </div>
 
-                                        <table className="mt-3 min-w-full divide-y divide-gray-200">
-                                            <thead>
-                                                <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                                    <th className="px-2 py-1">
-                                                        商品名
-                                                    </th>
-                                                    <th className="px-2 py-1">
-                                                        数量
-                                                    </th>
-                                                    <th className="px-2 py-1">
-                                                        単位
-                                                    </th>
-                                                    <th className="px-2 py-1">
-                                                        値段
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-100">
-                                                {order.items.map((item) => (
-                                                    <tr key={item.id}>
-                                                        <td className="px-2 py-1 text-sm text-gray-900">
-                                                            {
-                                                                item.product_name
-                                                            }
-                                                            {!item.product && (
-                                                                <span className="ml-1 text-xs text-gray-400">
-                                                                    （削除済み商品）
-                                                                </span>
-                                                            )}
-                                                        </td>
-                                                        <td className="px-2 py-1 text-sm text-gray-900">
+                                        {/* スマホ表示: カード形式 */}
+                                        <div className="mt-3 space-y-2 sm:hidden">
+                                            {order.items.map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="rounded-md border border-gray-100 p-3"
+                                                >
+                                                    <div className="text-sm text-gray-900">
+                                                        {item.product_name}
+                                                        {!item.product && (
+                                                            <span className="ml-1 text-xs text-gray-400">
+                                                                （削除済み商品）
+                                                            </span>
+                                                        )}
+                                                    </div>
+
+                                                    <dl className="mt-2 grid grid-cols-2 gap-y-1 text-sm text-gray-700">
+                                                        <dt className="text-gray-500">
+                                                            数量
+                                                        </dt>
+                                                        <dd className="text-right">
                                                             {item.quantity}
-                                                        </td>
-                                                        <td className="px-2 py-1 text-sm text-gray-900">
+                                                        </dd>
+
+                                                        <dt className="text-gray-500">
+                                                            単位
+                                                        </dt>
+                                                        <dd className="text-right">
                                                             {item.product
                                                                 ?.unit
                                                                 ? `${item.product.unit_quantity ?? 1}${item.product.unit.name}`
                                                                 : '-'}
-                                                        </td>
-                                                        <td className="px-2 py-1 text-sm text-gray-900">
+                                                        </dd>
+
+                                                        <dt className="text-gray-500">
+                                                            値段
+                                                        </dt>
+                                                        <dd className="text-right">
                                                             ¥
                                                             {Number(
                                                                 item.subtotal,
                                                             ).toLocaleString()}
-                                                        </td>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* PC/タブレット表示: テーブル形式 */}
+                                        <div className="hidden overflow-x-auto sm:block">
+                                            <table className="mt-3 min-w-full divide-y divide-gray-200">
+                                                <thead>
+                                                    <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                        <th className="px-2 py-1">
+                                                            商品名
+                                                        </th>
+                                                        <th className="px-2 py-1">
+                                                            数量
+                                                        </th>
+                                                        <th className="px-2 py-1">
+                                                            単位
+                                                        </th>
+                                                        <th className="px-2 py-1">
+                                                            値段
+                                                        </th>
                                                     </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody className="divide-y divide-gray-100">
+                                                    {order.items.map(
+                                                        (item) => (
+                                                            <tr key={item.id}>
+                                                                <td className="px-2 py-1 text-sm text-gray-900">
+                                                                    {
+                                                                        item.product_name
+                                                                    }
+                                                                    {!item.product && (
+                                                                        <span className="ml-1 text-xs text-gray-400">
+                                                                            （削除済み商品）
+                                                                        </span>
+                                                                    )}
+                                                                </td>
+                                                                <td className="px-2 py-1 text-sm text-gray-900">
+                                                                    {
+                                                                        item.quantity
+                                                                    }
+                                                                </td>
+                                                                <td className="px-2 py-1 text-sm text-gray-900">
+                                                                    {item
+                                                                        .product
+                                                                        ?.unit
+                                                                        ? `${item.product.unit_quantity ?? 1}${item.product.unit.name}`
+                                                                        : '-'}
+                                                                </td>
+                                                                <td className="px-2 py-1 text-sm text-gray-900">
+                                                                    ¥
+                                                                    {Number(
+                                                                        item.subtotal,
+                                                                    ).toLocaleString()}
+                                                                </td>
+                                                            </tr>
+                                                        ),
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -310,12 +366,81 @@ export default function Show({ shop, user, orders }) {
                     )}
 
                     {orders && !isScoped && (
-                        <div className="mt-6 overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                        <div className="mt-6 overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                             <h3 className="mb-4 text-base font-semibold text-gray-900">
                                 注文履歴
                             </h3>
 
-                            <div className="overflow-x-auto">
+                            {orders.data.length === 0 && (
+                                <p className="py-6 text-center text-sm text-gray-500">
+                                    注文がありません。
+                                </p>
+                            )}
+
+                            {/* スマホ表示: カード形式 */}
+                            <div className="space-y-4 sm:hidden">
+                                {orders.data.map((order) => (
+                                    <div
+                                        key={order.id}
+                                        className="rounded-lg border border-gray-200 p-4"
+                                    >
+                                        <div className="text-sm font-medium text-gray-900">
+                                            注文番号{order.id}
+                                        </div>
+
+                                        <dl className="mt-3 grid grid-cols-2 gap-y-1 text-sm text-gray-700">
+                                            <dt className="text-gray-500">
+                                                店舗
+                                            </dt>
+                                            <dd className="text-right">
+                                                {order.shop?.name}
+                                            </dd>
+
+                                            <dt className="text-gray-500">
+                                                合計金額
+                                            </dt>
+                                            <dd className="text-right">
+                                                ¥
+                                                {Number(
+                                                    order.total_amount,
+                                                ).toLocaleString()}
+                                            </dd>
+
+                                            <dt className="text-gray-500">
+                                                状態
+                                            </dt>
+                                            <dd className="text-right">
+                                                {order.status_label}
+                                            </dd>
+
+                                            <dt className="text-gray-500">
+                                                注文日時
+                                            </dt>
+                                            <dd className="text-right">
+                                                {formatDateTime(
+                                                    order.created_at,
+                                                )}
+                                            </dd>
+                                        </dl>
+
+                                        <div className="mt-3 flex justify-end gap-2">
+                                            <Link
+                                                href={route(
+                                                    'admin.orders.show',
+                                                    order.id,
+                                                )}
+                                            >
+                                                <SecondaryButton>
+                                                    詳細
+                                                </SecondaryButton>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* PC/タブレット表示: テーブル形式 */}
+                            <div className="hidden overflow-x-auto sm:block">
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead>
                                         <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -340,17 +465,6 @@ export default function Show({ shop, user, orders }) {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
-                                        {orders.data.length === 0 && (
-                                            <tr>
-                                                <td
-                                                    colSpan={6}
-                                                    className="px-4 py-6 text-center text-sm text-gray-500"
-                                                >
-                                                    注文がありません。
-                                                </td>
-                                            </tr>
-                                        )}
-
                                         {orders.data.map((order) => (
                                             <tr key={order.id}>
                                                 <td className="px-4 py-3 text-sm text-gray-900">

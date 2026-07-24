@@ -40,7 +40,7 @@ export default function Dashboard({ status, error }) {
             </nav>
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {impersonating && (
                         <div className="mb-4 flex items-center justify-between rounded-md bg-yellow-50 p-4 text-sm text-yellow-800">
                             <span>
@@ -56,7 +56,7 @@ export default function Dashboard({ status, error }) {
                         </div>
                     )}
 
-                    <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                    <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         管理者としてログインしました。
 
                         {status && (

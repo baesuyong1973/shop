@@ -19,7 +19,7 @@ variable "instance_type" {
 variable "root_volume_size" {
   description = "EBSルートボリュームサイズ(GB)"
   type        = number
-  default     = 20
+  default     = 30
 }
 
 variable "my_ip_cidr" {

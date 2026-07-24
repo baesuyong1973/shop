@@ -79,8 +79,11 @@ docker compose -f docker-compose.prod.yml exec app composer install --no-dev --o
 docker compose -f docker-compose.prod.yml exec app php artisan key:generate
 docker compose -f docker-compose.prod.yml exec app php artisan migrate --seed --force
 docker compose -f docker-compose.prod.yml exec app php artisan storage:link
+docker compose -f docker-compose.prod.yml exec app chown -R :www-data storage bootstrap/cache
 docker compose -f docker-compose.prod.yml exec app chmod -R 775 storage bootstrap/cache
 ```
+
+`storage`/`bootstrap/cache`はホスト側のbind mountなので、所有者はEC2ユーザー（uid/gid 1000）のままになる。コンテナ内のphp-fpmは`www-data`で動いているため、`chown`でグループを`www-data`に合わせておかないと書き込み権限がなく500エラーになる。
 
 ## 6. 動作確認
 

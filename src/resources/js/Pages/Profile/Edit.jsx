@@ -20,18 +20,6 @@ export default function Edit({ mustVerifyEmail, status }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <UpdateProfileInformationForm
-                            mustVerifyEmail={mustVerifyEmail}
-                            status={status}
-                            className="max-w-xl"
-                        />
-                    </div>
-
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <UpdatePasswordForm className="max-w-xl" />
-                    </div>
-
                     <div className="max-w-xl bg-white p-4 shadow sm:rounded-lg sm:p-8">
                         <header>
                             <h2 className="text-lg font-medium text-gray-900">
@@ -48,6 +36,18 @@ export default function Edit({ mustVerifyEmail, status }) {
                             alt={t('profile.memberQrAlt')}
                             className="mt-6 h-48 w-48"
                         />
+                    </div>
+
+                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                        <UpdateProfileInformationForm
+                            mustVerifyEmail={mustVerifyEmail}
+                            status={status}
+                            className="max-w-xl"
+                        />
+                    </div>
+
+                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                        <UpdatePasswordForm className="max-w-xl" />
                     </div>
 
                     <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">

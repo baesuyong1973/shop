@@ -3,8 +3,10 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Show({ shop, product }) {
+    const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
         quantity: 1,
     });
@@ -26,7 +28,7 @@ export default function Show({ shop, product }) {
 
             <Header
                 backHref={route('shops.show', shop)}
-                backLabel="商品一覧に戻る"
+                backLabel={t('products.backToList')}
             />
 
             <div className="py-12">
@@ -46,7 +48,9 @@ export default function Show({ shop, product }) {
 
                                 {product.prefecture && (
                                     <p className="mt-1 text-sm text-gray-500">
-                                        産地：{product.prefecture.name}
+                                        {t('products.origin', {
+                                            name: product.prefecture.name,
+                                        })}
                                     </p>
                                 )}
 
@@ -57,14 +61,18 @@ export default function Show({ shop, product }) {
 
                                 {product.unit && (
                                     <p className="mt-1 text-sm text-gray-500">
-                                        販売単位：
-                                        {product.unit_quantity ?? 1}
-                                        {product.unit.name}
+                                        {t('products.unitLine', {
+                                            quantity:
+                                                product.unit_quantity ?? 1,
+                                            unit: product.unit.name,
+                                        })}
                                     </p>
                                 )}
 
                                 <p className="mt-1 text-sm text-gray-500">
-                                    在庫：{product.stock}点
+                                    {t('products.stock', {
+                                        stock: product.stock,
+                                    })}
                                 </p>
 
                                 {product.description && (
@@ -83,7 +91,7 @@ export default function Show({ shop, product }) {
                                                 htmlFor="quantity"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                注文個数
+                                                {t('products.quantityLabel')}
                                             </label>
                                             <TextInput
                                                 id="quantity"
@@ -107,17 +115,18 @@ export default function Show({ shop, product }) {
                                         </div>
 
                                         <div className="text-lg font-bold text-gray-900">
-                                            合計金額：¥
-                                            {total.toLocaleString()}
+                                            {t('products.total', {
+                                                amount: total.toLocaleString(),
+                                            })}
                                         </div>
 
                                         <PrimaryButton disabled={processing}>
-                                            カートに追加する
+                                            {t('products.addToCart')}
                                         </PrimaryButton>
                                     </form>
                                 ) : (
                                     <p className="mt-6 text-sm font-medium text-red-600">
-                                        在庫切れです。
+                                        {t('products.outOfStock')}
                                     </p>
                                 )}
                             </div>

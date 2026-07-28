@@ -1,6 +1,9 @@
+import LocaleSwitcher from '@/Components/LocaleSwitcher';
 import { Link, usePage } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 export default function Header({ title, backHref, backLabel }) {
+    const { t } = useTranslation();
     const { auth, shop } = usePage().props;
 
     return (
@@ -20,23 +23,27 @@ export default function Header({ title, backHref, backLabel }) {
                 )}
 
                 <div className="flex items-center gap-4">
+                    <LocaleSwitcher />
+
                     <Link
                         href={route('cart.index', shop)}
                         className="text-sm text-gray-600 underline hover:text-gray-900"
                     >
-                        カートを見る
+                        {t('header.cart')}
                     </Link>
 
                     {auth.user ? (
                         <>
                             <span className="text-sm text-gray-700">
-                                {auth.user.name} さん
+                                {t('header.greeting', {
+                                    name: auth.user.name,
+                                })}
                             </span>
                             <Link
                                 href={route('dashboard')}
                                 className="text-sm text-gray-600 underline hover:text-gray-900"
                             >
-                                ダッシュボード
+                                {t('header.dashboard')}
                             </Link>
                         </>
                     ) : (
@@ -45,13 +52,13 @@ export default function Header({ title, backHref, backLabel }) {
                                 href={route('login')}
                                 className="text-sm text-gray-600 underline hover:text-gray-900"
                             >
-                                ログイン
+                                {t('header.login')}
                             </Link>
                             <Link
                                 href={route('register')}
                                 className="text-sm text-gray-600 underline hover:text-gray-900"
                             >
-                                会員登録
+                                {t('header.register')}
                             </Link>
                         </>
                     )}

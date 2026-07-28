@@ -1,17 +1,20 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { formatDateTime } from '@/Utils/date';
 import { Head, Link } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 export default function Show({ order }) {
+    const { t } = useTranslation();
+
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    注文詳細 #{order.id}
+                    {t('orders.detailTitle', { id: order.id })}
                 </h2>
             }
         >
-            <Head title={`注文詳細 #${order.id}`} />
+            <Head title={t('orders.detailTitle', { id: order.id })} />
 
             <div className="py-12">
                 <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
@@ -20,7 +23,7 @@ export default function Show({ order }) {
                             href={route('dashboard')}
                             className="text-sm text-gray-600 underline hover:text-gray-900"
                         >
-                            ダッシュボードに戻る
+                            {t('orders.backToDashboard')}
                         </Link>
                     </div>
 
@@ -28,7 +31,7 @@ export default function Show({ order }) {
                         <dl className="divide-y divide-gray-200">
                             <div className="grid grid-cols-3 gap-4 py-3">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    注文番号
+                                    {t('orders.orderNumber')}
                                 </dt>
                                 <dd className="col-span-2 text-sm text-gray-900">
                                     {order.id}
@@ -36,7 +39,7 @@ export default function Show({ order }) {
                             </div>
                             <div className="grid grid-cols-3 gap-4 py-3">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    店舗
+                                    {t('orders.shop')}
                                 </dt>
                                 <dd className="col-span-2 text-sm text-gray-900">
                                     {order.shop?.name}
@@ -44,7 +47,7 @@ export default function Show({ order }) {
                             </div>
                             <div className="grid grid-cols-3 gap-4 py-3">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    状態
+                                    {t('orders.status')}
                                 </dt>
                                 <dd className="col-span-2 text-sm text-gray-900">
                                     {order.status_label}
@@ -52,7 +55,7 @@ export default function Show({ order }) {
                             </div>
                             <div className="grid grid-cols-3 gap-4 py-3">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    注文日時
+                                    {t('orders.orderedAt')}
                                 </dt>
                                 <dd className="col-span-2 text-sm text-gray-900">
                                     {formatDateTime(order.created_at)}
@@ -61,7 +64,7 @@ export default function Show({ order }) {
                         </dl>
 
                         <h3 className="mb-2 mt-6 text-sm font-semibold text-gray-900">
-                            注文商品
+                            {t('orders.itemsHeading')}
                         </h3>
 
                         <div className="divide-y divide-gray-200">
@@ -78,7 +81,7 @@ export default function Show({ order }) {
                                         />
                                     ) : (
                                         <div className="flex h-16 w-16 items-center justify-center rounded bg-gray-100 text-[10px] text-gray-400">
-                                            画像なし
+                                            {t('orders.noImage')}
                                         </div>
                                     )}
 
@@ -87,7 +90,9 @@ export default function Show({ order }) {
                                             {item.product_name}
                                             {!item.product && (
                                                 <span className="ml-2 text-xs text-gray-400">
-                                                    （削除済み商品）
+                                                    {t(
+                                                        'orders.deletedProduct',
+                                                    )}
                                                 </span>
                                             )}
                                         </p>
@@ -112,8 +117,11 @@ export default function Show({ order }) {
                         </div>
 
                         <div className="mt-6 flex justify-end text-xl font-bold text-gray-900">
-                            合計金額：¥
-                            {Number(order.total_amount).toLocaleString()}
+                            {t('orders.total', {
+                                amount: Number(
+                                    order.total_amount,
+                                ).toLocaleString(),
+                            })}
                         </div>
                     </div>
                 </div>

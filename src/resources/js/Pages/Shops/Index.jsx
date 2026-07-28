@@ -1,15 +1,20 @@
+import LocaleSwitcher from '@/Components/LocaleSwitcher';
 import { Head, Link } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 export default function Index({ shops }) {
+    const { t } = useTranslation();
+
     return (
         <div className="min-h-screen bg-gray-100">
-            <Head title="店舗一覧" />
+            <Head title={t('shops.title')} />
 
             <nav className="border-b border-gray-100 bg-white">
-                <div className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                     <div className="text-lg font-semibold text-gray-900">
-                        店舗一覧
+                        {t('shops.title')}
                     </div>
+                    <LocaleSwitcher />
                 </div>
             </nav>
 
@@ -17,7 +22,7 @@ export default function Index({ shops }) {
                 <div className="mx-auto max-w-5xl sm:px-6 lg:px-8">
                     {shops.length === 0 ? (
                         <p className="py-12 text-center text-sm text-gray-500">
-                            現在営業中の店舗はありません。
+                            {t('shops.empty')}
                         </p>
                     ) : (
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

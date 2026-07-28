@@ -90,6 +90,6 @@ class OrderController extends Controller
             Mail::to($adminEmails)->send(new AdminOrderNotification($order));
         }
 
-        return redirect()->route('shops.show', $shop)->with('status', "ご注文ありがとうございます。（注文番号：{$order->id}）");
+        return redirect()->route('shops.show', $shop)->with('status', __('messages.orders.confirmed', ['id' => $order->id]));
     }
 }

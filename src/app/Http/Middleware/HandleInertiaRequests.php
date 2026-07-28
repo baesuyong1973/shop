@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'shop' => fn () => $request->route('shop'),
             'impersonating' => fn () => $request->session()->has('impersonator_admin_id'),
+            'locale' => fn () => app()->getLocale(),
         ];
     }
 }

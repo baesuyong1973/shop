@@ -2,29 +2,31 @@ import DangerButton from '@/Components/DangerButton';
 import Header from '@/Components/Header';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { Head, Link, router, usePage } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 export default function Index({ shop, items, total, status, error }) {
+    const { t } = useTranslation();
     const auth = usePage().props.auth;
 
     const remove = (product) => {
-        if (confirm(`「${product.name}」をカートから削除しますか？`)) {
+        if (confirm(t('cart.confirmRemove', { name: product.name }))) {
             router.delete(route('cart.destroy', [shop, product.id]));
         }
     };
 
     const checkout = () => {
-        if (confirm('この内容で注文しますか？')) {
+        if (confirm(t('cart.confirmOrder'))) {
             router.post(route('orders.store', shop));
         }
     };
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <Head title="カート" />
+            <Head title={t('cart.title')} />
 
             <Header
                 backHref={route('shops.show', shop)}
-                backLabel="商品一覧に戻る"
+                backLabel={t('products.backToList')}
             />
 
             <div className="py-12">
@@ -43,7 +45,7 @@ export default function Index({ shop, items, total, status, error }) {
                     <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         {items.length === 0 ? (
                             <p className="py-12 text-center text-sm text-gray-500">
-                                カートに商品がありません。
+                                {t('cart.empty')}
                             </p>
                         ) : (
                             <>
@@ -67,7 +69,7 @@ export default function Index({ shop, items, total, status, error }) {
 
                                             <dl className="mt-3 grid grid-cols-2 gap-y-1 text-sm text-gray-700">
                                                 <dt className="text-gray-500">
-                                                    単価
+                                                    {t('cart.unitPrice')}
                                                 </dt>
                                                 <dd className="text-right">
                                                     ¥
@@ -77,7 +79,7 @@ export default function Index({ shop, items, total, status, error }) {
                                                 </dd>
 
                                                 <dt className="text-gray-500">
-                                                    単位
+                                                    {t('cart.unit')}
                                                 </dt>
                                                 <dd className="text-right">
                                                     {item.product.unit
@@ -86,14 +88,14 @@ export default function Index({ shop, items, total, status, error }) {
                                                 </dd>
 
                                                 <dt className="text-gray-500">
-                                                    数量
+                                                    {t('cart.quantity')}
                                                 </dt>
                                                 <dd className="text-right">
                                                     {item.quantity}
                                                 </dd>
 
                                                 <dt className="text-gray-500">
-                                                    小計
+                                                    {t('cart.subtotal')}
                                                 </dt>
                                                 <dd className="text-right font-semibold text-gray-900">
                                                     ¥
@@ -109,7 +111,7 @@ export default function Index({ shop, items, total, status, error }) {
                                                         remove(item.product)
                                                     }
                                                 >
-                                                    削除
+                                                    {t('cart.delete')}
                                                 </DangerButton>
                                             </div>
                                         </div>
@@ -122,22 +124,22 @@ export default function Index({ shop, items, total, status, error }) {
                                         <thead>
                                             <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                                 <th className="px-4 py-3">
-                                                    商品
+                                                    {t('cart.product')}
                                                 </th>
                                                 <th className="px-4 py-3">
-                                                    単価
+                                                    {t('cart.unitPrice')}
                                                 </th>
                                                 <th className="px-4 py-3">
-                                                    単位
+                                                    {t('cart.unit')}
                                                 </th>
                                                 <th className="px-4 py-3">
-                                                    数量
+                                                    {t('cart.quantity')}
                                                 </th>
                                                 <th className="px-4 py-3">
-                                                    小計
+                                                    {t('cart.subtotal')}
                                                 </th>
                                                 <th className="px-4 py-3">
-                                                    操作
+                                                    {t('cart.actions')}
                                                 </th>
                                             </tr>
                                         </thead>
@@ -193,7 +195,7 @@ export default function Index({ shop, items, total, status, error }) {
                                                                 )
                                                             }
                                                         >
-                                                            削除
+                                                            {t('cart.delete')}
                                                         </DangerButton>
                                                     </td>
                                                 </tr>
@@ -204,8 +206,11 @@ export default function Index({ shop, items, total, status, error }) {
 
                                 <div className="mt-6 flex flex-col items-stretch gap-4 sm:items-end">
                                     <div className="text-right text-xl font-bold text-gray-900">
-                                        合計金額：¥
-                                        {Number(total).toLocaleString()}
+                                        {t('cart.total', {
+                                            amount: Number(
+                                                total,
+                                            ).toLocaleString(),
+                                        })}
                                     </div>
 
                                     {auth.user ? (
@@ -213,18 +218,18 @@ export default function Index({ shop, items, total, status, error }) {
                                             className="justify-center"
                                             onClick={checkout}
                                         >
-                                            注文する
+                                            {t('cart.checkout')}
                                         </PrimaryButton>
                                     ) : (
                                         <div className="text-right">
                                             <p className="mb-2 text-sm text-gray-600">
-                                                注文にはログインが必要です。
+                                                {t('cart.loginRequired')}
                                             </p>
                                             <Link
                                                 href={route('login')}
                                                 className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 sm:w-auto"
                                             >
-                                                ログインして注文する
+                                                {t('cart.loginToOrder')}
                                             </Link>
                                         </div>
                                     )}

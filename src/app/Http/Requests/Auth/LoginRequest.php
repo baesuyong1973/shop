@@ -52,7 +52,7 @@ class LoginRequest extends FormRequest
 
             if ($user && ! $user->is_active) {
                 throw ValidationException::withMessages([
-                    'email' => 'このアカウントは無効化されています。',
+                    'email' => __('messages.auth.account_disabled'),
                 ]);
             }
 

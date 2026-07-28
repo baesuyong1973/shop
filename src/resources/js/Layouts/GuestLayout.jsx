@@ -1,14 +1,16 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import LocaleSwitcher from '@/Components/LocaleSwitcher';
 import { Link } from '@inertiajs/react';
 
 export default function GuestLayout({ children }) {
     return (
         <div className="min-h-screen bg-gray-100">
             <header className="bg-white shadow-sm">
-                <div className="mx-auto flex h-20 max-w-5xl items-center px-6">
+                <div className="mx-auto flex h-20 max-w-5xl items-center justify-between px-6">
                     <Link href="/">
                         <ApplicationLogo className="h-12 w-12 fill-current text-gray-500" />
                     </Link>
+                    <LocaleSwitcher />
                 </div>
             </header>
 

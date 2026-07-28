@@ -3,12 +3,14 @@ import Pagination from '@/Components/Pagination';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const emptyFilters = {
     name: '',
 };
 
 export default function Show({ shop, products, filters }) {
+    const { t } = useTranslation();
     const [form, setForm] = useState({ ...emptyFilters, ...filters });
 
     const hasActiveFilters = Object.values(filters ?? {}).some(
@@ -41,7 +43,7 @@ export default function Show({ shop, products, filters }) {
                         <form onSubmit={submitSearch} className="mb-6">
                             <div>
                                 <label className="block text-xs font-medium text-gray-500">
-                                    商品名
+                                    {t('shops.searchLabel')}
                                 </label>
                                 <TextInput
                                     type="text"
@@ -56,14 +58,14 @@ export default function Show({ shop, products, filters }) {
                                     type="submit"
                                     className="rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-700"
                                 >
-                                    検索
+                                    {t('shops.searchButton')}
                                 </button>
                                 {hasActiveFilters && (
                                     <Link
                                         href={route('shops.show', shop)}
                                         className="text-sm text-gray-600 underline hover:text-gray-900"
                                     >
-                                        クリア
+                                        {t('shops.clearButton')}
                                     </Link>
                                 )}
                             </div>
@@ -72,8 +74,8 @@ export default function Show({ shop, products, filters }) {
                         {products.data.length === 0 ? (
                             <p className="py-12 text-center text-sm text-gray-500">
                                 {hasActiveFilters
-                                    ? '条件に一致する商品が見つかりませんでした。'
-                                    : '現在販売中の商品はありません。'}
+                                    ? t('shops.noResultsFiltered')
+                                    : t('shops.noResults')}
                             </p>
                         ) : (
                             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
@@ -97,8 +99,10 @@ export default function Show({ shop, products, filters }) {
                                             </h2>
                                             {product.prefecture && (
                                                 <p className="text-[10px] text-gray-500">
-                                                    産地：
-                                                    {product.prefecture.name}
+                                                    {t('shops.origin', {
+                                                        name: product
+                                                            .prefecture.name,
+                                                    })}
                                                 </p>
                                             )}
                                             <p className="text-sm font-bold text-gray-900">
@@ -109,9 +113,13 @@ export default function Show({ shop, products, filters }) {
                                             </p>
                                             {product.unit && (
                                                 <p className="text-[10px] text-gray-500">
-                                                    {product.unit_quantity ??
-                                                        1}
-                                                    {product.unit.name}
+                                                    {t('shops.unitShort', {
+                                                        quantity:
+                                                            product.unit_quantity ??
+                                                            1,
+                                                        unit: product.unit
+                                                            .name,
+                                                    })}
                                                 </p>
                                             )}
                                         </div>

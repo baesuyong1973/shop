@@ -46,7 +46,7 @@ class CartController extends Controller
 
         $request->session()->put("cart.{$shop->id}", $cart);
 
-        return redirect()->route('cart.index', $shop)->with('status', 'カートに追加しました。');
+        return redirect()->route('cart.index', $shop)->with('status', __('messages.cart.added'));
     }
 
     public function destroy(Request $request, Shop $shop, Product $product): RedirectResponse
@@ -55,6 +55,6 @@ class CartController extends Controller
         unset($cart[$product->id]);
         $request->session()->put("cart.{$shop->id}", $cart);
 
-        return redirect()->route('cart.index', $shop)->with('status', 'カートから削除しました。');
+        return redirect()->route('cart.index', $shop)->with('status', __('messages.cart.removed'));
     }
 }

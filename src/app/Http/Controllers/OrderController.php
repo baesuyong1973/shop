@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminOrderNotification;
+use App\Mail\OrderConfirmed;
 use App\Models\Order;
 use App\Models\OrderStatus;
-use App\Models\Product;
 use App\Models\Shop;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 use RuntimeException;
@@ -77,6 +79,16 @@ class OrderController extends Controller
         });
 
         $request->session()->forget("cart.{$shop->id}");
+
+        $order->load('items', 'shop', 'user');
+
+        Mail::to($order->user->email)->send(new OrderConfirmed($order));
+
+        $adminEmails = $shop->admins()->pluck('email');
+
+        if ($adminEmails->isNotEmpty()) {
+            Mail::to($adminEmails)->send(new AdminOrderNotification($order));
+        }
 
         return redirect()->route('shops.show', $shop)->with('status', "ご注文ありがとうございます。（注文番号：{$order->id}）");
     }

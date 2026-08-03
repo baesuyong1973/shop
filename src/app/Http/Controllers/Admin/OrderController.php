@@ -70,9 +70,9 @@ class OrderController extends Controller
     }
 
     /**
-     * Product-wise totals across this shop's orders, optionally filtered to
-     * a date range. Excludes cancelled orders since there's nothing to
-     * prepare for those.
+     * Product-wise and user-wise totals across this shop's orders,
+     * optionally filtered to a date range. Excludes cancelled orders since
+     * there's nothing to prepare for those.
      */
     public function summary(Request $request, Shop $shop): Response
     {
@@ -100,9 +100,27 @@ class OrderController extends Controller
             ->orderByDesc('total_quantity')
             ->get();
 
+        $userSummary = Order::query()
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->where('orders.shop_id', $shop->id)
+            ->whereNotIn('orders.status', OrderStatus::voidKeys())
+            ->when(
+                ! empty($data['date_from']),
+                fn ($query) => $query->whereDate('orders.created_at', '>=', $data['date_from']),
+            )
+            ->when(
+                ! empty($data['date_to']),
+                fn ($query) => $query->whereDate('orders.created_at', '<=', $data['date_to']),
+            )
+            ->selectRaw('users.id as user_id, users.name as user_name, users.email as user_email, COUNT(orders.id) as order_count, SUM(orders.total_amount) as total_amount')
+            ->groupBy('users.id', 'users.name', 'users.email')
+            ->orderByDesc('total_amount')
+            ->get();
+
         return Inertia::render('Admin/Orders/Summary', [
             'shop' => $shop,
             'summary' => $summary,
+            'userSummary' => $userSummary,
             'dateFrom' => $data['date_from'] ?? null,
             'dateTo' => $data['date_to'] ?? null,
         ]);

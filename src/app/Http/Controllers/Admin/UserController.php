@@ -16,11 +16,16 @@ class UserController extends Controller
      */
     public function index(): Response
     {
-        $users = User::with('orders.shop:id,name')->latest()->paginate(20)->withQueryString();
+        $users = User::with(['orders.shop:id,name', 'registeredShop:id,name'])->latest()->paginate(20)->withQueryString();
 
         $users->getCollection()->each(function (User $user) {
-            $user->shop_names = $user->orders->pluck('shop.name')->filter()->unique()->values();
+            $user->shop_names = $user->orders->pluck('shop.name')
+                ->push($user->registeredShop?->name)
+                ->filter()
+                ->unique()
+                ->values();
             $user->unsetRelation('orders');
+            $user->unsetRelation('registeredShop');
         });
 
         return Inertia::render('Admin/Users/Index', [
@@ -62,7 +67,7 @@ class UserController extends Controller
     {
         return Inertia::render('Admin/Users/Index', [
             'shop' => $shop,
-            'users' => User::orderedAtShop($shop)->latest()->paginate(20)->withQueryString(),
+            'users' => User::associatedWithShop($shop)->latest()->paginate(20)->withQueryString(),
             'status' => session('status'),
         ]);
     }
@@ -93,7 +98,7 @@ class UserController extends Controller
      */
     public function shopToggleActive(Shop $shop, User $user): RedirectResponse
     {
-        abort_unless(User::orderedAtShop($shop)->whereKey($user->id)->exists(), 404);
+        abort_unless(User::associatedWithShop($shop)->whereKey($user->id)->exists(), 404);
 
         $user->is_active = ! $user->is_active;
         $user->save();

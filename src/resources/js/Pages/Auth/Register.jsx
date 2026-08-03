@@ -6,13 +6,14 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
-export default function Register() {
+export default function Register({ shopSlug }) {
     const { t } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
         password: '',
         password_confirmation: '',
+        shop_slug: shopSlug ?? '',
     });
 
     const submit = (e) => {

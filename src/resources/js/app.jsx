@@ -9,7 +9,7 @@ import i18n from './i18n';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-router.on('navigate', (event) => {
+router.on('success', (event) => {
     const locale = event.detail.page.props.locale;
 
     if (locale) {

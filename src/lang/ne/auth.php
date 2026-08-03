@@ -1,0 +1,20 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used during authentication for various
+    | messages that we need to display to the user. You are free to modify
+    | these language lines according to your application's requirements.
+    |
+    */
+
+    'failed' => 'यी विवरणहरू हाम्रो रेकर्डसँग मेल खाँदैनन्।',
+    'password' => 'दिइएको पासवर्ड गलत छ।',
+    'throttle' => 'धेरै पटक लगइन प्रयास गरियो। कृपया :seconds सेकेन्डपछि फेरि प्रयास गर्नुहोस्।',
+
+];

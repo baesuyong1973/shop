@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import ShopForm from './Partials/ShopForm';
 
-export default function Edit({ shop }) {
+export default function Edit({ shop, supportedLocales }) {
     return (
         <div className="min-h-screen bg-gray-100">
             <Head title="店舗編集" />
@@ -24,7 +24,7 @@ export default function Edit({ shop }) {
             <div className="py-12">
                 <div className="mx-auto max-w-xl px-4 sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
-                        <ShopForm shop={shop} />
+                        <ShopForm shop={shop} supportedLocales={supportedLocales} />
                     </div>
                 </div>
             </div>

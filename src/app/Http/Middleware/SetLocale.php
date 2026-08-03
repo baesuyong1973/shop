@@ -9,7 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
 {
-    private const SUPPORTED_LOCALES = ['ja', 'en'];
+    public const SUPPORTED_LOCALES = [
+        'ja', 'en', 'zh', 'ko', 'th', 'my', 'vi', 'tl', 'pt', 'ne',
+        'id', 'zh-TW', 'hi', 'es', 'si', 'km', 'bn', 'fr', 'mn', 'ur',
+    ];
 
     /**
      * Handle an incoming request.

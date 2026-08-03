@@ -23,13 +23,27 @@ export default function Header({ title, backHref, backLabel }) {
                 )}
 
                 <div className="flex items-center gap-4">
-                    <LocaleSwitcher />
-
                     <Link
                         href={route('cart.index', shop)}
-                        className="text-sm text-gray-600 underline hover:text-gray-900"
+                        aria-label={t('header.cart')}
+                        className="text-gray-600 hover:text-gray-900"
                     >
-                        {t('header.cart')}
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            className="h-6 w-6"
+                        >
+                            <circle cx="9" cy="21" r="1.25" fill="currentColor" stroke="none" />
+                            <circle cx="19" cy="21" r="1.25" fill="currentColor" stroke="none" />
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M2.5 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 8H6"
+                            />
+                        </svg>
                     </Link>
 
                     {auth.user ? (
@@ -62,6 +76,8 @@ export default function Header({ title, backHref, backLabel }) {
                             </Link>
                         </>
                     )}
+
+                    <LocaleSwitcher available={shop.available_locales} />
                 </div>
             </div>
         </nav>

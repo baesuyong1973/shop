@@ -6,7 +6,30 @@ import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function ShopForm({ shop = null }) {
+const LOCALE_LABELS = {
+    ja: '日本語',
+    en: '英語',
+    zh: '中国語（簡体字）',
+    ko: '韓国語',
+    th: 'タイ語',
+    my: 'ミャンマー語',
+    vi: 'ベトナム語',
+    tl: 'フィリピン語',
+    pt: 'ポルトガル語',
+    ne: 'ネパール語',
+    id: 'インドネシア語',
+    'zh-TW': '中国語（繁体字・台湾）',
+    hi: 'ヒンディー語',
+    es: 'スペイン語',
+    si: 'シンハラ語',
+    km: 'クメール語',
+    bn: 'ベンガル語',
+    fr: 'フランス語',
+    mn: 'モンゴル語',
+    ur: 'ウルドゥー語',
+};
+
+export default function ShopForm({ shop = null, supportedLocales = [] }) {
     const isEdit = shop !== null;
 
     const { data, setData, post, transform, processing, errors } = useForm({
@@ -16,7 +39,17 @@ export default function ShopForm({ shop = null }) {
         phone: shop?.phone ?? '',
         logo: null,
         is_active: shop?.is_active ?? true,
+        locales: shop?.available_locales ?? ['ja', 'en'],
     });
+
+    const toggleLocale = (code) => {
+        setData(
+            'locales',
+            data.locales.includes(code)
+                ? data.locales.filter((l) => l !== code)
+                : [...data.locales, code],
+        );
+    };
 
     const [preview, setPreview] = useState(
         shop?.logo_path ? `/storage/${shop.logo_path}` : null,
@@ -122,6 +155,27 @@ export default function ShopForm({ shop = null }) {
                     value="営業中として公開する"
                     className="ml-2"
                 />
+            </div>
+
+            <div>
+                <InputLabel value="お客様が選択できる言語" />
+                <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    {supportedLocales.map((code) => (
+                        <div key={code} className="flex items-center">
+                            <Checkbox
+                                id={`locale-${code}`}
+                                checked={data.locales.includes(code)}
+                                onChange={() => toggleLocale(code)}
+                            />
+                            <InputLabel
+                                htmlFor={`locale-${code}`}
+                                value={LOCALE_LABELS[code] ?? code}
+                                className="ml-2"
+                            />
+                        </div>
+                    ))}
+                </div>
+                <InputError className="mt-2" message={errors.locales} />
             </div>
 
             <div className="flex items-center gap-4">

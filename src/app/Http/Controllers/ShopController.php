@@ -15,7 +15,7 @@ class ShopController extends Controller
     public function index(): Response
     {
         return Inertia::render('Shops/Index', [
-            'shops' => Shop::where('is_active', true)->orderBy('name')->get(),
+            'shops' => Shop::where('is_active', true)->with('locales')->orderBy('name')->get(),
         ]);
     }
 
@@ -25,6 +25,8 @@ class ShopController extends Controller
     public function show(Request $request, Shop $shop): Response
     {
         abort_unless($shop->is_active, 404);
+
+        $shop->load('locales');
 
         $filters = $request->only(['name']);
 

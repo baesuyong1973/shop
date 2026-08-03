@@ -1,7 +1,25 @@
 {
     "lang": {
         "japanese": "日本語",
-        "english": "English"
+        "english": "English",
+        "chinese": "中文",
+        "korean": "한국어",
+        "thai": "ไทย",
+        "myanmar": "မြန်မာ",
+        "vietnamese": "Tiếng Việt",
+        "filipino": "Filipino",
+        "portuguese": "Português",
+        "nepali": "नेपाली",
+        "indonesian": "Bahasa Indonesia",
+        "taiwanese": "繁體中文",
+        "hindi": "हिन्दी",
+        "spanish": "Español",
+        "sinhala": "සිංහල",
+        "khmer": "ខ្មែរ",
+        "bengali": "বাংলা",
+        "french": "Français",
+        "mongolian": "Монгол",
+        "urdu": "اردو"
     },
     "header": {
         "cart": "View Cart",

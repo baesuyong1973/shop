@@ -1,4 +1,3 @@
-import LocaleSwitcher from '@/Components/LocaleSwitcher';
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,11 +9,10 @@ export default function Index({ shops }) {
             <Head title={t('shops.title')} />
 
             <nav className="border-b border-gray-100 bg-white">
-                <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                     <div className="text-lg font-semibold text-gray-900">
                         {t('shops.title')}
                     </div>
-                    <LocaleSwitcher />
                 </div>
             </nav>
 

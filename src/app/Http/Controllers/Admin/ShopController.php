@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\SetLocale;
 use App\Models\Shop;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,19 +30,24 @@ class ShopController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('Admin/Shops/Create');
+        return Inertia::render('Admin/Shops/Create', [
+            'supportedLocales' => SetLocale::SUPPORTED_LOCALES,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validateData($request, null);
+        $locales = $data['locales'] ?? ['ja', 'en'];
+        unset($data['locales']);
 
         if ($request->hasFile('logo')) {
             $data['logo_path'] = $this->processAndStoreImage($request->file('logo'));
         }
         unset($data['logo']);
 
-        Shop::create($data);
+        $shop = Shop::create($data);
+        $shop->locales()->createMany(array_map(fn (string $locale) => ['locale' => $locale], $locales));
 
         return redirect()->route('admin.shops.index')->with('status', '店舗を登録しました。');
     }
@@ -50,12 +56,15 @@ class ShopController extends Controller
     {
         return Inertia::render('Admin/Shops/Edit', [
             'shop' => $shop,
+            'supportedLocales' => SetLocale::SUPPORTED_LOCALES,
         ]);
     }
 
     public function update(Request $request, Shop $shop): RedirectResponse
     {
         $data = $this->validateData($request, $shop);
+        $locales = $data['locales'] ?? ['ja', 'en'];
+        unset($data['locales']);
 
         if ($request->hasFile('logo')) {
             $data['logo_path'] = $this->processAndStoreImage($request->file('logo'));
@@ -66,6 +75,8 @@ class ShopController extends Controller
         unset($data['logo']);
 
         $shop->update($data);
+        $shop->locales()->delete();
+        $shop->locales()->createMany(array_map(fn (string $locale) => ['locale' => $locale], $locales));
 
         return redirect()->route('admin.shops.index')->with('status', '店舗を更新しました。');
     }
@@ -112,6 +123,8 @@ class ShopController extends Controller
             'phone' => ['nullable', 'string', 'max:50'],
             'logo' => ['nullable', 'image', 'max:5120'],
             'is_active' => ['boolean'],
+            'locales' => ['nullable', 'array'],
+            'locales.*' => [Rule::in(SetLocale::SUPPORTED_LOCALES)],
         ]);
     }
 }

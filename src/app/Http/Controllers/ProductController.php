@@ -15,7 +15,7 @@ class ProductController extends Controller
 
         return Inertia::render('Products/Show', [
             'shop' => $shop,
-            'product' => $product->load('prefecture', 'unit'),
+            'product' => $product->load('country', 'prefecture', 'unit'),
         ]);
     }
 }

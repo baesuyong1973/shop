@@ -97,11 +97,13 @@ export default function Show({ shop, products, filters }) {
                                             <h2 className="text-xs font-semibold text-gray-900">
                                                 {product.name}
                                             </h2>
-                                            {product.prefecture && (
+                                            {product.country && (
                                                 <p className="text-[10px] text-gray-500">
                                                     {t('shops.origin', {
-                                                        name: product
-                                                            .prefecture.name,
+                                                        name: product.prefecture
+                                                            ? `${product.country.name}（${product.prefecture.name}）`
+                                                            : product.country
+                                                                  .name,
                                                     })}
                                                 </p>
                                             )}

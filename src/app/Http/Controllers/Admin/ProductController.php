@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\Prefecture;
 use App\Models\Product;
 use App\Models\Shop;
@@ -26,7 +27,7 @@ class ProductController extends Controller
     public function globalIndex(): Response
     {
         return Inertia::render('Admin/Products/Index', [
-            'products' => Product::with(['shop', 'prefecture', 'unit'])->latest()->paginate(20)->withQueryString(),
+            'products' => Product::with(['shop', 'country', 'prefecture', 'unit'])->latest()->paginate(20)->withQueryString(),
             'shops' => Shop::orderBy('name')->get(['id', 'name']),
             'status' => session('status'),
         ]);
@@ -55,7 +56,7 @@ class ProductController extends Controller
     {
         return Inertia::render('Admin/Products/Index', [
             'shop' => $shop,
-            'products' => $shop->products()->with(['prefecture', 'unit'])->latest()->paginate(20)->withQueryString(),
+            'products' => $shop->products()->with(['country', 'prefecture', 'unit'])->latest()->paginate(20)->withQueryString(),
             'status' => session('status'),
         ]);
     }
@@ -64,6 +65,7 @@ class ProductController extends Controller
     {
         return Inertia::render('Admin/Products/Create', [
             'shop' => $shop,
+            'countries' => Country::orderBy('id')->get(['id', 'name']),
             'prefectures' => Prefecture::orderBy('id')->get(['id', 'name']),
             'units' => Unit::orderBy('id')->get(['id', 'name']),
         ]);
@@ -86,6 +88,7 @@ class ProductController extends Controller
         return Inertia::render('Admin/Products/Edit', [
             'shop' => $shop,
             'product' => $product,
+            'countries' => Country::orderBy('id')->get(['id', 'name']),
             'prefectures' => Prefecture::orderBy('id')->get(['id', 'name']),
             'units' => Unit::orderBy('id')->get(['id', 'name']),
         ]);
@@ -138,6 +141,7 @@ class ProductController extends Controller
             'description' => ['nullable', 'string'],
             'stock' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
+            'country_id' => ['nullable', 'integer', 'exists:countries,id'],
             'prefecture_id' => ['nullable', 'integer', 'exists:prefectures,id'],
             'unit_id' => ['nullable', 'integer', 'exists:units,id'],
             'unit_quantity' => ['nullable', 'integer', 'min:1'],

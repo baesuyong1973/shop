@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import ProductForm from './Partials/ProductForm';
 
-export default function Create({ shop, prefectures, units }) {
+export default function Create({ shop, countries, prefectures, units }) {
     return (
         <div className="min-h-screen bg-gray-100">
             <Head title="商品登録" />
@@ -26,6 +26,7 @@ export default function Create({ shop, prefectures, units }) {
                     <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
                         <ProductForm
                             shop={shop}
+                            countries={countries}
                             prefectures={prefectures}
                             units={units}
                         />

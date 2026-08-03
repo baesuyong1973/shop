@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['shop_id', 'name', 'image_path', 'price', 'description', 'stock', 'is_active', 'prefecture_id', 'unit_id', 'unit_quantity', 'arrival_date'])]
+#[Fillable(['shop_id', 'name', 'image_path', 'price', 'description', 'stock', 'is_active', 'country_id', 'prefecture_id', 'unit_id', 'unit_quantity', 'arrival_date'])]
 class Product extends Model
 {
     /**
@@ -29,6 +29,11 @@ class Product extends Model
     public function shop(): BelongsTo
     {
         return $this->belongsTo(Shop::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 
     public function prefecture(): BelongsTo

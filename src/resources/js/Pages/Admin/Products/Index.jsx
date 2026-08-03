@@ -9,6 +9,16 @@ import { formatDate } from '@/Utils/date';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
+function formatOrigin(product) {
+    if (!product.country) {
+        return '-';
+    }
+
+    return product.prefecture
+        ? `${product.country.name}（${product.prefecture.name}）`
+        : product.country.name;
+}
+
 export default function Index({ shop, products, shops, status }) {
     const isScoped = !!shop;
     const [copyTarget, setCopyTarget] = useState(null);
@@ -161,8 +171,7 @@ export default function Index({ shop, products, shops, status }) {
                                                     産地
                                                 </dt>
                                                 <dd className="text-right">
-                                                    {product.prefecture
-                                                        ?.name ?? '-'}
+                                                    {formatOrigin(product)}
                                                 </dd>
 
                                                 <dt className="text-gray-500">
@@ -295,8 +304,7 @@ export default function Index({ shop, products, shops, status }) {
                                                         {product.stock}
                                                     </td>
                                                     <td className="px-4 py-3 text-sm text-gray-900">
-                                                        {product.prefecture
-                                                            ?.name ?? '-'}
+                                                        {formatOrigin(product)}
                                                     </td>
                                                     <td className="px-4 py-3 text-sm text-gray-900">
                                                         {product.arrival_date

@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import ProductForm from './Partials/ProductForm';
 
-export default function Edit({ shop, product, prefectures, units }) {
+export default function Edit({ shop, product, countries, prefectures, units }) {
     return (
         <div className="min-h-screen bg-gray-100">
             <Head title="商品編集" />
@@ -27,6 +27,7 @@ export default function Edit({ shop, product, prefectures, units }) {
                         <ProductForm
                             shop={shop}
                             product={product}
+                            countries={countries}
                             prefectures={prefectures}
                             units={units}
                         />

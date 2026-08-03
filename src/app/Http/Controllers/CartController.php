@@ -15,7 +15,7 @@ class CartController extends Controller
     {
         $cart = $request->session()->get("cart.{$shop->id}", []);
 
-        $products = Product::with('prefecture', 'unit')->whereIn('id', array_keys($cart))->get();
+        $products = Product::with('country', 'prefecture', 'unit')->whereIn('id', array_keys($cart))->get();
 
         $items = $products->map(fn (Product $product) => [
             'product' => $product,

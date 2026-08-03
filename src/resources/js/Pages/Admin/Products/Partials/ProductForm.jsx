@@ -9,6 +9,7 @@ import { useState } from 'react';
 export default function ProductForm({
     shop,
     product = null,
+    countries = [],
     prefectures = [],
     units = [],
 }) {
@@ -21,11 +22,17 @@ export default function ProductForm({
         description: product?.description ?? '',
         stock: product?.stock ?? 0,
         is_active: product?.is_active ?? true,
+        country_id: product?.country_id ?? '',
         prefecture_id: product?.prefecture_id ?? '',
         unit_id: product?.unit_id ?? '',
         unit_quantity: product?.unit_quantity ?? 1,
         arrival_date: product?.arrival_date ?? '',
     });
+
+    const selectedCountry = countries.find(
+        (country) => String(country.id) === String(data.country_id),
+    );
+    const isJapanSelected = selectedCountry?.name === '日本';
 
     const [preview, setPreview] = useState(
         product?.image_path ? `/storage/${product.image_path}` : null,
@@ -155,22 +162,60 @@ export default function ProductForm({
             </div>
 
             <div>
-                <InputLabel htmlFor="prefecture_id" value="産地" />
+                <InputLabel htmlFor="country_id" value="産地（国）" />
                 <select
-                    id="prefecture_id"
+                    id="country_id"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    value={data.prefecture_id}
-                    onChange={(e) => setData('prefecture_id', e.target.value)}
+                    value={data.country_id}
+                    onChange={(e) => {
+                        const countryId = e.target.value;
+                        const country = countries.find(
+                            (c) => String(c.id) === countryId,
+                        );
+                        setData({
+                            ...data,
+                            country_id: countryId,
+                            prefecture_id:
+                                country?.name === '日本'
+                                    ? data.prefecture_id
+                                    : '',
+                        });
+                    }}
                 >
                     <option value="">選択してください</option>
-                    {prefectures.map((prefecture) => (
-                        <option key={prefecture.id} value={prefecture.id}>
-                            {prefecture.name}
+                    {countries.map((country) => (
+                        <option key={country.id} value={country.id}>
+                            {country.name}
                         </option>
                     ))}
                 </select>
-                <InputError className="mt-2" message={errors.prefecture_id} />
+                <InputError className="mt-2" message={errors.country_id} />
             </div>
+
+            {isJapanSelected && (
+                <div>
+                    <InputLabel htmlFor="prefecture_id" value="産地（都道府県）" />
+                    <select
+                        id="prefecture_id"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        value={data.prefecture_id}
+                        onChange={(e) =>
+                            setData('prefecture_id', e.target.value)
+                        }
+                    >
+                        <option value="">選択してください</option>
+                        {prefectures.map((prefecture) => (
+                            <option key={prefecture.id} value={prefecture.id}>
+                                {prefecture.name}
+                            </option>
+                        ))}
+                    </select>
+                    <InputError
+                        className="mt-2"
+                        message={errors.prefecture_id}
+                    />
+                </div>
+            )}
 
             <div>
                 <InputLabel htmlFor="arrival_date" value="入荷日" />

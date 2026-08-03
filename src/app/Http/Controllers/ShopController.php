@@ -33,7 +33,7 @@ class ShopController extends Controller
         return Inertia::render('Shops/Show', [
             'shop' => $shop,
             'products' => $shop->products()
-                ->with('prefecture', 'unit')
+                ->with('country', 'prefecture', 'unit')
                 ->where('is_active', true)
                 ->filter($filters)
                 ->latest()

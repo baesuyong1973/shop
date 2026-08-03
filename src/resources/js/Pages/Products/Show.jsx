@@ -46,10 +46,12 @@ export default function Show({ shop, product }) {
                                     {product.name}
                                 </h1>
 
-                                {product.prefecture && (
+                                {product.country && (
                                     <p className="mt-1 text-sm text-gray-500">
                                         {t('products.origin', {
-                                            name: product.prefecture.name,
+                                            name: product.prefecture
+                                                ? `${product.country.name}（${product.prefecture.name}）`
+                                                : product.country.name,
                                         })}
                                     </p>
                                 )}

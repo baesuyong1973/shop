@@ -6,14 +6,14 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
-export default function Register({ shopSlug }) {
+export default function Register() {
     const { t } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
+        wechat_id: '',
         password: '',
         password_confirmation: '',
-        shop_slug: shopSlug ?? '',
     });
 
     const submit = (e) => {
@@ -61,6 +61,24 @@ export default function Register({ shopSlug }) {
                     />
 
                     <InputError message={errors.email} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel
+                        htmlFor="wechat_id"
+                        value={t('auth.wechatId')}
+                    />
+
+                    <TextInput
+                        id="wechat_id"
+                        name="wechat_id"
+                        value={data.wechat_id}
+                        className="mt-1 block w-full"
+                        autoComplete="off"
+                        onChange={(e) => setData('wechat_id', e.target.value)}
+                    />
+
+                    <InputError message={errors.wechat_id} className="mt-2" />
                 </div>
 
                 <div className="mt-4">

@@ -38,7 +38,7 @@ class ShopController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validateData($request, null);
-        $locales = $data['locales'] ?? ['ja', 'en'];
+        $locales = $data['locales'] ?? ['ja', 'zh'];
         unset($data['locales']);
 
         if ($request->hasFile('logo')) {
@@ -63,7 +63,7 @@ class ShopController extends Controller
     public function update(Request $request, Shop $shop): RedirectResponse
     {
         $data = $this->validateData($request, $shop);
-        $locales = $data['locales'] ?? ['ja', 'en'];
+        $locales = $data['locales'] ?? ['ja', 'zh'];
         unset($data['locales']);
 
         if ($request->hasFile('logo')) {

@@ -16,16 +16,14 @@ class UserController extends Controller
      */
     public function index(): Response
     {
-        $users = User::with(['orders.shop:id,name', 'registeredShop:id,name'])->latest()->paginate(20)->withQueryString();
+        $users = User::with('orders.shop:id,name')->latest()->paginate(20)->withQueryString();
 
         $users->getCollection()->each(function (User $user) {
             $user->shop_names = $user->orders->pluck('shop.name')
-                ->push($user->registeredShop?->name)
                 ->filter()
                 ->unique()
                 ->values();
             $user->unsetRelation('orders');
-            $user->unsetRelation('registeredShop');
         });
 
         return Inertia::render('Admin/Users/Index', [

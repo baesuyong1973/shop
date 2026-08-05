@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -22,11 +21,7 @@ class RegisteredUserController extends Controller
      */
     public function create(Request $request): Response
     {
-        $shop = Shop::where('slug', $request->query('shop'))->where('is_active', true)->first();
-
-        return Inertia::render('Auth/Register', [
-            'shopSlug' => $shop?->slug,
-        ]);
+        return Inertia::render('Auth/Register');
     }
 
     /**
@@ -40,18 +35,14 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'shop_slug' => ['nullable', 'string', 'exists:shops,slug'],
+            'wechat_id' => 'nullable|string|max:255',
         ]);
-
-        $registeredShop = $request->filled('shop_slug')
-            ? Shop::where('slug', $request->shop_slug)->first()
-            : null;
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'registered_shop_id' => $registeredShop?->id,
+            'wechat_id' => $request->wechat_id,
         ]);
 
         event(new Registered($user));

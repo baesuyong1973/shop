@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Admin;
+use App\Models\SiteLocale;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -44,6 +45,7 @@ class HandleInertiaRequests extends Middleware
             'shop' => fn () => $request->route('shop'),
             'impersonating' => fn () => $request->session()->has('impersonator_admin_id'),
             'locale' => fn () => app()->getLocale(),
+            'siteLocales' => fn () => SiteLocale::pluck('locale'),
         ];
     }
 }

@@ -1,8 +1,10 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import LocaleSwitcher from '@/Components/LocaleSwitcher';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 export default function GuestLayout({ children }) {
+    const { siteLocales } = usePage().props;
+
     return (
         <div className="min-h-screen bg-gray-100">
             <header className="bg-white shadow-sm">
@@ -10,7 +12,7 @@ export default function GuestLayout({ children }) {
                     <Link href="/">
                         <ApplicationLogo className="h-12 w-12 fill-current text-gray-500" />
                     </Link>
-                    <LocaleSwitcher />
+                    <LocaleSwitcher available={siteLocales} />
                 </div>
             </header>
 

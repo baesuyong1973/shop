@@ -162,6 +162,14 @@ export default function Dashboard({ status, error }) {
                                     >
                                         注文ステータス管理
                                     </Link>
+                                    <Link
+                                        href={route(
+                                            'admin.settings.locales.edit',
+                                        )}
+                                        className="text-sm text-indigo-600 underline hover:text-indigo-900"
+                                    >
+                                        言語設定（ログイン画面など）
+                                    </Link>
                                 </>
                             ) : (
                                 <>

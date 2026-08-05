@@ -39,7 +39,7 @@ export default function ShopForm({ shop = null, supportedLocales = [] }) {
         phone: shop?.phone ?? '',
         logo: null,
         is_active: shop?.is_active ?? true,
-        locales: shop?.available_locales ?? ['ja', 'en'],
+        locales: shop?.available_locales ?? ['ja', 'zh'],
     });
 
     const toggleLocale = (code) => {

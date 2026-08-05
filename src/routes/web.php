@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\OrderStatusController as AdminOrderStatusControll
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ScanController as AdminScanController;
 use App\Http\Controllers\Admin\ShopController as AdminShopController;
+use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LocaleController;
@@ -107,6 +108,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('admins', AdminAdminController::class)->only(['index', 'show', 'destroy']);
             Route::resource('shops', AdminShopController::class);
             Route::resource('order-statuses', AdminOrderStatusController::class)->except(['show']);
+            Route::get('/settings/locales', [AdminSiteSettingController::class, 'editLocales'])->name('settings.locales.edit');
+            Route::put('/settings/locales', [AdminSiteSettingController::class, 'updateLocales'])->name('settings.locales.update');
         });
     });
 });

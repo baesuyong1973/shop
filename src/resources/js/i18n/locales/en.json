@@ -128,6 +128,7 @@
         "password": "Password",
         "confirmPassword": "Confirm Password",
         "name": "Name",
+        "wechatId": "WeChat ID (optional)",
         "rememberMe": "Remember me",
         "forgotPassword": "Forgot your password?",
         "alreadyRegistered": "Already registered?",

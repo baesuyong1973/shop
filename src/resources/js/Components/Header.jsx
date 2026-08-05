@@ -69,7 +69,7 @@ export default function Header({ title, backHref, backLabel }) {
                                 {t('header.login')}
                             </Link>
                             <Link
-                                href={route('register', { shop: shop.slug })}
+                                href={route('register')}
                                 className="text-sm text-gray-600 underline hover:text-gray-900"
                             >
                                 {t('header.register')}

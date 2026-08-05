@@ -9,7 +9,9 @@ import { useTranslation } from 'react-i18next';
 
 export default function AuthenticatedLayout({ header, children }) {
     const { t } = useTranslation();
-    const user = usePage().props.auth.user;
+    const { auth, shop, siteLocales } = usePage().props;
+    const user = auth.user;
+    const availableLocales = shop?.available_locales ?? siteLocales;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -37,7 +39,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center sm:gap-4">
-                            <LocaleSwitcher />
+                            <LocaleSwitcher available={availableLocales} />
 
                             <div className="relative ms-3">
                                 <Dropdown>
@@ -165,7 +167,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         </div>
 
                         <div className="mt-3 px-4">
-                            <LocaleSwitcher />
+                            <LocaleSwitcher available={availableLocales} />
                         </div>
                     </div>
                 </div>

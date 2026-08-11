@@ -219,13 +219,26 @@ export default function Summary({ shop, summary, userSummary, dateFrom, dateTo }
                                                 {row.user_email}
                                             </div>
 
-                                            <dl className="mt-3 grid grid-cols-2 gap-y-1 text-sm text-gray-700">
-                                                <dt className="text-gray-500">
-                                                    注文件数
-                                                </dt>
-                                                <dd className="text-right">
-                                                    {row.order_count}件
-                                                </dd>
+                                            <ul className="mt-3 space-y-1 text-sm text-gray-700">
+                                                {row.items.map((item) => (
+                                                    <li
+                                                        key={item.product_name}
+                                                        className="flex justify-between"
+                                                    >
+                                                        <span>
+                                                            {item.product_name}
+                                                        </span>
+                                                        <span>
+                                                            {
+                                                                item.total_quantity
+                                                            }
+                                                            {item.unit_name}
+                                                        </span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+
+                                            <dl className="mt-3 grid grid-cols-2 gap-y-1 border-t border-gray-100 pt-2 text-sm text-gray-700">
                                                 <dt className="text-gray-500">
                                                     合計金額
                                                 </dt>
@@ -249,7 +262,7 @@ export default function Summary({ shop, summary, userSummary, dateFrom, dateTo }
                                                     ユーザー
                                                 </th>
                                                 <th className="px-4 py-3">
-                                                    注文件数
+                                                    商品名 / 合計数量
                                                 </th>
                                                 <th className="px-4 py-3">
                                                     合計金額
@@ -266,7 +279,32 @@ export default function Summary({ shop, summary, userSummary, dateFrom, dateTo }
                                                         </div>
                                                     </td>
                                                     <td className="px-4 py-3 text-sm text-gray-900">
-                                                        {row.order_count}件
+                                                        <ul className="space-y-1">
+                                                            {row.items.map(
+                                                                (item) => (
+                                                                    <li
+                                                                        key={
+                                                                            item.product_name
+                                                                        }
+                                                                        className="flex justify-between gap-4"
+                                                                    >
+                                                                        <span>
+                                                                            {
+                                                                                item.product_name
+                                                                            }
+                                                                        </span>
+                                                                        <span>
+                                                                            {
+                                                                                item.total_quantity
+                                                                            }
+                                                                            {
+                                                                                item.unit_name
+                                                                            }
+                                                                        </span>
+                                                                    </li>
+                                                                ),
+                                                            )}
+                                                        </ul>
                                                     </td>
                                                     <td className="px-4 py-3 text-sm text-gray-900">
                                                         ¥

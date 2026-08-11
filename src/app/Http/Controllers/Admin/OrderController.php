@@ -100,7 +100,7 @@ class OrderController extends Controller
             ->orderByDesc('total_quantity')
             ->get();
 
-        $userSummary = Order::query()
+        $userTotals = Order::query()
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->where('orders.shop_id', $shop->id)
             ->whereNotIn('orders.status', OrderStatus::voidKeys())
@@ -112,10 +112,41 @@ class OrderController extends Controller
                 ! empty($data['date_to']),
                 fn ($query) => $query->whereDate('orders.created_at', '<=', $data['date_to']),
             )
-            ->selectRaw('users.id as user_id, users.name as user_name, users.email as user_email, COUNT(orders.id) as order_count, SUM(orders.total_amount) as total_amount')
+            ->selectRaw('users.id as user_id, users.name as user_name, users.email as user_email, SUM(orders.total_amount) as total_amount')
             ->groupBy('users.id', 'users.name', 'users.email')
             ->orderByDesc('total_amount')
             ->get();
+
+        $userItems = OrderItem::query()
+            ->join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('products', 'products.id', '=', 'order_items.product_id')
+            ->leftJoin('units', 'units.id', '=', 'products.unit_id')
+            ->where('orders.shop_id', $shop->id)
+            ->whereNotIn('orders.status', OrderStatus::voidKeys())
+            ->when(
+                ! empty($data['date_from']),
+                fn ($query) => $query->whereDate('orders.created_at', '>=', $data['date_from']),
+            )
+            ->when(
+                ! empty($data['date_to']),
+                fn ($query) => $query->whereDate('orders.created_at', '<=', $data['date_to']),
+            )
+            ->selectRaw('users.id as user_id, order_items.product_name, units.name as unit_name, SUM(order_items.quantity) as total_quantity')
+            ->groupBy('users.id', 'order_items.product_name', 'units.name')
+            ->orderByDesc('total_quantity')
+            ->get()
+            ->groupBy('user_id');
+
+        $userSummary = $userTotals->map(function ($user) use ($userItems) {
+            return [
+                'user_id' => $user->user_id,
+                'user_name' => $user->user_name,
+                'user_email' => $user->user_email,
+                'total_amount' => $user->total_amount,
+                'items' => ($userItems->get($user->user_id) ?? collect())->values(),
+            ];
+        });
 
         return Inertia::render('Admin/Orders/Summary', [
             'shop' => $shop,

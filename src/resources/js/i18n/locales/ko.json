@@ -152,6 +152,16 @@
             "privacy": "개인정보에 대하여",
             "contact": "문의하기",
             "company": "운영 회사 소개"
+        },
+        "company": {
+            "fields": {
+                "name": "회사명",
+                "representative": "대표자",
+                "established": "설립",
+                "capital": "자본금",
+                "address": "소재지",
+                "business": "사업 내용"
+            }
         }
     }
 }

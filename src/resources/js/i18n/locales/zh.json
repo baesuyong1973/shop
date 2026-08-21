@@ -152,6 +152,16 @@
             "privacy": "关于个人信息",
             "contact": "联系我们",
             "company": "关于运营公司"
+        },
+        "company": {
+            "fields": {
+                "name": "公司名称",
+                "representative": "代表人",
+                "established": "成立",
+                "capital": "资本金",
+                "address": "地址",
+                "business": "业务内容"
+            }
         }
     }
 }

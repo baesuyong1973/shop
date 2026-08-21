@@ -153,6 +153,16 @@
             "privacy": "About Personal Information",
             "contact": "Contact Us",
             "company": "About the Company"
+        },
+        "company": {
+            "fields": {
+                "name": "Company Name",
+                "representative": "Representative",
+                "established": "Established",
+                "capital": "Capital",
+                "address": "Address",
+                "business": "Business"
+            }
         }
     }
 }

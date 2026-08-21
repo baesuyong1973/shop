@@ -152,6 +152,16 @@
             "privacy": "Sobre la Información Personal",
             "contact": "Contáctenos",
             "company": "Sobre la Empresa"
+        },
+        "company": {
+            "fields": {
+                "name": "Nombre de la Empresa",
+                "representative": "Representante",
+                "established": "Fundación",
+                "capital": "Capital",
+                "address": "Dirección",
+                "business": "Actividad"
+            }
         }
     }
 }

@@ -152,6 +152,16 @@
             "privacy": "關於個人資訊",
             "contact": "聯絡我們",
             "company": "關於營運公司"
+        },
+        "company": {
+            "fields": {
+                "name": "公司名稱",
+                "representative": "代表人",
+                "established": "成立",
+                "capital": "資本額",
+                "address": "地址",
+                "business": "業務內容"
+            }
         }
     }
 }

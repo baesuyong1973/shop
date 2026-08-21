@@ -152,6 +152,16 @@
             "privacy": "Tentang Informasi Pribadi",
             "contact": "Hubungi Kami",
             "company": "Tentang Perusahaan"
+        },
+        "company": {
+            "fields": {
+                "name": "Nama Perusahaan",
+                "representative": "Perwakilan",
+                "established": "Didirikan",
+                "capital": "Modal",
+                "address": "Alamat",
+                "business": "Bidang Usaha"
+            }
         }
     }
 }

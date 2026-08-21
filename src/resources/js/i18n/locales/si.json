@@ -152,6 +152,16 @@
             "privacy": "පුද්ගලික තොරතුරු පිළිබඳව",
             "contact": "අප අමතන්න",
             "company": "සමාගම පිළිබඳව"
+        },
+        "company": {
+            "fields": {
+                "name": "සමාගමේ නම",
+                "representative": "නියෝජිතයා",
+                "established": "ආරම්භය",
+                "capital": "ප්‍රාග්ධනය",
+                "address": "ලිපිනය",
+                "business": "ව්‍යාපාරික කටයුතු"
+            }
         }
     }
 }

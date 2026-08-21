@@ -152,6 +152,16 @@
             "privacy": "Về thông tin cá nhân",
             "contact": "Liên hệ",
             "company": "Giới thiệu công ty vận hành"
+        },
+        "company": {
+            "fields": {
+                "name": "Tên công ty",
+                "representative": "Người đại diện",
+                "established": "Thành lập",
+                "capital": "Vốn điều lệ",
+                "address": "Địa chỉ",
+                "business": "Nội dung kinh doanh"
+            }
         }
     }
 }

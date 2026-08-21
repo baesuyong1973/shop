@@ -152,6 +152,16 @@
             "privacy": "Tungkol sa Personal na Impormasyon",
             "contact": "Makipag-ugnayan",
             "company": "Tungkol sa Kumpanya"
+        },
+        "company": {
+            "fields": {
+                "name": "Pangalan ng Kumpanya",
+                "representative": "Kinatawan",
+                "established": "Itinatag",
+                "capital": "Kapital",
+                "address": "Address",
+                "business": "Negosyo"
+            }
         }
     }
 }

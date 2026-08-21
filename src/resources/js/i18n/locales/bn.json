@@ -152,6 +152,16 @@
             "privacy": "ব্যক্তিগত তথ্য সম্পর্কে",
             "contact": "যোগাযোগ করুন",
             "company": "কোম্পানি সম্পর্কে"
+        },
+        "company": {
+            "fields": {
+                "name": "কোম্পানির নাম",
+                "representative": "প্রতিনিধি",
+                "established": "প্রতিষ্ঠা",
+                "capital": "মূলধন",
+                "address": "ঠিকানা",
+                "business": "ব্যবসার বিবরণ"
+            }
         }
     }
 }

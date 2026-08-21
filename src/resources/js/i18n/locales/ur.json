@@ -152,6 +152,16 @@
             "privacy": "ذاتی معلومات کے بارے میں",
             "contact": "ہم سے رابطہ کریں",
             "company": "کمپنی کے بارے میں"
+        },
+        "company": {
+            "fields": {
+                "name": "کمپنی کا نام",
+                "representative": "نمائندہ",
+                "established": "قیام",
+                "capital": "سرمایہ",
+                "address": "پتہ",
+                "business": "کاروبار"
+            }
         }
     }
 }

@@ -152,6 +152,16 @@
             "privacy": "व्यक्तिगत जानकारी के बारे में",
             "contact": "संपर्क करें",
             "company": "कंपनी के बारे में"
+        },
+        "company": {
+            "fields": {
+                "name": "कंपनी का नाम",
+                "representative": "प्रतिनिधि",
+                "established": "स्थापना",
+                "capital": "पूंजी",
+                "address": "पता",
+                "business": "व्यवसाय"
+            }
         }
     }
 }

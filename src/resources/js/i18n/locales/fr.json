@@ -152,6 +152,16 @@
             "privacy": "À Propos des Informations Personnelles",
             "contact": "Nous Contacter",
             "company": "À Propos de l'Entreprise"
+        },
+        "company": {
+            "fields": {
+                "name": "Nom de l'Entreprise",
+                "representative": "Représentant",
+                "established": "Fondation",
+                "capital": "Capital",
+                "address": "Adresse",
+                "business": "Activité"
+            }
         }
     }
 }

@@ -152,6 +152,16 @@
             "privacy": "Хувийн мэдээллийн тухай",
             "contact": "Холбоо барих",
             "company": "Компанийн тухай"
+        },
+        "company": {
+            "fields": {
+                "name": "Компанийн нэр",
+                "representative": "Төлөөлөгч",
+                "established": "Байгуулагдсан",
+                "capital": "Хөрөнгө",
+                "address": "Хаяг",
+                "business": "Үйл ажиллагаа"
+            }
         }
     }
 }

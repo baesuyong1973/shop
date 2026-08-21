@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 const TITLE_KEYS = {
     'how-to-use': 'howToUse',
     privacy: 'privacy',
-    contact: 'contact',
     company: 'company',
 };
 

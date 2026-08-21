@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ShopController as AdminShopController;
 use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -25,8 +26,13 @@ Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update
 Route::get('/', [ShopController::class, 'index'])->name('shops.index');
 
 Route::get('/pages/{slug}', [StaticPageController::class, 'show'])
-    ->whereIn('slug', ['how-to-use', 'privacy', 'contact', 'company'])
+    ->whereIn('slug', ['how-to-use', 'privacy', 'company'])
     ->name('pages.show');
+
+Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:6,1')
+    ->name('contact.store');
 
 Route::prefix('shops/{shop:slug}')->scopeBindings()->group(function () {
     Route::get('/', [ShopController::class, 'show'])->name('shops.show');

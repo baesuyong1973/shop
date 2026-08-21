@@ -18,7 +18,11 @@ export default function Footer() {
                     {LINKS.map(({ slug, key }) => (
                         <Link
                             key={slug}
-                            href={route('pages.show', slug)}
+                            href={
+                                slug === 'contact'
+                                    ? route('contact.create')
+                                    : route('pages.show', slug)
+                            }
                             className="text-sm text-gray-500 hover:text-gray-700"
                         >
                             {t(`staticPages.titles.${key}`)}

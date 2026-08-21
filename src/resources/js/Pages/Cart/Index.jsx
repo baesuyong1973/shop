@@ -1,4 +1,5 @@
 import DangerButton from '@/Components/DangerButton';
+import Footer from '@/Components/Footer';
 import Header from '@/Components/Header';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { Head, Link, router, usePage } from '@inertiajs/react';
@@ -21,7 +22,7 @@ export default function Index({ shop, items, total, status, error }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="flex min-h-screen flex-col bg-gray-100">
             <Head title={t('cart.title')} />
 
             <Header
@@ -29,7 +30,7 @@ export default function Index({ shop, items, total, status, error }) {
                 backLabel={t('products.backToList')}
             />
 
-            <div className="py-12">
+            <div className="flex-1 py-12">
                 <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
                     {status && (
                         <div className="mb-4 rounded-md bg-green-50 p-4 text-sm font-medium text-green-700">
@@ -239,6 +240,8 @@ export default function Index({ shop, items, total, status, error }) {
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </div>
     );
 }

@@ -143,5 +143,15 @@
         "verificationSentNotice": "新的验证链接已发送至您注册时提供的邮箱地址。",
         "resendVerification": "重新发送验证邮件",
         "logout": "退出登录"
+    },
+    "staticPages": {
+        "backToHome": "返回首页",
+        "placeholder": "此页面正在建设中，内容将于近期添加。",
+        "titles": {
+            "howToUse": "网站使用指南",
+            "privacy": "关于个人信息",
+            "contact": "联系我们",
+            "company": "关于运营公司"
+        }
     }
 }

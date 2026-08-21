@@ -15,6 +15,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\StaticPageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,6 +23,10 @@ use Inertia\Inertia;
 Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
 
 Route::get('/', [ShopController::class, 'index'])->name('shops.index');
+
+Route::get('/pages/{slug}', [StaticPageController::class, 'show'])
+    ->whereIn('slug', ['how-to-use', 'privacy', 'contact', 'company'])
+    ->name('pages.show');
 
 Route::prefix('shops/{shop:slug}')->scopeBindings()->group(function () {
     Route::get('/', [ShopController::class, 'show'])->name('shops.show');

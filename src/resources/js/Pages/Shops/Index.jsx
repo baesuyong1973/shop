@@ -1,3 +1,4 @@
+import Footer from '@/Components/Footer';
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
@@ -5,7 +6,7 @@ export default function Index({ shops }) {
     const { t } = useTranslation();
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="flex min-h-screen flex-col bg-gray-100">
             <Head title={t('shops.title')} />
 
             <nav className="border-b border-gray-100 bg-white">
@@ -16,7 +17,7 @@ export default function Index({ shops }) {
                 </div>
             </nav>
 
-            <div className="py-12">
+            <div className="flex-1 py-12">
                 <div className="mx-auto max-w-5xl sm:px-6 lg:px-8">
                     {shops.length === 0 ? (
                         <p className="py-12 text-center text-sm text-gray-500">
@@ -51,6 +52,8 @@ export default function Index({ shops }) {
                     )}
                 </div>
             </div>
+
+            <Footer />
         </div>
     );
 }

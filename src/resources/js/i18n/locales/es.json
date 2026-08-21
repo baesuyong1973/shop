@@ -143,5 +143,15 @@
         "verificationSentNotice": "Se ha enviado un nuevo enlace de verificación a la dirección de correo electrónico que proporcionó durante el registro.",
         "resendVerification": "Reenviar correo de verificación",
         "logout": "Cerrar sesión"
+    },
+    "staticPages": {
+        "backToHome": "Volver al inicio",
+        "placeholder": "Esta página está actualmente en preparación. El contenido se añadirá pronto.",
+        "titles": {
+            "howToUse": "Cómo Usar Este Sitio",
+            "privacy": "Sobre la Información Personal",
+            "contact": "Contáctenos",
+            "company": "Sobre la Empresa"
+        }
     }
 }

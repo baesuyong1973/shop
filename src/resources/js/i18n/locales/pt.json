@@ -143,5 +143,15 @@
         "verificationSentNotice": "Um novo link de verificação foi enviado para o endereço de e-mail fornecido durante o cadastro.",
         "resendVerification": "Reenviar E-mail de Verificação",
         "logout": "Sair"
+    },
+    "staticPages": {
+        "backToHome": "Voltar para o início",
+        "placeholder": "Esta página está atualmente em preparação. O conteúdo será adicionado em breve.",
+        "titles": {
+            "howToUse": "Como Usar Este Site",
+            "privacy": "Sobre Informações Pessoais",
+            "contact": "Fale Conosco",
+            "company": "Sobre a Empresa"
+        }
     }
 }

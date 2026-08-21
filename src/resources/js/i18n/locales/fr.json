@@ -143,5 +143,15 @@
         "verificationSentNotice": "Un nouveau lien de vérification a été envoyé à l'adresse e-mail que vous avez fournie lors de l'inscription.",
         "resendVerification": "Renvoyer l'e-mail de vérification",
         "logout": "Déconnexion"
+    },
+    "staticPages": {
+        "backToHome": "Retour à l'accueil",
+        "placeholder": "Cette page est actuellement en préparation. Le contenu sera ajouté prochainement.",
+        "titles": {
+            "howToUse": "Comment Utiliser ce Site",
+            "privacy": "À Propos des Informations Personnelles",
+            "contact": "Nous Contacter",
+            "company": "À Propos de l'Entreprise"
+        }
     }
 }

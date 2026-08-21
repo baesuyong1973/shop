@@ -1,3 +1,4 @@
+import Footer from '@/Components/Footer';
 import Header from '@/Components/Header';
 import Pagination from '@/Components/Pagination';
 import TextInput from '@/Components/TextInput';
@@ -32,12 +33,12 @@ export default function Show({ shop, products, filters }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="flex min-h-screen flex-col bg-gray-100">
             <Head title={shop.name} />
 
             <Header title={shop.name} />
 
-            <div className="py-12">
+            <div className="flex-1 py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
                         <form onSubmit={submitSearch} className="mb-6">
@@ -134,6 +135,8 @@ export default function Show({ shop, products, filters }) {
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </div>
     );
 }

@@ -144,5 +144,15 @@
         "verificationSentNotice": "登録時にご入力いただいたメールアドレスに、確認用リンクを新しく送信しました。",
         "resendVerification": "確認メールを再送する",
         "logout": "ログアウト"
+    },
+    "staticPages": {
+        "backToHome": "トップページに戻る",
+        "placeholder": "このページは現在準備中です。近日中に内容を追加いたします。",
+        "titles": {
+            "howToUse": "サイトの使い方",
+            "privacy": "個人情報について",
+            "contact": "お問合せ",
+            "company": "運営会社について"
+        }
     }
 }

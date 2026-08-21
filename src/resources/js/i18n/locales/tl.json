@@ -143,5 +143,15 @@
         "verificationSentNotice": "Isang bagong verification link ay naipadala na sa email address na ibinigay mo noong nagrehistro ka.",
         "resendVerification": "Ipadalang Muli ang Verification Email",
         "logout": "Mag-logout"
+    },
+    "staticPages": {
+        "backToHome": "Bumalik sa Home",
+        "placeholder": "Kasalukuyang inihahanda ang pahinang ito. Malapit nang idagdag ang nilalaman.",
+        "titles": {
+            "howToUse": "Paano Gamitin ang Site",
+            "privacy": "Tungkol sa Personal na Impormasyon",
+            "contact": "Makipag-ugnayan",
+            "company": "Tungkol sa Kumpanya"
+        }
     }
 }

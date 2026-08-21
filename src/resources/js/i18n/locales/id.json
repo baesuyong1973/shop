@@ -143,5 +143,15 @@
         "verificationSentNotice": "Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan saat mendaftar.",
         "resendVerification": "Kirim Ulang Email Verifikasi",
         "logout": "Keluar"
+    },
+    "staticPages": {
+        "backToHome": "Kembali ke Beranda",
+        "placeholder": "Halaman ini sedang dalam persiapan. Konten akan segera ditambahkan.",
+        "titles": {
+            "howToUse": "Cara Menggunakan Situs",
+            "privacy": "Tentang Informasi Pribadi",
+            "contact": "Hubungi Kami",
+            "company": "Tentang Perusahaan"
+        }
     }
 }

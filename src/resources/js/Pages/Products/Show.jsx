@@ -1,3 +1,4 @@
+import Footer from '@/Components/Footer';
 import Header from '@/Components/Header';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
@@ -23,7 +24,7 @@ export default function Show({ shop, product }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="flex min-h-screen flex-col bg-gray-100">
             <Head title={product.name} />
 
             <Header
@@ -31,7 +32,7 @@ export default function Show({ shop, product }) {
                 backLabel={t('products.backToList')}
             />
 
-            <div className="py-12">
+            <div className="flex-1 py-12">
                 <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
                         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
@@ -136,6 +137,8 @@ export default function Show({ shop, product }) {
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </div>
     );
 }

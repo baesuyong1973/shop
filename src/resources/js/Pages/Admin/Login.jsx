@@ -20,7 +20,7 @@ export default function Login() {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout footer={false}>
             <Head title="管理者ログイン" />
 
             <h1 className="mb-4 text-lg font-semibold text-gray-900">

@@ -144,5 +144,15 @@
         "verificationSentNotice": "A new verification link has been sent to the email address you provided during registration.",
         "resendVerification": "Resend Verification Email",
         "logout": "Log Out"
+    },
+    "staticPages": {
+        "backToHome": "Back to Home",
+        "placeholder": "This page is currently being prepared. Content will be added soon.",
+        "titles": {
+            "howToUse": "How to Use This Site",
+            "privacy": "About Personal Information",
+            "contact": "Contact Us",
+            "company": "About the Company"
+        }
     }
 }

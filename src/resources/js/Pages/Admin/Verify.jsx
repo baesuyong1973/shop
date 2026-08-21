@@ -22,7 +22,7 @@ export default function Verify({ status }) {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout footer={false}>
             <Head title="確認コードの入力" />
 
             <h1 className="mb-2 text-lg font-semibold text-gray-900">

@@ -143,5 +143,15 @@
         "verificationSentNotice": "新的驗證連結已寄送至您註冊時提供的電子郵件地址。",
         "resendVerification": "重新寄送驗證信",
         "logout": "登出"
+    },
+    "staticPages": {
+        "backToHome": "返回首頁",
+        "placeholder": "此頁面正在建置中，內容將於近期新增。",
+        "titles": {
+            "howToUse": "網站使用指南",
+            "privacy": "關於個人資訊",
+            "contact": "聯絡我們",
+            "company": "關於營運公司"
+        }
     }
 }

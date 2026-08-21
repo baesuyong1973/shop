@@ -143,5 +143,15 @@
         "verificationSentNotice": "Một liên kết xác minh mới đã được gửi đến địa chỉ email bạn đã cung cấp khi đăng ký.",
         "resendVerification": "Gửi lại email xác minh",
         "logout": "Đăng xuất"
+    },
+    "staticPages": {
+        "backToHome": "Quay lại trang chủ",
+        "placeholder": "Trang này hiện đang được chuẩn bị. Nội dung sẽ được cập nhật sớm.",
+        "titles": {
+            "howToUse": "Hướng dẫn sử dụng trang web",
+            "privacy": "Về thông tin cá nhân",
+            "contact": "Liên hệ",
+            "company": "Giới thiệu công ty vận hành"
+        }
     }
 }

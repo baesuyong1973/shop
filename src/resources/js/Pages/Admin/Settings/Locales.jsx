@@ -17,17 +17,13 @@ const LOCALE_LABELS = {
     ne: 'ネパール語',
     id: 'インドネシア語',
     'zh-TW': '中国語（繁体字・台湾）',
-    hi: 'ヒンディー語',
-    es: 'スペイン語',
-    si: 'シンハラ語',
-    km: 'クメール語',
-    bn: 'ベンガル語',
-    fr: 'フランス語',
-    mn: 'モンゴル語',
-    ur: 'ウルドゥー語',
 };
 
-export default function Locales({ supportedLocales = [], locales = [], status }) {
+export default function Locales({
+    supportedLocales = [],
+    locales = [],
+    status,
+}) {
     const { data, setData, put, processing, errors } = useForm({
         locales,
     });
@@ -98,8 +94,7 @@ export default function Locales({ supportedLocales = [], locales = [], status })
                                             <InputLabel
                                                 htmlFor={`locale-${code}`}
                                                 value={
-                                                    LOCALE_LABELS[code] ??
-                                                    code
+                                                    LOCALE_LABELS[code] ?? code
                                                 }
                                                 className="ml-2"
                                             />

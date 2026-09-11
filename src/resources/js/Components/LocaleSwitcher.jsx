@@ -34,9 +34,21 @@ function UkFlag(props) {
             <g clipPath={`url(#${clipId})`}>
                 <rect width="60" height="40" fill="#012169" />
                 <path d="M0,0 60,40 M60,0 0,40" stroke="#fff" strokeWidth="8" />
-                <path d="M0,0 60,40 M60,0 0,40" stroke="#C8102E" strokeWidth="4" />
-                <path d="M30,0 30,40 M0,20 60,20" stroke="#fff" strokeWidth="14" />
-                <path d="M30,0 30,40 M0,20 60,20" stroke="#C8102E" strokeWidth="8" />
+                <path
+                    d="M0,0 60,40 M60,0 0,40"
+                    stroke="#C8102E"
+                    strokeWidth="4"
+                />
+                <path
+                    d="M30,0 30,40 M0,20 60,20"
+                    stroke="#fff"
+                    strokeWidth="14"
+                />
+                <path
+                    d="M30,0 30,40 M0,20 60,20"
+                    stroke="#C8102E"
+                    strokeWidth="8"
+                />
             </g>
         </svg>
     );
@@ -68,7 +80,12 @@ function KoreaFlag(props) {
                                 width={3}
                                 height={1}
                             />
-                            <rect x={1} y={i * 2.4 - 2.6} width={3} height={1} />
+                            <rect
+                                x={1}
+                                y={i * 2.4 - 2.6}
+                                width={3}
+                                height={1}
+                            />
                         </g>
                     ) : (
                         <rect
@@ -189,111 +206,6 @@ function TaiwanFlag(props) {
     );
 }
 
-function IndiaFlag(props) {
-    return (
-        <svg viewBox="0 0 60 40" {...props}>
-            <rect width="60" height="13.33" fill="#FF9933" />
-            <rect y="13.33" width="60" height="13.33" fill="#fff" />
-            <rect y="26.67" width="60" height="13.33" fill="#138808" />
-            <circle
-                cx="30"
-                cy="20"
-                r="5"
-                fill="none"
-                stroke="#000080"
-                strokeWidth="0.8"
-            />
-            <circle cx="30" cy="20" r="0.8" fill="#000080" />
-        </svg>
-    );
-}
-
-function PeruFlag(props) {
-    return (
-        <svg viewBox="0 0 60 40" {...props}>
-            <rect width="20" height="40" fill="#D91023" />
-            <rect x="20" width="20" height="40" fill="#fff" />
-            <rect x="40" width="20" height="40" fill="#D91023" />
-        </svg>
-    );
-}
-
-function SriLankaFlag(props) {
-    return (
-        <svg viewBox="0 0 60 40" {...props}>
-            <rect width="60" height="40" fill="#8D153A" />
-            <rect x="8" width="8" height="40" fill="#00534E" />
-            <rect x="16" width="8" height="40" fill="#FF7300" />
-            <rect x="24" width="36" height="40" fill="#8D153A" />
-            <rect
-                x="24"
-                y="4"
-                width="32"
-                height="32"
-                rx="2"
-                fill="none"
-                stroke="#FFB700"
-                strokeWidth="1.2"
-            />
-        </svg>
-    );
-}
-
-function CambodiaFlag(props) {
-    return (
-        <svg viewBox="0 0 60 40" {...props}>
-            <rect width="60" height="10" fill="#032EA1" />
-            <rect y="10" width="60" height="20" fill="#E00025" />
-            <rect y="30" width="60" height="10" fill="#032EA1" />
-            <rect x="22" y="13" width="16" height="14" fill="#fff" />
-        </svg>
-    );
-}
-
-function BangladeshFlag(props) {
-    return (
-        <svg viewBox="0 0 60 40" {...props}>
-            <rect width="60" height="40" fill="#006A4E" />
-            <circle cx="26" cy="20" r="10" fill="#F42A41" />
-        </svg>
-    );
-}
-
-function FranceFlag(props) {
-    return (
-        <svg viewBox="0 0 60 40" {...props}>
-            <rect width="20" height="40" fill="#0055A4" />
-            <rect x="20" width="20" height="40" fill="#fff" />
-            <rect x="40" width="20" height="40" fill="#EF4135" />
-        </svg>
-    );
-}
-
-function MongoliaFlag(props) {
-    return (
-        <svg viewBox="0 0 60 40" {...props}>
-            <rect width="15" height="40" fill="#DA2032" />
-            <rect x="15" width="30" height="40" fill="#015197" />
-            <rect x="45" width="15" height="40" fill="#DA2032" />
-            <circle cx="7.5" cy="12" r="2.5" fill="#F9CF02" />
-        </svg>
-    );
-}
-
-function PakistanFlag(props) {
-    return (
-        <svg viewBox="0 0 60 40" {...props}>
-            <rect width="60" height="40" fill="#01411C" />
-            <rect width="15" height="40" fill="#fff" />
-            <path
-                d="M40,10 A10,10 0 1,0 40,30 A8,8 0 1,1 40,10 Z"
-                fill="#fff"
-            />
-            <Star cx={48} cy={13} r={3.5} rotate={-20} fill="#fff" />
-        </svg>
-    );
-}
-
 const LOCALES = [
     { code: 'ja', Flag: JapanFlag, labelKey: 'lang.japanese' },
     { code: 'en', Flag: UkFlag, labelKey: 'lang.english' },
@@ -307,14 +219,6 @@ const LOCALES = [
     { code: 'ne', Flag: NepalFlag, labelKey: 'lang.nepali' },
     { code: 'id', Flag: IndonesiaFlag, labelKey: 'lang.indonesian' },
     { code: 'zh-TW', Flag: TaiwanFlag, labelKey: 'lang.taiwanese' },
-    { code: 'hi', Flag: IndiaFlag, labelKey: 'lang.hindi' },
-    { code: 'es', Flag: PeruFlag, labelKey: 'lang.spanish' },
-    { code: 'si', Flag: SriLankaFlag, labelKey: 'lang.sinhala' },
-    { code: 'km', Flag: CambodiaFlag, labelKey: 'lang.khmer' },
-    { code: 'bn', Flag: BangladeshFlag, labelKey: 'lang.bengali' },
-    { code: 'fr', Flag: FranceFlag, labelKey: 'lang.french' },
-    { code: 'mn', Flag: MongoliaFlag, labelKey: 'lang.mongolian' },
-    { code: 'ur', Flag: PakistanFlag, labelKey: 'lang.urdu' },
 ];
 
 export default function LocaleSwitcher({ available }) {

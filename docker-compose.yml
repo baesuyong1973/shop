@@ -61,5 +61,18 @@ services:
       - "8025:8025"
       - "1025:1025"
 
+  vite:
+    image: node:20-alpine
+    container_name: laravel_vite
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+      - vite_node_modules:/var/www/html/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev"
+    restart: unless-stopped
+
 volumes:
   db_data:
+  vite_node_modules:

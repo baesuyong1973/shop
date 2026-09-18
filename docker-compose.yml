@@ -65,6 +65,12 @@ services:
     image: node:20-alpine
     container_name: laravel_vite
     working_dir: /var/www/html
+    environment:
+      # Docker Desktop on Windows doesn't reliably forward filesystem change
+      # events into the container for bind-mounted volumes, so chokidar's
+      # native watcher can miss edits made from the host. Force polling.
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "300"
     volumes:
       - ./src:/var/www/html
       - vite_node_modules:/var/www/html/node_modules

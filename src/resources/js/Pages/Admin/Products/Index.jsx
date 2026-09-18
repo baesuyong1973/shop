@@ -19,12 +19,20 @@ function formatOrigin(product) {
         : product.country.name;
 }
 
-export default function Index({ shop, products, shops, status }) {
+export default function Index({ shop, products, shops, filters, status }) {
     const isScoped = !!shop;
     const [copyTarget, setCopyTarget] = useState(null);
 
     const { data, setData, post, processing, errors, reset, clearErrors } =
         useForm({ shop_id: '' });
+
+    const filterByShop = (shopId) => {
+        router.get(
+            route('admin.products.index'),
+            shopId ? { shop_id: shopId } : {},
+            { preserveState: true, replace: true },
+        );
+    };
 
     const destroy = (product) => {
         if (confirm(`「${product.name}」を削除しますか？`)) {
@@ -94,6 +102,30 @@ export default function Index({ shop, products, shops, status }) {
                                         商品を登録する
                                     </PrimaryButton>
                                 </Link>
+                            </div>
+                        )}
+
+                        {!isScoped && (
+                            <div className="mb-4">
+                                <InputLabel
+                                    htmlFor="filter_shop_id"
+                                    value="店舗で絞り込み"
+                                />
+                                <select
+                                    id="filter_shop_id"
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:w-64"
+                                    value={filters?.shop_id ?? ''}
+                                    onChange={(e) =>
+                                        filterByShop(e.target.value)
+                                    }
+                                >
+                                    <option value="">すべての店舗</option>
+                                    {shops?.map((s) => (
+                                        <option key={s.id} value={s.id}>
+                                            {s.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                         )}
 

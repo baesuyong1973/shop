@@ -17,5 +17,13 @@ export default defineConfig({
         hmr: {
             host: 'localhost',
         },
+        watch: {
+            // Docker Desktop on Windows doesn't reliably forward filesystem
+            // change events into the container for bind-mounted volumes, so
+            // Vite's default watcher can miss edits made from the host and
+            // keep serving stale compiled output. Polling works around this.
+            usePolling: true,
+            interval: 300,
+        },
     },
 });

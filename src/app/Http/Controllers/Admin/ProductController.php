@@ -24,11 +24,20 @@ class ProductController extends Controller
     /**
      * Cross-shop product listing for super admins.
      */
-    public function globalIndex(): Response
+    public function globalIndex(Request $request): Response
     {
+        $shopId = $request->integer('shop_id') ?: null;
+
+        $products = Product::with(['shop', 'country', 'prefecture', 'unit'])
+            ->when($shopId, fn ($query) => $query->where('shop_id', $shopId))
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+
         return Inertia::render('Admin/Products/Index', [
-            'products' => Product::with(['shop', 'country', 'prefecture', 'unit'])->latest()->paginate(20)->withQueryString(),
+            'products' => $products,
             'shops' => Shop::orderBy('name')->get(['id', 'name']),
+            'filters' => ['shop_id' => $shopId],
             'status' => session('status'),
         ]);
     }

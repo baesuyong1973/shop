@@ -108,20 +108,21 @@ export default function Show({ shop, products, filters }) {
                                                     })}
                                                 </p>
                                             )}
-                                            <p className="text-sm font-bold text-gray-900">
-                                                ¥
-                                                {Number(
-                                                    product.price,
-                                                ).toLocaleString()}
-                                            </p>
+                                            {product.stock > 0 && (
+                                                <p className="text-sm font-bold text-gray-900">
+                                                    ¥
+                                                    {Number(
+                                                        product.price,
+                                                    ).toLocaleString()}
+                                                </p>
+                                            )}
                                             {product.unit && (
                                                 <p className="text-[10px] text-gray-500">
                                                     {t('shops.unitShort', {
                                                         quantity:
                                                             product.unit_quantity ??
                                                             1,
-                                                        unit: product.unit
-                                                            .name,
+                                                        unit: product.unit.name,
                                                     })}
                                                 </p>
                                             )}

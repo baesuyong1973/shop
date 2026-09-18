@@ -6,6 +6,10 @@ services:
     container_name: laravel_app
     volumes:
       - ./src:/var/www/html
+      # `vendor` has thousands of small files; keeping it on a native Docker
+      # volume instead of the Windows bind mount avoids the severe NTFS<->WSL2
+      # I/O penalty that made every request take 10+ seconds in dev.
+      - vendor_data:/var/www/html/vendor
     working_dir: /var/www/html
     depends_on:
       - db
@@ -82,3 +86,4 @@ services:
 volumes:
   db_data:
   vite_node_modules:
+  vendor_data:

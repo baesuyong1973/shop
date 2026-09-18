@@ -57,10 +57,12 @@ export default function Show({ shop, product }) {
                                     </p>
                                 )}
 
-                                <p className="mt-4 text-2xl font-bold text-gray-900">
-                                    ¥
-                                    {Number(product.price).toLocaleString()}
-                                </p>
+                                {product.stock > 0 && (
+                                    <p className="mt-4 text-2xl font-bold text-gray-900">
+                                        ¥
+                                        {Number(product.price).toLocaleString()}
+                                    </p>
+                                )}
 
                                 {product.unit && (
                                     <p className="mt-1 text-sm text-gray-500">
@@ -72,11 +74,13 @@ export default function Show({ shop, product }) {
                                     </p>
                                 )}
 
-                                <p className="mt-1 text-sm text-gray-500">
-                                    {t('products.stock', {
-                                        stock: product.stock,
-                                    })}
-                                </p>
+                                {product.stock > 0 && (
+                                    <p className="mt-1 text-sm text-gray-500">
+                                        {t('products.stock', {
+                                            stock: product.stock,
+                                        })}
+                                    </p>
+                                )}
 
                                 {product.description && (
                                     <p className="mt-4 whitespace-pre-wrap text-sm text-gray-700">

@@ -122,10 +122,7 @@ export default function Index({ shop, products, shops, status }) {
                                                     </div>
                                                     {!isScoped && (
                                                         <div className="truncate text-xs text-gray-500">
-                                                            {
-                                                                product.shop
-                                                                    ?.name
-                                                            }
+                                                            {product.shop?.name}
                                                         </div>
                                                     )}
                                                     {product.is_active ? (
@@ -204,9 +201,7 @@ export default function Index({ shop, products, shops, status }) {
                                                         </Link>
                                                         <DangerButton
                                                             onClick={() =>
-                                                                destroy(
-                                                                    product,
-                                                                )
+                                                                destroy(product)
                                                             }
                                                         >
                                                             削除
@@ -214,15 +209,30 @@ export default function Index({ shop, products, shops, status }) {
                                                     </>
                                                 )}
                                                 {!isScoped && (
-                                                    <SecondaryButton
-                                                        onClick={() =>
-                                                            openCopyModal(
-                                                                product,
-                                                            )
-                                                        }
-                                                    >
-                                                        コピー
-                                                    </SecondaryButton>
+                                                    <>
+                                                        <Link
+                                                            href={route(
+                                                                'admin.shop.products.edit',
+                                                                [
+                                                                    product.shop,
+                                                                    product.id,
+                                                                ],
+                                                            )}
+                                                        >
+                                                            <SecondaryButton>
+                                                                編集
+                                                            </SecondaryButton>
+                                                        </Link>
+                                                        <SecondaryButton
+                                                            onClick={() =>
+                                                                openCopyModal(
+                                                                    product,
+                                                                )
+                                                            }
+                                                        >
+                                                            コピー
+                                                        </SecondaryButton>
+                                                    </>
                                                 )}
                                             </div>
                                         </div>
@@ -280,10 +290,7 @@ export default function Index({ shop, products, shops, status }) {
                                                     </td>
                                                     {!isScoped && (
                                                         <td className="px-4 py-3 text-sm text-gray-900">
-                                                            {
-                                                                product.shop
-                                                                    ?.name
-                                                            }
+                                                            {product.shop?.name}
                                                         </td>
                                                     )}
                                                     <td className="px-4 py-3 text-sm text-gray-900">
@@ -353,15 +360,30 @@ export default function Index({ shop, products, shops, status }) {
                                                                 </>
                                                             )}
                                                             {!isScoped && (
-                                                                <SecondaryButton
-                                                                    onClick={() =>
-                                                                        openCopyModal(
-                                                                            product,
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    コピー
-                                                                </SecondaryButton>
+                                                                <>
+                                                                    <Link
+                                                                        href={route(
+                                                                            'admin.shop.products.edit',
+                                                                            [
+                                                                                product.shop,
+                                                                                product.id,
+                                                                            ],
+                                                                        )}
+                                                                    >
+                                                                        <SecondaryButton>
+                                                                            編集
+                                                                        </SecondaryButton>
+                                                                    </Link>
+                                                                    <SecondaryButton
+                                                                        onClick={() =>
+                                                                            openCopyModal(
+                                                                                product,
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        コピー
+                                                                    </SecondaryButton>
+                                                                </>
                                                             )}
                                                         </div>
                                                     </td>
@@ -378,18 +400,26 @@ export default function Index({ shop, products, shops, status }) {
                 </div>
             </div>
 
-            <Modal show={copyTarget !== null} onClose={closeCopyModal} maxWidth="sm">
+            <Modal
+                show={copyTarget !== null}
+                onClose={closeCopyModal}
+                maxWidth="sm"
+            >
                 <form onSubmit={submitCopy} className="p-6">
                     <h2 className="text-lg font-medium text-gray-900">
                         商品をコピー
                     </h2>
 
                     <p className="mt-1 text-sm text-gray-600">
-                        「{copyTarget?.name}」をコピーします。コピー先の店舗を選択してください。コピーされた商品は非公開の状態で登録されます。
+                        「{copyTarget?.name}
+                        」をコピーします。コピー先の店舗を選択してください。コピーされた商品は非公開の状態で登録されます。
                     </p>
 
                     <div className="mt-4">
-                        <InputLabel htmlFor="copy_shop_id" value="コピー先の店舗" />
+                        <InputLabel
+                            htmlFor="copy_shop_id"
+                            value="コピー先の店舗"
+                        />
                         <select
                             id="copy_shop_id"
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"

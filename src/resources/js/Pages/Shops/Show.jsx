@@ -116,16 +116,22 @@ export default function Show({ shop, products, filters }) {
                                                     ).toLocaleString()}
                                                 </p>
                                             )}
-                                            {product.unit && (
-                                                <p className="text-[10px] text-gray-500">
-                                                    {t('shops.unitShort', {
-                                                        quantity:
-                                                            product.unit_quantity ??
-                                                            1,
-                                                        unit: product.unit.name,
-                                                    })}
-                                                </p>
-                                            )}
+                                            {product.stock > 0 &&
+                                                product.unit && (
+                                                    <p className="text-[10px] text-gray-500">
+                                                        {t(
+                                                            'shops.unitShort',
+                                                            {
+                                                                quantity:
+                                                                    product.unit_quantity ??
+                                                                    1,
+                                                                unit: product
+                                                                    .unit
+                                                                    .name,
+                                                            },
+                                                        )}
+                                                    </p>
+                                                )}
                                         </div>
                                     </Link>
                                 ))}

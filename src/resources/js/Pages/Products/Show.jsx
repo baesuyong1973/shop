@@ -64,7 +64,7 @@ export default function Show({ shop, product }) {
                                     </p>
                                 )}
 
-                                {product.unit && (
+                                {product.stock > 0 && product.unit && (
                                     <p className="mt-1 text-sm text-gray-500">
                                         {t('products.unitLine', {
                                             quantity:

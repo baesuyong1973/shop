@@ -7,7 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import { formatDate } from '@/Utils/date';
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function formatOrigin(product) {
     if (!product.country) {
@@ -22,6 +22,58 @@ function formatOrigin(product) {
 export default function Index({ shop, products, shops, filters, status }) {
     const isScoped = !!shop;
     const [copyTarget, setCopyTarget] = useState(null);
+
+    // The per-shop page always gets the full, unpaginated, sort_order-ordered
+    // list. The cross-shop page gets the same when filtered down to a single
+    // shop, so it can be drag-reordered too; with no filter (or "all shops")
+    // it stays paginated below and isn't reorderable.
+    const reorderTarget = isScoped
+        ? shop
+        : (shops?.find((s) => String(s.id) === String(filters?.shop_id)) ??
+          null);
+    const canReorder = !!reorderTarget;
+
+    const [items, setItems] = useState(canReorder ? products : []);
+    const [draggingId, setDraggingId] = useState(null);
+
+    useEffect(() => {
+        if (canReorder) {
+            setItems(products);
+        }
+    }, [products, canReorder]);
+
+    const reorder = (targetId) => {
+        if (draggingId === null || draggingId === targetId) {
+            return;
+        }
+
+        setItems((current) => {
+            const from = current.findIndex((p) => p.id === draggingId);
+            const to = current.findIndex((p) => p.id === targetId);
+            if (from === -1 || to === -1) {
+                return current;
+            }
+
+            const next = [...current];
+            const [moved] = next.splice(from, 1);
+            next.splice(to, 0, moved);
+
+            return next;
+        });
+    };
+
+    const persistOrder = () => {
+        if (draggingId === null) {
+            return;
+        }
+
+        setDraggingId(null);
+        router.patch(
+            route('admin.shop.products.reorder', reorderTarget),
+            { order: items.map((p) => p.id) },
+            { preserveScroll: true, preserveState: true },
+        );
+    };
 
     const { data, setData, post, processing, errors, reset, clearErrors } =
         useForm({ shop_id: '' });
@@ -61,6 +113,8 @@ export default function Index({ shop, products, shops, filters, status }) {
             onSuccess: () => closeCopyModal(),
         });
     };
+
+    const listItems = canReorder ? items : products.data;
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -129,7 +183,7 @@ export default function Index({ shop, products, shops, filters, status }) {
                             </div>
                         )}
 
-                        {products.data.length === 0 ? (
+                        {listItems.length === 0 ? (
                             <p className="py-6 text-center text-sm text-gray-500">
                                 登録されている商品がありません。
                             </p>
@@ -137,7 +191,7 @@ export default function Index({ shop, products, shops, filters, status }) {
                             <>
                                 {/* スマホ表示: カード形式 */}
                                 <div className="space-y-4 sm:hidden">
-                                    {products.data.map((product) => (
+                                    {listItems.map((product) => (
                                         <div
                                             key={product.id}
                                             className="rounded-lg border border-gray-200 p-4"
@@ -276,6 +330,9 @@ export default function Index({ shop, products, shops, filters, status }) {
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead>
                                             <tr className="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                {canReorder && (
+                                                    <th className="w-8 px-2 py-3" />
+                                                )}
                                                 <th className="px-4 py-3">
                                                     画像
                                                 </th>
@@ -311,8 +368,33 @@ export default function Index({ shop, products, shops, filters, status }) {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
-                                            {products.data.map((product) => (
-                                                <tr key={product.id}>
+                                            {listItems.map((product) => (
+                                                <tr
+                                                    key={product.id}
+                                                    draggable={canReorder}
+                                                    onDragStart={() =>
+                                                        setDraggingId(
+                                                            product.id,
+                                                        )
+                                                    }
+                                                    onDragOver={(e) => {
+                                                        e.preventDefault();
+                                                        reorder(product.id);
+                                                    }}
+                                                    onDragEnd={persistOrder}
+                                                    className={
+                                                        canReorder &&
+                                                        draggingId ===
+                                                            product.id
+                                                            ? 'bg-indigo-50'
+                                                            : undefined
+                                                    }
+                                                >
+                                                    {canReorder && (
+                                                        <td className="cursor-move px-2 py-3 text-center text-gray-400">
+                                                            ⠿
+                                                        </td>
+                                                    )}
                                                     <td className="px-4 py-3">
                                                         <img
                                                             src={`/storage/${product.image_path}`}
@@ -427,7 +509,9 @@ export default function Index({ shop, products, shops, filters, status }) {
                             </>
                         )}
 
-                        <Pagination links={products.links} />
+                        {!canReorder && (
+                            <Pagination links={products.links} />
+                        )}
                     </div>
                 </div>
             </div>

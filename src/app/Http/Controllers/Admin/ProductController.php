@@ -28,15 +28,19 @@ class ProductController extends Controller
     {
         $shopId = $request->integer('shop_id') ?: null;
 
-        $products = Product::with(['shop', 'country', 'prefecture', 'unit'])
-            ->when($shopId, fn ($query) => $query->where('shop_id', $shopId))
-            ->latest()
-            ->paginate(20)
-            ->withQueryString();
+        $query = Product::with(['shop', 'country', 'prefecture', 'unit'])
+            ->when($shopId, fn ($query) => $query->where('shop_id', $shopId));
+
+        // Filtered down to a single shop: show the full, sort_order-ordered
+        // list so it can be drag-reordered here too, same as the per-shop
+        // admin page. Otherwise keep the paginated, newest-first list.
+        $products = $shopId
+            ? $query->orderBy('sort_order')->get()
+            : $query->latest()->paginate(20)->withQueryString();
 
         return Inertia::render('Admin/Products/Index', [
             'products' => $products,
-            'shops' => Shop::orderBy('name')->get(['id', 'name']),
+            'shops' => Shop::orderBy('name')->get(['id', 'name', 'slug']),
             'filters' => ['shop_id' => $shopId],
             'status' => session('status'),
         ]);
@@ -65,9 +69,30 @@ class ProductController extends Controller
     {
         return Inertia::render('Admin/Products/Index', [
             'shop' => $shop,
-            'products' => $shop->products()->with(['country', 'prefecture', 'unit'])->latest()->paginate(20)->withQueryString(),
+            'products' => $shop->products()->with(['country', 'prefecture', 'unit'])->orderBy('sort_order')->get(),
             'status' => session('status'),
         ]);
+    }
+
+    /**
+     * Persist the drag-and-drop order for a shop's product list.
+     */
+    public function reorder(Request $request, Shop $shop): RedirectResponse
+    {
+        $data = $request->validate([
+            'order' => ['required', 'array'],
+            'order.*' => ['integer', 'distinct', 'exists:products,id'],
+        ]);
+
+        $products = $shop->products()->whereIn('id', $data['order'])->pluck('id');
+
+        abort_unless($products->count() === count($data['order']), 422);
+
+        foreach ($data['order'] as $index => $productId) {
+            $shop->products()->where('id', $productId)->update(['sort_order' => $index]);
+        }
+
+        return back();
     }
 
     public function create(Shop $shop): Response
@@ -85,6 +110,7 @@ class ProductController extends Controller
         $data = $this->validateData($request, true);
 
         $data['image_path'] = $this->processAndStoreImage($request->file('image'));
+        $data['sort_order'] = $shop->products()->max('sort_order') + 1;
         unset($data['image']);
 
         $shop->products()->create($data);

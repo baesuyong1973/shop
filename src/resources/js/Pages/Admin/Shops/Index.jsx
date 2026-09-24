@@ -112,6 +112,16 @@ export default function Index({ shops, status, error }) {
                                                 </Link>
                                                 <Link
                                                     href={route(
+                                                        'admin.shop.products.index',
+                                                        shop,
+                                                    )}
+                                                >
+                                                    <SecondaryButton>
+                                                        商品管理
+                                                    </SecondaryButton>
+                                                </Link>
+                                                <Link
+                                                    href={route(
                                                         'admin.shops.edit',
                                                         shop,
                                                     )}
@@ -186,6 +196,16 @@ export default function Index({ shops, status, error }) {
                                                             >
                                                                 <SecondaryButton>
                                                                     表示
+                                                                </SecondaryButton>
+                                                            </Link>
+                                                            <Link
+                                                                href={route(
+                                                                    'admin.shop.products.index',
+                                                                    shop,
+                                                                )}
+                                                            >
+                                                                <SecondaryButton>
+                                                                    商品管理
                                                                 </SecondaryButton>
                                                             </Link>
                                                             <Link

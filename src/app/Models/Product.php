@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['shop_id', 'name', 'image_path', 'price', 'description', 'stock', 'is_active', 'country_id', 'prefecture_id', 'unit_id', 'unit_quantity', 'arrival_date'])]
+#[Fillable(['shop_id', 'name', 'image_path', 'price', 'description', 'stock', 'is_active', 'country_id', 'prefecture_id', 'unit_id', 'unit_quantity', 'arrival_date', 'sort_order'])]
 class Product extends Model
 {
     /**

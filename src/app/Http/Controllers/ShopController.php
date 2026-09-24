@@ -36,7 +36,7 @@ class ShopController extends Controller
                 ->with('country', 'prefecture', 'unit')
                 ->where('is_active', true)
                 ->filter($filters)
-                ->latest()
+                ->orderBy('sort_order')
                 ->paginate(20)
                 ->withQueryString(),
             'filters' => $filters,

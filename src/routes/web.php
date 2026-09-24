@@ -87,6 +87,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Shop-scoped admin routes: usable by that shop's admin, or any super admin.
         // Product/order bindings are scoped to the shop via their `shop()` relation.
         Route::prefix('{shop:slug}')->scopeBindings()->name('shop.')->middleware('admin.shop')->group(function () {
+            Route::patch('/products/reorder', [AdminProductController::class, 'reorder'])->name('products.reorder');
             Route::resource('products', AdminProductController::class)->except(['show']);
             Route::get('/orders/summary', [AdminOrderController::class, 'summary'])->name('orders.summary');
             Route::resource('orders', AdminOrderController::class)->only(['index', 'show']);

@@ -1,11 +1,20 @@
 import DangerButton from '@/Components/DangerButton';
+import InputLabel from '@/Components/InputLabel';
 import Pagination from '@/Components/Pagination';
 import SecondaryButton from '@/Components/SecondaryButton';
 import { formatDate } from '@/Utils/date';
 import { Head, Link, router } from '@inertiajs/react';
 
-export default function Index({ shop, users, status }) {
+export default function Index({ shop, users, shops, filters, status }) {
     const isScoped = !!shop;
+
+    const filterByShop = (shopId) => {
+        router.get(
+            route('admin.users.index'),
+            shopId ? { shop_id: shopId } : {},
+            { preserveState: true, replace: true },
+        );
+    };
 
     const destroy = (user) => {
         if (confirm(`「${user.name}」を削除しますか？`)) {
@@ -55,6 +64,30 @@ export default function Index({ shop, users, status }) {
                     )}
 
                     <div className="overflow-hidden bg-white p-4 shadow-sm sm:rounded-lg sm:p-6">
+                        {!isScoped && (
+                            <div className="mb-4">
+                                <InputLabel
+                                    htmlFor="filter_shop_id"
+                                    value="店舗で絞り込み"
+                                />
+                                <select
+                                    id="filter_shop_id"
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:w-64"
+                                    value={filters?.shop_id ?? ''}
+                                    onChange={(e) =>
+                                        filterByShop(e.target.value)
+                                    }
+                                >
+                                    <option value="">すべての店舗</option>
+                                    {shops?.map((s) => (
+                                        <option key={s.id} value={s.id}>
+                                            {s.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+
                         {users.data.length === 0 ? (
                             <p className="py-6 text-center text-sm text-gray-500">
                                 登録されているユーザーがいません。

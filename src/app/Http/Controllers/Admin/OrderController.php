@@ -18,10 +18,18 @@ class OrderController extends Controller
     /**
      * Cross-shop order listing for super admins.
      */
-    public function globalIndex(): Response
+    public function globalIndex(Request $request): Response
     {
+        $shopId = $request->integer('shop_id') ?: null;
+
         return Inertia::render('Admin/Orders/Index', [
-            'orders' => Order::with(['user', 'shop'])->latest()->paginate(20)->withQueryString(),
+            'orders' => Order::with(['user', 'shop'])
+                ->when($shopId, fn ($query) => $query->where('shop_id', $shopId))
+                ->latest()
+                ->paginate(20)
+                ->withQueryString(),
+            'shops' => Shop::orderBy('name')->get(['id', 'name']),
+            'filters' => ['shop_id' => $shopId],
         ]);
     }
 

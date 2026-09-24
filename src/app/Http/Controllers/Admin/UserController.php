@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -14,9 +15,16 @@ class UserController extends Controller
     /**
      * Cross-shop customer listing for super admins.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $users = User::with('orders.shop:id,name')->latest()->paginate(20)->withQueryString();
+        $shopId = $request->integer('shop_id') ?: null;
+        $shop = $shopId ? Shop::find($shopId) : null;
+
+        $users = User::with('orders.shop:id,name')
+            ->when($shop, fn ($query) => $query->associatedWithShop($shop))
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
 
         $users->getCollection()->each(function (User $user) {
             $user->shop_names = $user->orders->pluck('shop.name')
@@ -28,6 +36,8 @@ class UserController extends Controller
 
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
+            'shops' => Shop::orderBy('name')->get(['id', 'name']),
+            'filters' => ['shop_id' => $shopId],
             'status' => session('status'),
         ]);
     }

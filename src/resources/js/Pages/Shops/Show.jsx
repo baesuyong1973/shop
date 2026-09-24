@@ -108,13 +108,13 @@ export default function Show({ shop, products, filters }) {
                                                     })}
                                                 </p>
                                             )}
-                                            {product.stock > 0 && (
-                                                <p className="text-sm font-bold text-gray-900">
-                                                    ¥
-                                                    {Number(
-                                                        product.price,
-                                                    ).toLocaleString()}
-                                                    {product.unit && (
+                                            <p className="text-sm font-bold text-gray-900">
+                                                ¥
+                                                {Number(
+                                                    product.price,
+                                                ).toLocaleString()}
+                                                {product.stock > 0 ? (
+                                                    product.unit && (
                                                         <span className="text-[10px] font-normal text-gray-500">
                                                             {' / '}
                                                             {t(
@@ -129,9 +129,16 @@ export default function Show({ shop, products, filters }) {
                                                                 },
                                                             )}
                                                         </span>
-                                                    )}
-                                                </p>
-                                            )}
+                                                    )
+                                                ) : (
+                                                    <span className="text-[10px] font-normal text-red-600">
+                                                        {' / '}
+                                                        {t(
+                                                            'products.outOfStock',
+                                                        )}
+                                                    </span>
+                                                )}
+                                            </p>
                                         </div>
                                     </Link>
                                 ))}

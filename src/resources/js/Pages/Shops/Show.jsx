@@ -114,24 +114,24 @@ export default function Show({ shop, products, filters }) {
                                                     {Number(
                                                         product.price,
                                                     ).toLocaleString()}
+                                                    {product.unit && (
+                                                        <span className="text-[10px] font-normal text-gray-500">
+                                                            {' / '}
+                                                            {t(
+                                                                'shops.unitShort',
+                                                                {
+                                                                    quantity:
+                                                                        product.unit_quantity ??
+                                                                        1,
+                                                                    unit: product
+                                                                        .unit
+                                                                        .name,
+                                                                },
+                                                            )}
+                                                        </span>
+                                                    )}
                                                 </p>
                                             )}
-                                            {product.stock > 0 &&
-                                                product.unit && (
-                                                    <p className="text-[10px] text-gray-500">
-                                                        {t(
-                                                            'shops.unitShort',
-                                                            {
-                                                                quantity:
-                                                                    product.unit_quantity ??
-                                                                    1,
-                                                                unit: product
-                                                                    .unit
-                                                                    .name,
-                                                            },
-                                                        )}
-                                                    </p>
-                                                )}
                                         </div>
                                     </Link>
                                 ))}

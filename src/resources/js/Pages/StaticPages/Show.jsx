@@ -64,23 +64,22 @@ export default function Show({ slug }) {
                                             {t(
                                                 `staticPages.company.values.${field}`,
                                             )}
+                                            {field === 'representative' && (
+                                                <a
+                                                    href={RESUME_URL}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="ml-4 text-indigo-600 underline hover:text-indigo-800"
+                                                >
+                                                    {t(
+                                                        'staticPages.company.resume',
+                                                    )}
+                                                </a>
+                                            )}
                                         </dd>
                                     </div>
                                 ))}
                             </dl>
-                        )}
-
-                        {slug === 'company' && (
-                            <div className="border-t border-gray-200 pt-4 text-right">
-                                <a
-                                    href={RESUME_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sm text-indigo-600 underline hover:text-indigo-800"
-                                >
-                                    {t('staticPages.company.resume')}
-                                </a>
-                            </div>
                         )}
 
                         {slug === 'how-to-use' && (

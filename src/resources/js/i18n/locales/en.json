@@ -162,7 +162,8 @@
                 "capital": "Capital",
                 "address": "Address",
                 "business": "Business"
-            }
+            },
+            "resume": "Resume"
         }
     }
 }

@@ -161,7 +161,8 @@
                 "capital": "Capital",
                 "address": "Endereço",
                 "business": "Área de Atuação"
-            }
+            },
+            "resume": "Currículo"
         }
     }
 }

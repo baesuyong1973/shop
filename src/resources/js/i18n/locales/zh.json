@@ -161,7 +161,8 @@
                 "capital": "资本金",
                 "address": "地址",
                 "business": "业务内容"
-            }
+            },
+            "resume": "职务经历书"
         }
     }
 }

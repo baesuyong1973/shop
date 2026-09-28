@@ -161,7 +161,8 @@
                 "capital": "資本額",
                 "address": "地址",
                 "business": "業務內容"
-            }
+            },
+            "resume": "職務經歷書"
         }
     }
 }

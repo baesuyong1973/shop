@@ -161,7 +161,8 @@
                 "capital": "Modal",
                 "address": "Alamat",
                 "business": "Bidang Usaha"
-            }
+            },
+            "resume": "Riwayat Pekerjaan"
         }
     }
 }

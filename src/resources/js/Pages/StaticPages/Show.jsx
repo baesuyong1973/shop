@@ -17,6 +17,8 @@ const COMPANY_FIELDS = [
     'business',
 ];
 
+const RESUME_URL = '/files/resume.pdf';
+
 const PRIVACY_LIST_SECTIONS = ['collect', 'purpose'];
 const PRIVACY_TEXT_SECTIONS = ['thirdParty', 'contact'];
 
@@ -66,6 +68,19 @@ export default function Show({ slug }) {
                                     </div>
                                 ))}
                             </dl>
+                        )}
+
+                        {slug === 'company' && (
+                            <div className="border-t border-gray-200 pt-4 text-right">
+                                <a
+                                    href={RESUME_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-indigo-600 underline hover:text-indigo-800"
+                                >
+                                    {t('staticPages.company.resume')}
+                                </a>
+                            </div>
                         )}
 
                         {slug === 'how-to-use' && (

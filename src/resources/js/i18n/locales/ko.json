@@ -161,7 +161,8 @@
                 "capital": "자본금",
                 "address": "소재지",
                 "business": "사업 내용"
-            }
+            },
+            "resume": "경력기술서"
         }
     }
 }

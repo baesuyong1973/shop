@@ -133,23 +133,39 @@ class ProductController extends Controller
     {
         $data = $this->validateData($request, false);
 
+        $oldImagePath = null;
         if ($request->hasFile('image')) {
+            $oldImagePath = $product->image_path;
             $data['image_path'] = $this->processAndStoreImage($request->file('image'));
-            Storage::disk('public')->delete($product->image_path);
         }
         unset($data['image']);
 
         $product->update($data);
+
+        if ($oldImagePath) {
+            $this->deleteImageIfUnused($oldImagePath);
+        }
 
         return redirect()->route('admin.shop.products.index', $shop)->with('status', '商品を更新しました。');
     }
 
     public function destroy(Shop $shop, Product $product): RedirectResponse
     {
-        Storage::disk('public')->delete($product->image_path);
         $product->delete();
+        $this->deleteImageIfUnused($product->image_path);
 
         return redirect()->route('admin.shop.products.index', $shop)->with('status', '商品を削除しました。');
+    }
+
+    /**
+     * Copied products share the original's image file, so only remove it
+     * once no remaining product points at it.
+     */
+    private function deleteImageIfUnused(string $path): void
+    {
+        if (! Product::where('image_path', $path)->exists()) {
+            Storage::disk('public')->delete($path);
+        }
     }
 
     private function processAndStoreImage(UploadedFile $file): string

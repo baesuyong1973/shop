@@ -5,17 +5,20 @@
 ## 前提
 
 - 開発環境が起動していること（`docker compose up -d`）。特に `db`・`vite`・`mailpit` を使います。
-- 初回のみ、このフォルダで `npm install` と `npx playwright install chromium` を実行します。
+- 初回のみ、このフォルダで `npm.cmd install` と `npx.cmd playwright install chromium` を実行します。
 
 ## 実行
 
-```
+```powershell
 cd e2e
-npm test            # すべて実行（画面は表示しない）
-npm run test:ui     # 画面付きのUIモードで、1ステップずつ確認しながら実行
-npm run test:headed # ブラウザを表示して実行
-npm run report      # 前回の結果をHTMLで表示（失敗時の録画・スクリーンショット付き）
+npm.cmd test                # すべて実行（画面は表示しない）
+npm.cmd run test:ui         # 画面付きのUIモードで、1ステップずつ確認しながら実行
+npm.cmd run test:headed     # ブラウザを表示して実行
+npm.cmd run report          # 前回の結果をHTMLで表示（失敗時の録画・スクリーンショット付き）
 ```
+
+PowerShell の初期設定ではスクリプトの実行が禁止されているため、`npm`（実体は `npm.ps1`）はエラーになります。そのため `npm.cmd` を使っています。
+実行ポリシーを `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` に変更済みの場合や、Git Bash・コマンドプロンプトでは `npm` のままで動きます。
 
 ## 仕組み
 

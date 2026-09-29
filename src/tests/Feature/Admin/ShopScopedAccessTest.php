@@ -75,7 +75,7 @@ class ShopScopedAccessTest extends TestCase
         ]);
     }
 
-    public function test_shop_admin_cannot_view_another_shops_product_list(): void
+    public function test_店舗管理者は他店舗の商品一覧を見られない(): void
     {
         $ownShop = $this->makeShop('own-shop');
         $otherShop = $this->makeShop('other-shop');
@@ -87,7 +87,7 @@ class ShopScopedAccessTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_shop_admin_cannot_edit_another_shops_product(): void
+    public function test_店舗管理者は他店舗の商品を編集できない(): void
     {
         $ownShop = $this->makeShop('own-shop');
         $otherShop = $this->makeShop('other-shop');
@@ -100,7 +100,7 @@ class ShopScopedAccessTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_shop_admin_cannot_delete_another_shops_product(): void
+    public function test_店舗管理者は他店舗の商品を削除できない(): void
     {
         $ownShop = $this->makeShop('own-shop');
         $otherShop = $this->makeShop('other-shop');
@@ -114,7 +114,7 @@ class ShopScopedAccessTest extends TestCase
         $this->assertModelExists($product);
     }
 
-    public function test_shop_admin_cannot_view_another_shops_order(): void
+    public function test_店舗管理者は他店舗の注文を見られない(): void
     {
         $ownShop = $this->makeShop('own-shop');
         $otherShop = $this->makeShop('other-shop');
@@ -127,7 +127,7 @@ class ShopScopedAccessTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_shop_admin_cannot_update_another_shops_order_status(): void
+    public function test_店舗管理者は他店舗の注文ステータスを変更できない(): void
     {
         $ownShop = $this->makeShop('own-shop');
         $otherShop = $this->makeShop('other-shop');
@@ -143,7 +143,7 @@ class ShopScopedAccessTest extends TestCase
         $this->assertSame('placed', $order->fresh()->status);
     }
 
-    public function test_shop_admin_can_manage_their_own_shop(): void
+    public function test_店舗管理者は自店舗を管理できる(): void
     {
         $shop = $this->makeShop('own-shop');
         $admin = $this->makeShopAdmin($shop);
@@ -160,7 +160,7 @@ class ShopScopedAccessTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_shop_admin_cannot_access_super_admin_only_routes(): void
+    public function test_店舗管理者はスーパー管理者専用画面にアクセスできない(): void
     {
         $shop = $this->makeShop('own-shop');
         $admin = $this->makeShopAdmin($shop);
@@ -182,7 +182,7 @@ class ShopScopedAccessTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_super_admin_can_access_any_shop_and_global_routes(): void
+    public function test_スーパー管理者は全店舗と全体画面にアクセスできる(): void
     {
         $shop = $this->makeShop('some-shop');
         $superAdmin = $this->makeSuperAdmin();
@@ -205,7 +205,7 @@ class ShopScopedAccessTest extends TestCase
             ->assertOk();
     }
 
-    public function test_shop_admin_cannot_toggle_active_status_of_user_from_another_shop(): void
+    public function test_店舗管理者は他店舗ユーザーの有効状態を切り替えられない(): void
     {
         $ownShop = $this->makeShop('own-shop');
         $otherShop = $this->makeShop('other-shop');

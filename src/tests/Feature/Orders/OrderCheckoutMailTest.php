@@ -51,7 +51,7 @@ class OrderCheckoutMailTest extends TestCase
         ]);
     }
 
-    public function test_checkout_sends_confirmation_to_customer_and_notification_to_shop_admins(): void
+    public function test_注文時に顧客へ確認メール、店舗管理者へ通知メールが送られる(): void
     {
         Mail::fake();
 

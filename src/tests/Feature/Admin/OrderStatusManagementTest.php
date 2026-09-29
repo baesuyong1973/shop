@@ -78,7 +78,7 @@ class OrderStatusManagementTest extends TestCase
         ]);
     }
 
-    public function test_shop_admin_cannot_access_order_status_management(): void
+    public function test_店舗管理者は注文ステータス管理にアクセスできない(): void
     {
         $shop = $this->makeShop();
         $admin = $this->makeShopAdmin($shop);
@@ -88,7 +88,7 @@ class OrderStatusManagementTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_super_admin_can_create_a_custom_status_with_transitions(): void
+    public function test_スーパー管理者は遷移先付きの独自ステータスを作成できる(): void
     {
         $shop = $this->makeShop();
         $superAdmin = $this->makeSuperAdmin();
@@ -132,7 +132,7 @@ class OrderStatusManagementTest extends TestCase
         $this->assertSame('preparing', $order->fresh()->status);
     }
 
-    public function test_transition_not_in_configured_graph_is_rejected(): void
+    public function test_設定されていない遷移は拒否される(): void
     {
         $shop = $this->makeShop();
         $superAdmin = $this->makeSuperAdmin();
@@ -148,7 +148,7 @@ class OrderStatusManagementTest extends TestCase
         $this->assertSame('handed_over', $order->fresh()->status);
     }
 
-    public function test_transitioning_into_a_void_status_restores_stock(): void
+    public function test_キャンセルなど無効扱いのステータスに変更すると在庫が戻る(): void
     {
         $shop = $this->makeShop();
         $superAdmin = $this->makeSuperAdmin();
@@ -172,7 +172,7 @@ class OrderStatusManagementTest extends TestCase
         $this->assertSame(8, $product->fresh()->stock);
     }
 
-    public function test_updating_a_status_does_not_touch_its_key(): void
+    public function test_ステータスを更新してもキーは変わらない(): void
     {
         $superAdmin = $this->makeSuperAdmin();
         $status = OrderStatus::where('key', 'handed_over')->firstOrFail();
@@ -191,7 +191,7 @@ class OrderStatusManagementTest extends TestCase
         $this->assertSame('お渡し完了', $status->fresh()->label);
     }
 
-    public function test_submitting_a_key_change_on_update_is_rejected(): void
+    public function test_更新時にキーを変更しようとすると拒否される(): void
     {
         $superAdmin = $this->makeSuperAdmin();
         $status = OrderStatus::where('key', 'handed_over')->firstOrFail();
@@ -210,7 +210,7 @@ class OrderStatusManagementTest extends TestCase
         $this->assertSame('handed_over', $status->fresh()->key);
     }
 
-    public function test_cannot_delete_a_status_in_use_by_an_order(): void
+    public function test_注文で使用中のステータスは削除できない(): void
     {
         $shop = $this->makeShop();
         $superAdmin = $this->makeSuperAdmin();
@@ -224,7 +224,7 @@ class OrderStatusManagementTest extends TestCase
         $this->assertModelExists($status);
     }
 
-    public function test_database_rejects_deleting_a_referenced_status_even_bypassing_the_app(): void
+    public function test_アプリを経由しなくても参照中のステータスはDBが削除を拒否する(): void
     {
         $shop = $this->makeShop();
         $this->makeOrder($shop, 'handed_over');
@@ -234,7 +234,7 @@ class OrderStatusManagementTest extends TestCase
         DB::table('order_statuses')->where('key', 'handed_over')->delete();
     }
 
-    public function test_database_rejects_an_order_status_not_present_in_order_statuses(): void
+    public function test_存在しないステータスの注文はDBが拒否する(): void
     {
         $shop = $this->makeShop();
         $order = $this->makeOrder($shop, 'placed');
@@ -244,7 +244,7 @@ class OrderStatusManagementTest extends TestCase
         DB::table('orders')->where('id', $order->id)->update(['status' => 'not_a_real_status']);
     }
 
-    public function test_cannot_delete_the_initial_status(): void
+    public function test_初期ステータスは削除できない(): void
     {
         $superAdmin = $this->makeSuperAdmin();
         $status = OrderStatus::where('key', 'placed')->firstOrFail();
@@ -256,7 +256,7 @@ class OrderStatusManagementTest extends TestCase
         $this->assertModelExists($status);
     }
 
-    public function test_cannot_leave_zero_initial_statuses(): void
+    public function test_初期ステータスを0件にはできない(): void
     {
         $superAdmin = $this->makeSuperAdmin();
         $status = OrderStatus::where('key', 'placed')->firstOrFail();
@@ -274,7 +274,7 @@ class OrderStatusManagementTest extends TestCase
         $this->assertTrue($status->fresh()->is_initial);
     }
 
-    public function test_checkout_places_new_order_in_the_configured_initial_status(): void
+    public function test_新規注文は設定された初期ステータスで作成される(): void
     {
         $shop = $this->makeShop();
         $product = $this->makeProduct($shop, stock: 10);

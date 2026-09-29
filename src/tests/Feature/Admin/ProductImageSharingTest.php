@@ -54,7 +54,7 @@ class ProductImageSharingTest extends TestCase
         $this->copy = Product::where('id', '!=', $this->original->id)->firstOrFail();
     }
 
-    public function test_replacing_copied_products_image_keeps_original_image(): void
+    public function test_コピーした商品の画像を差し替えても元商品の画像は残る(): void
     {
         $this->actingAs($this->admin, 'admin')
             ->post(route('admin.shop.products.update', [$this->shop, $this->copy]), [
@@ -70,7 +70,7 @@ class ProductImageSharingTest extends TestCase
         Storage::disk('public')->assertExists('products/shared.jpg');
     }
 
-    public function test_deleting_copied_product_keeps_original_image(): void
+    public function test_コピーした商品を削除しても元商品の画像は残る(): void
     {
         $this->actingAs($this->admin, 'admin')
             ->delete(route('admin.shop.products.destroy', [$this->shop, $this->copy]))
@@ -79,7 +79,7 @@ class ProductImageSharingTest extends TestCase
         Storage::disk('public')->assertExists('products/shared.jpg');
     }
 
-    public function test_deleting_last_product_using_image_removes_it(): void
+    public function test_画像を使う最後の商品を削除すると画像も削除される(): void
     {
         $this->copy->delete();
 

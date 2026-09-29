@@ -9,14 +9,14 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_registration_screen_can_be_rendered(): void
+    public function test_会員登録画面が表示される(): void
     {
         $response = $this->get('/register');
 
         $response->assertStatus(200);
     }
 
-    public function test_new_users_can_register(): void
+    public function test_新規ユーザーが会員登録できる(): void
     {
         $response = $this->post('/register', [
             'name' => 'Test User',

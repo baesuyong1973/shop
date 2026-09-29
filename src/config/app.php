@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Vite Hot File
+    |--------------------------------------------------------------------------
+    |
+    | Laravel serves assets from the Vite dev server while public/hot exists.
+    | Pointing this elsewhere (the E2E test server does) makes it serve the
+    | built assets instead, even while the dev server is running.
+    |
+    */
+
+    'vite_hot_file' => env('VITE_HOT_FILE'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

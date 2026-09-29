@@ -35,7 +35,12 @@ services:
     environment:
       APP_URL: http://localhost:8090
       DB_DATABASE: laravel_e2e
-      PHP_CLI_SERVER_WORKERS: "4"
+      # Serve the assets built by the E2E global setup rather than the Vite
+      # dev server (a file that never exists, so public/hot is ignored).
+      VITE_HOT_FILE: /var/www/html/storage/framework/e2e-no-vite-hot
+      # Browsers hold keep-alive connections open, and each built-in server
+      # worker serves one connection at a time, so allow plenty of workers.
+      PHP_CLI_SERVER_WORKERS: "16"
     # OPcache is off for the CLI by default; without it every request
     # recompiles the whole framework from the slow Windows bind mount.
     command: sh -c "cd public && php -d opcache.enable_cli=1 -S 0.0.0.0:8000 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
@@ -105,7 +110,7 @@ services:
       # events into the container for bind-mounted volumes, so chokidar's
       # native watcher can miss edits made from the host. Force polling.
       CHOKIDAR_USEPOLLING: "true"
-      CHOKIDAR_INTERVAL: "300"
+      CHOKIDAR_INTERVAL: "1000"
     volumes:
       - ./src:/var/www/html
       - vite_node_modules:/var/www/html/node_modules

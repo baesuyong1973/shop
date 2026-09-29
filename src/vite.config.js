@@ -23,7 +23,20 @@ export default defineConfig({
             // Vite's default watcher can miss edits made from the host and
             // keep serving stale compiled output. Polling works around this.
             usePolling: true,
-            interval: 300,
+            // Polling re-reads every watched file each interval over the slow
+            // Windows mount, so poll less often and skip trees that never
+            // affect the frontend (vendor alone is thousands of files).
+            interval: 1000,
+            binaryInterval: 3000,
+            ignored: [
+                '**/vendor/**',
+                '**/storage/**',
+                '**/bootstrap/cache/**',
+                '**/public/**',
+                '**/tests/**',
+                '**/database/**',
+                '**/coverage/**',
+            ],
         },
     },
 });

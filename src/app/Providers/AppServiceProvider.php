@@ -21,5 +21,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        if ($hotFile = config('app.vite_hot_file')) {
+            Vite::useHotFile($hotFile);
+        }
     }
 }

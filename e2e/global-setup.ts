@@ -41,6 +41,11 @@ async function waitForServer(url: string, timeoutMs = 60_000): Promise<void> {
 export default async function globalSetup(): Promise<void> {
     run('docker compose --profile e2e up -d e2e');
 
+    // The E2E server serves built assets (see VITE_HOT_FILE in
+    // docker-compose.yml), which is much faster than the Vite dev server;
+    // rebuild them so the run tests the current frontend code.
+    run('docker compose exec -T vite npm run build');
+
     run(
         `docker compose exec -T db mysql -uroot -proot -e ` +
             `"CREATE DATABASE IF NOT EXISTS ${E2E_DATABASE}; ` +

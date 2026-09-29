@@ -1,3 +1,4 @@
+import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
 import DangerButton from '@/Components/DangerButton';
 import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
@@ -30,6 +31,13 @@ export default function Index({ statuses, status, error }) {
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    adminHomeCrumb(),
+                    { label: '注文ステータス管理' },
+                ]}
+            />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -164,5 +164,9 @@
             },
             "resume": "職務經歷書"
         }
+    },
+    "breadcrumbs": {
+        "home": "首頁",
+        "label": "導覽路徑"
     }
 }

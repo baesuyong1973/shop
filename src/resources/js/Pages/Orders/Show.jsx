@@ -1,3 +1,4 @@
+import { homeCrumb } from '@/Components/Breadcrumbs';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { formatDateTime } from '@/Utils/date';
 import { Head, Link } from '@inertiajs/react';
@@ -8,6 +9,11 @@ export default function Show({ order }) {
 
     return (
         <AuthenticatedLayout
+            breadcrumbs={[
+                homeCrumb(t),
+                { label: t('dashboard.title'), href: route('dashboard') },
+                { label: t('orders.detailTitle', { id: order.id }) },
+            ]}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     {t('orders.detailTitle', { id: order.id })}

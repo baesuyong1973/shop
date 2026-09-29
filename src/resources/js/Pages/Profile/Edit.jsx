@@ -1,3 +1,4 @@
+import { homeCrumb } from '@/Components/Breadcrumbs';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +11,11 @@ export default function Edit({ mustVerifyEmail, status }) {
 
     return (
         <AuthenticatedLayout
+            breadcrumbs={[
+                homeCrumb(t),
+                { label: t('dashboard.title'), href: route('dashboard') },
+                { label: t('profile.title') },
+            ]}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     {t('profile.title')}

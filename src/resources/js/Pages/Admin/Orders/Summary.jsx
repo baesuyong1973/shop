@@ -1,3 +1,4 @@
+import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, router } from '@inertiajs/react';
@@ -53,6 +54,14 @@ export default function Summary({ shop, summary, userSummary, dateFrom, dateTo }
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    adminHomeCrumb(),
+                    shop ? { label: `注文一覧（${shop.name}）`, href: route('admin.shop.orders.index', shop) } : { label: '注文一覧（全店舗）', href: route('admin.orders.index') },
+                    { label: '注文集計' },
+                ]}
+            />
 
             <div className="py-12 print:py-0">
                 <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 print:max-w-none print:px-0">

@@ -1,3 +1,4 @@
+import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
 import DangerButton from '@/Components/DangerButton';
 import InputLabel from '@/Components/InputLabel';
 import Pagination from '@/Components/Pagination';
@@ -86,6 +87,13 @@ export default function Index({ shop, orders, shops, filters }) {
                     </div>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    adminHomeCrumb(),
+                    { label: shop ? `注文一覧（${shop.name}）` : '注文一覧（全店舗）' },
+                ]}
+            />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -164,5 +164,9 @@
             },
             "resume": "Riwayat Pekerjaan"
         }
+    },
+    "breadcrumbs": {
+        "home": "Beranda",
+        "label": "Jejak navigasi"
     }
 }

@@ -1,3 +1,4 @@
+import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
 import { Head, Link } from '@inertiajs/react';
 import OrderStatusForm from './Partials/OrderStatusForm';
 
@@ -20,6 +21,14 @@ export default function Create({ statuses }) {
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    adminHomeCrumb(),
+                    { label: '注文ステータス管理', href: route('admin.order-statuses.index') },
+                    { label: '状態の追加' },
+                ]}
+            />
 
             <div className="py-12">
                 <div className="mx-auto max-w-xl px-4 sm:px-6 lg:px-8">

@@ -1,3 +1,4 @@
+import Breadcrumbs, { homeCrumb } from '@/Components/Breadcrumbs';
 import Footer from '@/Components/Footer';
 import Header from '@/Components/Header';
 import Pagination from '@/Components/Pagination';
@@ -37,6 +38,13 @@ export default function Show({ shop, products, filters, status }) {
             <Head title={shop.name} />
 
             <Header title={shop.name} />
+
+            <Breadcrumbs
+                items={[
+                    homeCrumb(t),
+                    { label: shop.name },
+                ]}
+            />
 
             <div className="flex-1 py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

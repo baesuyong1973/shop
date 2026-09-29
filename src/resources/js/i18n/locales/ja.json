@@ -248,5 +248,9 @@
         "submitting": "送信中...",
         "completeTitle": "お問い合わせを受け付けました",
         "completeMessage": "お問い合わせいただきありがとうございます。内容を確認のうえ、担当者よりご連絡いたします。"
+    },
+    "breadcrumbs": {
+        "home": "トップ",
+        "label": "パンくずリスト"
     }
 }

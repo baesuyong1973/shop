@@ -1,3 +1,4 @@
+import { homeCrumb } from '@/Components/Breadcrumbs';
 import Pagination from '@/Components/Pagination';
 import SecondaryButton from '@/Components/SecondaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -10,6 +11,10 @@ export default function Dashboard({ orders }) {
 
     return (
         <AuthenticatedLayout
+            breadcrumbs={[
+                homeCrumb(t),
+                { label: t('dashboard.title') },
+            ]}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     {t('dashboard.title')}

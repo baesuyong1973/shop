@@ -1,9 +1,10 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import Breadcrumbs from '@/Components/Breadcrumbs';
 import Footer from '@/Components/Footer';
 import LocaleSwitcher from '@/Components/LocaleSwitcher';
 import { Link, usePage } from '@inertiajs/react';
 
-export default function GuestLayout({ children, footer = true }) {
+export default function GuestLayout({ children, breadcrumbs, footer = true }) {
     const { siteLocales } = usePage().props;
 
     return (
@@ -16,6 +17,8 @@ export default function GuestLayout({ children, footer = true }) {
                     <LocaleSwitcher available={siteLocales} />
                 </div>
             </header>
+
+            <Breadcrumbs items={breadcrumbs} width="max-w-5xl px-6" />
 
             <div className="flex flex-1 justify-center px-6 py-10">
                 <div className="w-full max-w-md overflow-hidden bg-white px-6 py-4 shadow-md sm:rounded-lg">

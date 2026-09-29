@@ -1,3 +1,4 @@
+import { homeCrumb } from '@/Components/Breadcrumbs';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -24,7 +25,12 @@ export default function ResetPassword({ token, email }) {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout
+            breadcrumbs={[
+                homeCrumb(t),
+                { label: t('auth.login'), href: route('login') },
+                { label: t('auth.resetPassword') },
+            ]}>
             <Head title={t('auth.resetPassword')} />
 
             <form onSubmit={submit}>

@@ -1,3 +1,4 @@
+import Breadcrumbs, { homeCrumb } from '@/Components/Breadcrumbs';
 import Footer from '@/Components/Footer';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -62,6 +63,13 @@ export default function Create({ completed }) {
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    homeCrumb(t),
+                    { label: t('contact.title') },
+                ]}
+            />
 
             <div className="flex-1 py-12">
                 <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">

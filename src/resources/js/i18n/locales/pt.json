@@ -164,5 +164,9 @@
             },
             "resume": "Currículo"
         }
+    },
+    "breadcrumbs": {
+        "home": "Início",
+        "label": "Trilha de navegação"
     }
 }

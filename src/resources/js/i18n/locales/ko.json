@@ -164,5 +164,9 @@
             },
             "resume": "경력기술서"
         }
+    },
+    "breadcrumbs": {
+        "home": "홈",
+        "label": "이동 경로"
     }
 }

@@ -1,3 +1,4 @@
+import Breadcrumbs, { homeCrumb } from '@/Components/Breadcrumbs';
 import Footer from '@/Components/Footer';
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -40,6 +41,13 @@ export default function Show({ slug }) {
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    homeCrumb(t),
+                    { label: title },
+                ]}
+            />
 
             <div className="flex-1 py-12">
                 <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">

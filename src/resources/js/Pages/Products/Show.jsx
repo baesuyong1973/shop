@@ -1,3 +1,4 @@
+import Breadcrumbs, { homeCrumb } from '@/Components/Breadcrumbs';
 import Footer from '@/Components/Footer';
 import Header from '@/Components/Header';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -30,6 +31,14 @@ export default function Show({ shop, product }) {
             <Header
                 backHref={route('shops.show', shop)}
                 backLabel={t('products.backToList')}
+            />
+
+            <Breadcrumbs
+                items={[
+                    homeCrumb(t),
+                    { label: shop.name, href: route('shops.show', shop) },
+                    { label: product.name },
+                ]}
             />
 
             <div className="flex-1 py-12">

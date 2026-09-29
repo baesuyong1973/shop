@@ -1,3 +1,4 @@
+import { homeCrumb } from '@/Components/Breadcrumbs';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
@@ -18,7 +19,12 @@ export default function ForgotPassword({ status }) {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout
+            breadcrumbs={[
+                homeCrumb(t),
+                { label: t('auth.login'), href: route('login') },
+                { label: t('auth.forgotPasswordTitle') },
+            ]}>
             <Head title={t('auth.forgotPasswordTitle')} />
 
             <div className="mb-4 text-sm text-gray-600">

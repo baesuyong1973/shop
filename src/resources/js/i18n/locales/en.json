@@ -165,5 +165,9 @@
             },
             "resume": "Resume"
         }
+    },
+    "breadcrumbs": {
+        "home": "Home",
+        "label": "Breadcrumb"
     }
 }

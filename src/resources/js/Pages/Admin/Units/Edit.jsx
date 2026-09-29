@@ -1,3 +1,4 @@
+import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
 import { Head, Link } from '@inertiajs/react';
 import UnitForm from './Partials/UnitForm';
 
@@ -20,6 +21,14 @@ export default function Edit({ shop = null, unit }) {
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    adminHomeCrumb(),
+                    shop ? { label: `単位管理（${shop.name}）`, href: route('admin.shop.units.index', shop) } : { label: '単位管理（共通）', href: route('admin.units.index') },
+                    { label: `${unit.name}の編集` },
+                ]}
+            />
 
             <div className="py-12">
                 <div className="mx-auto max-w-xl px-4 sm:px-6 lg:px-8">

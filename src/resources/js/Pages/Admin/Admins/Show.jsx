@@ -1,3 +1,4 @@
+import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
 import DangerButton from '@/Components/DangerButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import { formatDateTime } from '@/Utils/date';
@@ -28,6 +29,14 @@ export default function Show({ admin, error }) {
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    adminHomeCrumb(),
+                    { label: '管理者一覧', href: route('admin.admins.index') },
+                    { label: admin.name },
+                ]}
+            />
 
             <div className="mx-auto mt-6 max-w-2xl px-4 sm:px-6 lg:px-8">
                 <Link href={route('admin.admins.edit', admin.id)}>

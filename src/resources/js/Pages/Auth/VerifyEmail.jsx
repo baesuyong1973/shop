@@ -1,3 +1,4 @@
+import { homeCrumb } from '@/Components/Breadcrumbs';
 import PrimaryButton from '@/Components/PrimaryButton';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -14,7 +15,11 @@ export default function VerifyEmail({ status }) {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout
+            breadcrumbs={[
+                homeCrumb(t),
+                { label: t('auth.verifyEmailTitle') },
+            ]}>
             <Head title={t('auth.verifyEmailTitle')} />
 
             <div className="mb-4 text-sm text-gray-600">

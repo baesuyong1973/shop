@@ -1,3 +1,4 @@
+import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
 import { Head, Link } from '@inertiajs/react';
 import ProductForm from './Partials/ProductForm';
 
@@ -20,6 +21,14 @@ export default function Create({ shop, countries, prefectures, units }) {
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    adminHomeCrumb(),
+                    { label: `商品一覧（${shop.name}）`, href: route('admin.shop.products.index', shop) },
+                    { label: '商品登録' },
+                ]}
+            />
 
             <div className="py-12">
                 <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">

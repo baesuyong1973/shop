@@ -1,3 +1,4 @@
+import Breadcrumbs, { homeCrumb } from '@/Components/Breadcrumbs';
 import DangerButton from '@/Components/DangerButton';
 import Footer from '@/Components/Footer';
 import Header from '@/Components/Header';
@@ -28,6 +29,14 @@ export default function Index({ shop, items, total, status, error }) {
             <Header
                 backHref={route('shops.show', shop)}
                 backLabel={t('products.backToList')}
+            />
+
+            <Breadcrumbs
+                items={[
+                    homeCrumb(t),
+                    { label: shop.name, href: route('shops.show', shop) },
+                    { label: t('cart.title') },
+                ]}
             />
 
             <div className="flex-1 py-12">

@@ -1,3 +1,4 @@
+import { homeCrumb } from '@/Components/Breadcrumbs';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -21,7 +22,11 @@ export default function ConfirmPassword() {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout
+            breadcrumbs={[
+                homeCrumb(t),
+                { label: t('auth.confirmPasswordTitle') },
+            ]}>
             <Head title={t('auth.confirmPasswordTitle')} />
 
             <div className="mb-4 text-sm text-gray-600">

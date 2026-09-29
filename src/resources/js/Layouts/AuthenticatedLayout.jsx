@@ -1,3 +1,4 @@
+import Breadcrumbs from '@/Components/Breadcrumbs';
 import Dropdown from '@/Components/Dropdown';
 import Footer from '@/Components/Footer';
 import LocaleSwitcher from '@/Components/LocaleSwitcher';
@@ -7,7 +8,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function AuthenticatedLayout({ header, children }) {
+export default function AuthenticatedLayout({ header, breadcrumbs, children }) {
     const { t } = useTranslation();
     const { auth, shop, siteLocales } = usePage().props;
     const user = auth.user;
@@ -177,6 +178,8 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </div>
             </nav>
+
+            <Breadcrumbs items={breadcrumbs} />
 
             {header && (
                 <header className="bg-white shadow">

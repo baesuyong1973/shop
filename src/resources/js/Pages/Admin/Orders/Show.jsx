@@ -1,3 +1,4 @@
+import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
 import DangerButton from '@/Components/DangerButton';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { formatDateTime } from '@/Utils/date';
@@ -45,6 +46,14 @@ export default function Show({ shop, order, status }) {
                     </Link>
                 </div>
             </nav>
+
+            <Breadcrumbs
+                items={[
+                    adminHomeCrumb(),
+                    shop ? { label: `注文一覧（${shop.name}）`, href: route('admin.shop.orders.index', shop) } : { label: '注文一覧（全店舗）', href: route('admin.orders.index') },
+                    { label: `注文詳細 #${order.id}` },
+                ]}
+            />
 
             <div className="py-12">
                 <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">

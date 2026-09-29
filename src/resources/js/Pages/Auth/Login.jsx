@@ -1,3 +1,4 @@
+import { homeCrumb } from '@/Components/Breadcrumbs';
 import Checkbox from '@/Components/Checkbox';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -24,7 +25,11 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout
+            breadcrumbs={[
+                homeCrumb(t),
+                { label: t('auth.login') },
+            ]}>
             <Head title={t('auth.login')} />
 
             <h1 className="mb-4 text-lg font-semibold text-gray-900">

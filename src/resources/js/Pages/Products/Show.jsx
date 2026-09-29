@@ -39,7 +39,7 @@ export default function Show({ shop, product }) {
                             <img
                                 src={`/storage/${product.image_path}`}
                                 alt={product.name}
-                                className="w-full rounded-lg object-cover"
+                                className="aspect-square w-full rounded-lg border border-gray-200 bg-white object-contain p-2"
                             />
 
                             <div>

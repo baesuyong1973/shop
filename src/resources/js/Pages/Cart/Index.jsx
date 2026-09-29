@@ -61,7 +61,7 @@ export default function Index({ shop, items, total, status, error }) {
                                                 <img
                                                     src={`/storage/${item.product.image_path}`}
                                                     alt={item.product.name}
-                                                    className="h-16 w-16 flex-shrink-0 rounded object-cover"
+                                                    className="h-16 w-16 flex-shrink-0 rounded border border-gray-200 bg-white object-contain"
                                                 />
                                                 <span className="text-sm font-medium text-gray-900">
                                                     {item.product.name}
@@ -156,7 +156,7 @@ export default function Index({ shop, items, total, status, error }) {
                                                                         .product
                                                                         .name
                                                                 }
-                                                                className="h-12 w-12 rounded object-cover"
+                                                                className="h-12 w-12 rounded border border-gray-200 bg-white object-contain"
                                                             />
                                                             <span className="text-sm text-gray-900">
                                                                 {

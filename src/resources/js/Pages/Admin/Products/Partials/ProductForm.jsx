@@ -87,7 +87,7 @@ export default function ProductForm({
                     <img
                         src={preview}
                         alt="プレビュー"
-                        className="mt-2 h-32 w-32 rounded object-cover"
+                        className="mt-2 h-48 w-48 rounded border border-gray-200 bg-white object-contain"
                     />
                 )}
                 <InputError className="mt-2" message={errors.image} />

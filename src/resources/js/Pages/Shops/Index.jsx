@@ -35,7 +35,7 @@ export default function Index({ shops }) {
                                         <img
                                             src={`/storage/${shop.logo_path}`}
                                             alt={shop.name}
-                                            className="mb-4 h-16 w-16 rounded object-cover"
+                                            className="mb-4 h-16 w-16 rounded border border-gray-200 bg-white object-contain"
                                         />
                                     )}
                                     <h2 className="text-lg font-semibold text-gray-900">

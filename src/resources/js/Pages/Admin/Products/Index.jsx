@@ -200,7 +200,7 @@ export default function Index({ shop, products, shops, filters, status }) {
                                                 <img
                                                     src={`/storage/${product.image_path}`}
                                                     alt={product.name}
-                                                    className="h-16 w-16 flex-shrink-0 rounded object-cover"
+                                                    className="h-16 w-16 flex-shrink-0 rounded border border-gray-200 bg-white object-contain"
                                                 />
                                                 <div className="min-w-0">
                                                     <div className="truncate text-sm font-medium text-gray-900">
@@ -399,7 +399,7 @@ export default function Index({ shop, products, shops, filters, status }) {
                                                         <img
                                                             src={`/storage/${product.image_path}`}
                                                             alt={product.name}
-                                                            className="h-12 w-12 rounded object-cover"
+                                                            className="h-12 w-12 rounded border border-gray-200 bg-white object-contain"
                                                         />
                                                     </td>
                                                     {!isScoped && (

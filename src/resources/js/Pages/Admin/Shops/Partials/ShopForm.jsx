@@ -130,7 +130,7 @@ export default function ShopForm({ shop = null, supportedLocales = [] }) {
                     <img
                         src={preview}
                         alt="プレビュー"
-                        className="mt-2 h-24 w-24 rounded object-cover"
+                        className="mt-2 h-24 w-24 rounded border border-gray-200 bg-white object-contain"
                     />
                 )}
                 <InputError className="mt-2" message={errors.logo} />

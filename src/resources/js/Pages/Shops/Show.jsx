@@ -102,7 +102,7 @@ export default function Show({ shop, products, filters, status }) {
                                         <img
                                             src={`/storage/${product.image_path}`}
                                             alt={product.name}
-                                            className="mx-auto h-24 w-1/2 object-cover"
+                                            className="aspect-square w-full bg-white object-contain p-1"
                                         />
                                         <div className="p-2">
                                             <h2 className="text-xs font-semibold text-gray-900">

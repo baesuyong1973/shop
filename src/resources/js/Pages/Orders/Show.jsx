@@ -77,7 +77,7 @@ export default function Show({ order }) {
                                         <img
                                             src={`/storage/${item.product.image_path}`}
                                             alt={item.product_name}
-                                            className="h-16 w-16 rounded object-cover"
+                                            className="h-16 w-16 rounded border border-gray-200 bg-white object-contain"
                                         />
                                     ) : (
                                         <div className="flex h-16 w-16 items-center justify-center rounded bg-gray-100 text-[10px] text-gray-400">

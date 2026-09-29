@@ -40,6 +40,7 @@ class ShopController extends Controller
                 ->paginate(20)
                 ->withQueryString(),
             'filters' => $filters,
+            'status' => session('status'),
         ]);
     }
 }

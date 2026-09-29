@@ -10,7 +10,7 @@ const emptyFilters = {
     name: '',
 };
 
-export default function Show({ shop, products, filters }) {
+export default function Show({ shop, products, filters, status }) {
     const { t } = useTranslation();
     const [form, setForm] = useState({ ...emptyFilters, ...filters });
 
@@ -40,13 +40,23 @@ export default function Show({ shop, products, filters }) {
 
             <div className="flex-1 py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    {status && (
+                        <div className="mb-4 rounded-md bg-green-50 p-4 text-sm font-medium text-green-700">
+                            {status}
+                        </div>
+                    )}
+
                     <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
                         <form onSubmit={submitSearch} className="mb-6">
                             <div>
-                                <label className="block text-xs font-medium text-gray-500">
+                                <label
+                                    htmlFor="search_name"
+                                    className="block text-xs font-medium text-gray-500"
+                                >
                                     {t('shops.searchLabel')}
                                 </label>
                                 <TextInput
+                                    id="search_name"
                                     type="text"
                                     value={form.name}
                                     onChange={setField('name')}

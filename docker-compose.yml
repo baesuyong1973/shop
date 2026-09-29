@@ -17,6 +17,35 @@ services:
       - db
       - redis
 
+  # Separate app server for Playwright E2E tests (e2e/), backed by its own
+  # database so test runs never touch dev data. Started on demand by the
+  # E2E global setup: `docker compose --profile e2e up -d e2e`.
+  # Uses PHP's built-in server directly rather than `artisan serve`, which
+  # strips non-allowlisted env vars (e.g. DB_DATABASE) from its worker process.
+  e2e:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: laravel_e2e
+    profiles: ["e2e"]
+    volumes:
+      - ./src:/var/www/html
+      - vendor_data:/var/www/html/vendor
+    working_dir: /var/www/html
+    environment:
+      APP_URL: http://localhost:8090
+      DB_DATABASE: laravel_e2e
+      PHP_CLI_SERVER_WORKERS: "4"
+    # OPcache is off for the CLI by default; without it every request
+    # recompiles the whole framework from the slow Windows bind mount.
+    command: sh -c "cd public && php -d opcache.enable_cli=1 -S 0.0.0.0:8000 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
+    ports:
+      - "8090:8000"
+    depends_on:
+      - db
+      - redis
+      - mailpit
+
   web:
     image: nginx:1.27-alpine
     container_name: laravel_web

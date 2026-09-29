@@ -96,4 +96,14 @@ class ProfileTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    public function test_会員証の二次元コードが画像として表示される(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('profile.member-qr'));
+
+        $response->assertOk()->assertHeader('Content-Type', 'image/svg+xml');
+        $this->assertStringContainsString('<svg', $response->getContent());
+    }
 }

@@ -5,6 +5,7 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -69,5 +70,29 @@ class PasswordResetTest extends TestCase
 
             return true;
         });
+    }
+
+    public function test_登録されていないメールアドレスでは再設定リンクを申請できない(): void
+    {
+        Notification::fake();
+
+        $this->post('/forgot-password', ['email' => 'nobody@example.com'])
+            ->assertSessionHasErrors('email');
+
+        Notification::assertNothingSent();
+    }
+
+    public function test_無効なトークンではパスワードを再設定できない(): void
+    {
+        $user = User::factory()->create();
+
+        $this->post('/reset-password', [
+            'token' => 'invalid-token',
+            'email' => $user->email,
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ])->assertSessionHasErrors('email');
+
+        $this->assertTrue(Hash::check('password', $user->fresh()->password));
     }
 }

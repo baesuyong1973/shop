@@ -4,8 +4,10 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
@@ -54,5 +56,61 @@ class EmailVerificationTest extends TestCase
         $this->actingAs($user)->get($verificationUrl);
 
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
+    }
+
+    public function test_認証済みユーザーがメール認証画面を開くとダッシュボードに移動する(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get('/verify-email')
+            ->assertRedirect(route('dashboard', absolute: false));
+    }
+
+    public function test_認証済みのメールアドレスを再度認証しても認証イベントは発生しない(): void
+    {
+        $user = User::factory()->create();
+
+        Event::fake();
+
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+
+        $this->actingAs($user)
+            ->get($verificationUrl)
+            ->assertRedirect(route('dashboard', absolute: false).'?verified=1');
+
+        Event::assertNotDispatched(Verified::class);
+    }
+
+    public function test_認証メールを再送できる(): void
+    {
+        Notification::fake();
+
+        $user = User::factory()->unverified()->create();
+
+        $this->actingAs($user)
+            ->from('/verify-email')
+            ->post('/email/verification-notification')
+            ->assertRedirect('/verify-email')
+            ->assertSessionHas('status', 'verification-link-sent');
+
+        Notification::assertSentTo($user, VerifyEmail::class);
+    }
+
+    public function test_認証済みユーザーには認証メールを再送しない(): void
+    {
+        Notification::fake();
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->post('/email/verification-notification')
+            ->assertRedirect(route('dashboard', absolute: false));
+
+        Notification::assertNothingSent();
     }
 }

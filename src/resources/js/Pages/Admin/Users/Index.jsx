@@ -5,7 +5,7 @@ import SecondaryButton from '@/Components/SecondaryButton';
 import { formatDate } from '@/Utils/date';
 import { Head, Link, router } from '@inertiajs/react';
 
-export default function Index({ shop, users, shops, filters, status }) {
+export default function Index({ shop, users, shops, filters, status, error }) {
     const isScoped = !!shop;
 
     const filterByShop = (shopId) => {
@@ -60,6 +60,11 @@ export default function Index({ shop, users, shops, filters, status }) {
                     {status && (
                         <div className="mb-4 rounded-md bg-green-50 p-4 text-sm font-medium text-green-700">
                             {status}
+                        </div>
+                    )}
+                    {error && (
+                        <div className="mb-4 rounded-md bg-red-50 p-4 text-sm font-medium text-red-700">
+                            {error}
                         </div>
                     )}
 

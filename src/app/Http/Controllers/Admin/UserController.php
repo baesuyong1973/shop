@@ -39,6 +39,7 @@ class UserController extends Controller
             'shops' => Shop::orderBy('name')->get(['id', 'name']),
             'filters' => ['shop_id' => $shopId],
             'status' => session('status'),
+            'error' => session('error'),
         ]);
     }
 
@@ -47,11 +48,16 @@ class UserController extends Controller
         return Inertia::render('Admin/Users/Show', [
             'user' => $user,
             'orders' => $user->orders()->with('shop')->latest()->paginate(20)->withQueryString(),
+            'error' => session('error'),
         ]);
     }
 
     public function destroy(User $user): RedirectResponse
     {
+        if ($user->orders()->exists()) {
+            return back()->with('error', '注文履歴のあるユーザーは削除できません。無効化をご利用ください。');
+        }
+
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('status', 'ユーザーを削除しました。');

@@ -8,11 +8,13 @@ use App\Models\Prefecture;
 use App\Models\Product;
 use App\Models\Shop;
 use App\Models\Unit;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -56,8 +58,11 @@ class ProductController extends Controller
             'shop_id' => ['required', 'integer', 'exists:shops,id'],
         ]);
 
+        $target = Shop::findOrFail($data['shop_id']);
+
         $copy = $product->replicate();
-        $copy->shop_id = $data['shop_id'];
+        $copy->shop_id = $target->id;
+        $copy->unit_id = $this->unitForShop($product->unit, $target)?->id;
         $copy->is_active = false;
         $copy->arrival_date = now()->toDateString();
         $copy->save();
@@ -101,13 +106,13 @@ class ProductController extends Controller
             'shop' => $shop,
             'countries' => Country::orderBy('id')->get(['id', 'name']),
             'prefectures' => Prefecture::orderBy('id')->get(['id', 'name']),
-            'units' => Unit::orderBy('id')->get(['id', 'name']),
+            'units' => Unit::availableTo($shop)->displayOrder()->get(['id', 'name']),
         ]);
     }
 
     public function store(Request $request, Shop $shop): RedirectResponse
     {
-        $data = $this->validateData($request, true);
+        $data = $this->validateData($request, true, $shop);
 
         $data['image_path'] = $this->processAndStoreImage($request->file('image'));
         $data['sort_order'] = $shop->products()->max('sort_order') + 1;
@@ -125,13 +130,13 @@ class ProductController extends Controller
             'product' => $product,
             'countries' => Country::orderBy('id')->get(['id', 'name']),
             'prefectures' => Prefecture::orderBy('id')->get(['id', 'name']),
-            'units' => Unit::orderBy('id')->get(['id', 'name']),
+            'units' => Unit::availableTo($shop)->displayOrder()->get(['id', 'name']),
         ]);
     }
 
     public function update(Request $request, Shop $shop, Product $product): RedirectResponse
     {
-        $data = $this->validateData($request, false);
+        $data = $this->validateData($request, false, $shop);
 
         $oldImagePath = null;
         if ($request->hasFile('image')) {
@@ -168,6 +173,21 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * The unit a copied product should use in the target shop. Shared units
+     * carry over as-is; another shop's own unit is swapped for the target
+     * shop's unit of the same name, which is created if it doesn't exist.
+     */
+    private function unitForShop(?Unit $unit, Shop $shop): ?Unit
+    {
+        if (! $unit || $unit->shop_id === null || $unit->shop_id === $shop->id) {
+            return $unit;
+        }
+
+        return Unit::availableTo($shop)->where('name', $unit->name)->first()
+            ?? $shop->units()->create(['name' => $unit->name]);
+    }
+
     private function processAndStoreImage(UploadedFile $file): string
     {
         $manager = new ImageManager(Driver::class);
@@ -183,7 +203,7 @@ class ProductController extends Controller
         return $filename;
     }
 
-    private function validateData(Request $request, bool $imageRequired): array
+    private function validateData(Request $request, bool $imageRequired, Shop $shop): array
     {
         return $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -194,7 +214,8 @@ class ProductController extends Controller
             'is_active' => ['boolean'],
             'country_id' => ['nullable', 'integer', 'exists:countries,id'],
             'prefecture_id' => ['nullable', 'integer', 'exists:prefectures,id'],
-            'unit_id' => ['nullable', 'integer', 'exists:units,id'],
+            // Only shared units or this shop's own units.
+            'unit_id' => ['nullable', 'integer', Rule::exists('units', 'id')->where(fn (Builder $q) => $q->whereNull('shop_id')->orWhere('shop_id', $shop->id))],
             'unit_quantity' => ['nullable', 'integer', 'min:1'],
             'arrival_date' => ['nullable', 'date'],
         ]);

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ScanController as AdminScanController;
 use App\Http\Controllers\Admin\ShopController as AdminShopController;
 use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
+use App\Http\Controllers\Admin\UnitController as AdminUnitController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
@@ -92,6 +93,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/orders/summary', [AdminOrderController::class, 'summary'])->name('orders.summary');
             Route::resource('orders', AdminOrderController::class)->only(['index', 'show']);
             Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+            // Only this shop's own units bind here; shared units 404.
+            Route::get('/units', [AdminUnitController::class, 'shopIndex'])->name('units.index');
+            Route::get('/units/create', [AdminUnitController::class, 'shopCreate'])->name('units.create');
+            Route::post('/units', [AdminUnitController::class, 'shopStore'])->name('units.store');
+            Route::get('/units/{unit}/edit', [AdminUnitController::class, 'shopEdit'])->name('units.edit');
+            Route::put('/units/{unit}', [AdminUnitController::class, 'shopUpdate'])->name('units.update');
+            Route::delete('/units/{unit}', [AdminUnitController::class, 'shopDestroy'])->name('units.destroy');
         });
 
         // Users aren't shop-owned (no Shop::users() relation), so bindings stay unscoped here;
@@ -120,6 +128,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('admins', AdminAdminController::class)->only(['index', 'show', 'destroy']);
             Route::resource('shops', AdminShopController::class);
             Route::resource('order-statuses', AdminOrderStatusController::class)->except(['show']);
+            Route::resource('units', AdminUnitController::class)->except(['show']);
             Route::get('/settings/locales', [AdminSiteSettingController::class, 'editLocales'])->name('settings.locales.edit');
             Route::put('/settings/locales', [AdminSiteSettingController::class, 'updateLocales'])->name('settings.locales.update');
         });

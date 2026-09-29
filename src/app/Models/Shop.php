@@ -49,6 +49,14 @@ class Shop extends Model
         return $this->hasMany(ShopLocale::class);
     }
 
+    /**
+     * This shop's own units (shared units are not included).
+     */
+    public function units(): HasMany
+    {
+        return $this->hasMany(Unit::class);
+    }
+
     protected function availableLocales(): Attribute
     {
         return Attribute::make(

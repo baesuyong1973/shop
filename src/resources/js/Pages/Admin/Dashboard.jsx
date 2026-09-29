@@ -163,6 +163,12 @@ export default function Dashboard({ status, error }) {
                                         注文ステータス管理
                                     </Link>
                                     <Link
+                                        href={route('admin.units.index')}
+                                        className="text-sm text-indigo-600 underline hover:text-indigo-900"
+                                    >
+                                        単位管理（共通）
+                                    </Link>
+                                    <Link
                                         href={route(
                                             'admin.settings.locales.edit',
                                         )}
@@ -199,6 +205,15 @@ export default function Dashboard({ status, error }) {
                                         className="text-sm text-indigo-600 underline hover:text-indigo-900"
                                     >
                                         顧客一覧を見る
+                                    </Link>
+                                    <Link
+                                        href={route(
+                                            'admin.shop.units.index',
+                                            admin.shop,
+                                        )}
+                                        className="text-sm text-indigo-600 underline hover:text-indigo-900"
+                                    >
+                                        単位管理
                                     </Link>
                                 </>
                             )}

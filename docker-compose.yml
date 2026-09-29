@@ -10,6 +10,8 @@ services:
       # volume instead of the Windows bind mount avoids the severe NTFS<->WSL2
       # I/O penalty that made every request take 10+ seconds in dev.
       - vendor_data:/var/www/html/vendor
+      # PCOV (code coverage) is built into the image but only loaded in dev.
+      - ./docker/php/pcov.ini:/usr/local/etc/php/conf.d/pcov.ini
     working_dir: /var/www/html
     depends_on:
       - db

@@ -20,8 +20,15 @@ export default defineConfig({
         video: 'retain-on-failure',
     },
     projects: [
+        // Runs after globalSetup has reset the database (sessions included).
+        {
+            name: 'setup',
+            testMatch: /.*\.setup\.ts/,
+            use: { ...devices['Desktop Chrome'] },
+        },
         {
             name: 'chromium',
+            dependencies: ['setup'],
             use: { ...devices['Desktop Chrome'] },
         },
     ],

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { accounts, adminLogin } from './support';
+import { adminState } from './support';
 
 // 1x1 pixel PNG, enough for the server-side image processing.
 const PNG = Buffer.from(
@@ -7,10 +7,11 @@ const PNG = Buffer.from(
     'base64',
 );
 
+test.use({ storageState: adminState.shop1Admin });
+
 test('店舗管理者が画像付きで商品を登録すると店舗ページに表示される', async ({ page }) => {
     const productName = `E2E商品-${Date.now()}`;
 
-    await adminLogin(page, accounts.shop1Admin);
     await page.goto('/admin/shop1/products/create');
 
     await page.getByLabel('商品名').fill(productName);

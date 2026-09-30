@@ -1,11 +1,13 @@
 import { expect, test } from '@playwright/test';
-import { accounts, adminLogin } from './support';
+import { accounts, adminState } from './support';
+
+test.use({ storageState: adminState.superAdmin });
 
 test('スーパー管理者が共通の単位を、店舗管理者が店舗独自の単位を追加できる', async ({ page }) => {
     page.on('dialog', (dialog) => dialog.accept());
 
     // スーパー管理者：共通の単位を追加する
-    await adminLogin(page, accounts.superAdmin);
+    await page.goto('/admin/dashboard');
     await page.getByRole('link', { name: '単位管理（共通）' }).click();
     await expect(page).toHaveURL(/\/admin\/units$/);
 

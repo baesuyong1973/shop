@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { accounts, addToCart, adminLogin, clearMailTo, customerLogin, waitForTwoFactorCode } from './support';
+import { accounts, addToCart, adminState, clearMailTo, customerLogin, waitForTwoFactorCode } from './support';
 
 test('誤った確認コードでは管理画面にログインできない', async ({ page }) => {
     await clearMailTo(accounts.superAdmin.email);
@@ -32,9 +32,8 @@ test('店舗管理者が注文をキャンセルすると在庫が戻る', async
     await customer.getByRole('link', { name: /にんじん/ }).click();
     await expect(customer.getByText('在庫：97点')).toBeVisible();
 
-    // 店舗管理者が2段階認証でログインし、注文をキャンセルする
-    const admin = await browser.newPage();
-    await adminLogin(admin, accounts.shop1Admin);
+    // 店舗管理者（ログイン済みの状態から）が注文をキャンセルする
+    const admin = await (await browser.newContext({ storageState: adminState.shop1Admin })).newPage();
     await admin.goto('/admin/shop1/orders');
     await expect(admin.getByText(`注文番号${orderId}`)).toBeVisible();
     await admin.goto(`/admin/shop1/orders/${orderId}`);

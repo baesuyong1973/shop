@@ -2,6 +2,15 @@ import { expect, type Page } from '@playwright/test';
 
 const MAILPIT_URL = 'http://localhost:8025';
 
+/**
+ * Saved admin sessions, written once per run by auth.setup.ts after a real
+ * password + emailed-code login, and reused by specs via `storageState`.
+ */
+export const adminState = {
+    superAdmin: '.auth/super-admin.json',
+    shop1Admin: '.auth/shop1-admin.json',
+};
+
 /** Accounts created by the default DatabaseSeeder. */
 export const accounts = {
     customer: { email: 'test@example.com', password: 'password' },

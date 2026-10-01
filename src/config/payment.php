@@ -17,7 +17,7 @@ return [
     'driver' => env('PAYMENT_DRIVER'),
 
     // Percentage of the order total paid up front, rounded up to the yen.
-    'deposit_rate' => (int) env('DEPOSIT_RATE', 10),
+    'deposit_rate' => (int) env('DEPOSIT_RATE', 1),
 
     // Unpaid orders older than this are cancelled and their stock restored.
     'pending_minutes' => (int) env('PAYMENT_PENDING_MINUTES', 30),

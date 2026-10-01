@@ -235,7 +235,7 @@ Let's Encryptの証明書は90日で失効する。EC2上のcrontab（`crontab -
 
 ```
 PAYMENT_DRIVER=paypay
-DEPOSIT_RATE=10
+DEPOSIT_RATE=1
 PAYMENT_PENDING_MINUTES=30
 PAYPAY_API_KEY=<APIキー>
 PAYPAY_API_SECRET=<シークレット>

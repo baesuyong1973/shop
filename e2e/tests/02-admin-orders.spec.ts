@@ -45,8 +45,8 @@ test('店舗管理者が注文をキャンセルすると在庫が戻る', async
         dialog.accept();
     });
     await admin.getByRole('button', { name: 'キャンセル' }).click();
-    // 前払い（にんじん3個 ¥450 の10% = ¥45）が返金される
-    await expect(admin.getByText('注文のステータスを更新し、前払い金 ¥45 を返金しました。')).toBeVisible();
+    // 前払い（にんじん3個 ¥450 の1% = ¥4.5 を切り上げて ¥5）が返金される
+    await expect(admin.getByText('注文のステータスを更新し、前払い金 ¥5 を返金しました。')).toBeVisible();
 
     // 在庫が注文前の数に戻る
     await customer.reload();

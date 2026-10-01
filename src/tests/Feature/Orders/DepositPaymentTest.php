@@ -56,7 +56,7 @@ class DepositPaymentTest extends TestCase
     }
 
     /**
-     * Check out 2 apples (¥1,234, deposit ¥124) and return the pending order.
+     * Check out 2 apples (¥1,234, deposit ¥13) and return the pending order.
      */
     private function checkout(): Order
     {
@@ -74,10 +74,12 @@ class DepositPaymentTest extends TestCase
             ->assertRedirect(route('orders.payment.return', [$this->shop, $order]));
     }
 
-    public function test_前払い額は合計の10パーセントを1円単位で切り上げる(): void
+    public function test_前払い額は合計の1パーセントを1円単位で切り上げる(): void
     {
-        $this->assertSame(124, Order::depositFor(1234));
-        $this->assertSame(100, Order::depositFor(1000));
+        $this->assertSame(13, Order::depositFor(1234));
+        $this->assertSame(10, Order::depositFor(1000));
+        $this->assertSame(1, Order::depositFor(100));
+        $this->assertSame(2, Order::depositFor(101));
         $this->assertSame(1, Order::depositFor(1));
         $this->assertSame(0, Order::depositFor(0));
     }
@@ -88,9 +90,9 @@ class DepositPaymentTest extends TestCase
             ->get(route('cart.index', $this->shop))
             ->assertInertia(fn (Assert $page) => $page
                 ->where('total', 1234)
-                ->where('deposit.rate', 10)
-                ->where('deposit.amount', 124)
-                ->where('deposit.remaining', 1110));
+                ->where('deposit.rate', 1)
+                ->where('deposit.amount', 13)
+                ->where('deposit.remaining', 1221));
     }
 
     public function test_前払いが無効ならカートに前払いは表示されない(): void
@@ -108,7 +110,7 @@ class DepositPaymentTest extends TestCase
 
         $this->assertSame(Order::PAYMENT_PENDING, $order->payment_status);
         $this->assertSame(1234, $order->total_amount);
-        $this->assertSame(124, $order->deposit_amount);
+        $this->assertSame(13, $order->deposit_amount);
         $this->assertSame(8, $this->product->fresh()->stock);
         $this->assertNotNull($order->payment_code_id);
         $this->assertSame([], $order->available_transitions);
@@ -133,14 +135,14 @@ class DepositPaymentTest extends TestCase
             ->withSession(["cart.{$this->shop->id}" => [$this->product->id => 2]])
             ->get(route('orders.payment.return', [$this->shop, $order]))
             ->assertRedirect(route('shops.show', $this->shop))
-            ->assertSessionHas('status', __('messages.orders.confirmed_with_deposit', ['id' => $order->id, 'deposit' => '124', 'remaining' => '1,110']))
+            ->assertSessionHas('status', __('messages.orders.confirmed_with_deposit', ['id' => $order->id, 'deposit' => '13', 'remaining' => '1,221']))
             ->assertSessionMissing("cart.{$this->shop->id}");
 
         $order->refresh();
         $this->assertSame(Order::PAYMENT_PAID, $order->payment_status);
         $this->assertSame("fake-{$order->payment_reference}", $order->payment_id);
         $this->assertNotNull($order->paid_at);
-        $this->assertSame(1110, $order->remaining_amount);
+        $this->assertSame(1221, $order->remaining_amount);
         $this->assertSame(8, $this->product->fresh()->stock);
         Mail::assertSent(OrderConfirmed::class, 1);
     }
@@ -282,8 +284,8 @@ class DepositPaymentTest extends TestCase
             ->assertInertia(fn (Assert $page) => $page
                 ->has('orders.data', 1)
                 ->where('orders.data.0.id', $paid->id)
-                ->where('orders.data.0.deposit_amount', 124)
-                ->where('orders.data.0.remaining_amount', 1110));
+                ->where('orders.data.0.deposit_amount', 13)
+                ->where('orders.data.0.remaining_amount', 1221));
 
         $this->actingAs($admin, 'admin')
             ->get(route('admin.shop.orders.summary', $this->shop))
@@ -309,7 +311,7 @@ class DepositPaymentTest extends TestCase
             ->from(route('admin.shop.orders.show', [$this->shop, $order]))
             ->patch(route('admin.shop.orders.update-status', [$this->shop, $order]), ['status' => 'cancelled'])
             ->assertRedirect(route('admin.shop.orders.show', [$this->shop, $order]))
-            ->assertSessionHas('status', '注文のステータスを更新し、前払い金 ¥124 を返金しました。');
+            ->assertSessionHas('status', '注文のステータスを更新し、前払い金 ¥13 を返金しました。');
 
         $order->refresh();
         $this->assertSame('cancelled', $order->status);
@@ -377,8 +379,8 @@ class DepositPaymentTest extends TestCase
         $this->actingAs($this->customer)
             ->get(route('orders.show', [$this->shop, $order]))
             ->assertInertia(fn (Assert $page) => $page
-                ->where('order.deposit_amount', 124)
-                ->where('order.remaining_amount', 1110)
+                ->where('order.deposit_amount', 13)
+                ->where('order.remaining_amount', 1221)
                 ->where('order.payment_status', 'paid'));
     }
 
@@ -386,8 +388,8 @@ class DepositPaymentTest extends TestCase
     {
         $order = $this->paidOrder()->load('items', 'shop', 'user');
 
-        (new OrderConfirmed($order))->assertSeeInHtml('¥124')->assertSeeInHtml('¥1,110');
-        (new AdminOrderNotification($order))->assertSeeInHtml('¥124')->assertSeeInHtml('¥1,110');
+        (new OrderConfirmed($order))->assertSeeInHtml('¥13')->assertSeeInHtml('¥1,221');
+        (new AdminOrderNotification($order))->assertSeeInHtml('¥13')->assertSeeInHtml('¥1,221');
     }
 
     public function test_疑似PayPayの支払い画面が表示される(): void
@@ -396,7 +398,7 @@ class DepositPaymentTest extends TestCase
 
         $this->get(route('fake-paypay.show', $order->payment_reference))
             ->assertOk()
-            ->assertSee('¥124')
+            ->assertSee('¥13')
             ->assertSee('支払う');
 
         $this->payFake($order, true);

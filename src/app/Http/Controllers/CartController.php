@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Payments\DepositPayments;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,7 +13,7 @@ use Inertia\Response;
 
 class CartController extends Controller
 {
-    public function index(Request $request, Shop $shop): Response
+    public function index(Request $request, Shop $shop, DepositPayments $payments): Response
     {
         $cart = $request->session()->get("cart.{$shop->id}", []);
 
@@ -23,10 +25,18 @@ class CartController extends Controller
             'subtotal' => $product->price * $cart[$product->id],
         ])->values();
 
+        $total = $items->sum('subtotal');
+
         return Inertia::render('Cart/Index', [
             'shop' => $shop,
             'items' => $items,
-            'total' => $items->sum('subtotal'),
+            'total' => $total,
+            // Paid up front via PayPay at checkout; null when deposits are off.
+            'deposit' => $payments->enabled() ? [
+                'rate' => config('payment.deposit_rate'),
+                'amount' => Order::depositFor($total),
+                'remaining' => $total - Order::depositFor($total),
+            ] : null,
             'status' => session('status'),
             'error' => session('error'),
         ]);

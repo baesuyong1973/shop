@@ -1,10 +1,11 @@
 import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
+import DepositBadge from '@/Components/DepositBadge';
 import DangerButton from '@/Components/DangerButton';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { formatDateTime } from '@/Utils/date';
 import { Head, Link, router } from '@inertiajs/react';
 
-export default function Show({ shop, order, status }) {
+export default function Show({ shop, order, status, error }) {
     const isScoped = !!shop;
 
     const updateStatus = (transition) => {
@@ -60,6 +61,11 @@ export default function Show({ shop, order, status }) {
                     {status && (
                         <div className="mb-4 rounded-md bg-green-50 p-4 text-sm font-medium text-green-700">
                             {status}
+                        </div>
+                    )}
+                    {error && (
+                        <div className="mb-4 rounded-md bg-red-50 p-4 text-sm font-medium text-red-700">
+                            {error}
                         </div>
                     )}
 
@@ -208,6 +214,28 @@ export default function Show({ shop, order, status }) {
                             合計金額：¥
                             {Number(order.total_amount).toLocaleString()}
                         </div>
+
+                        {order.deposit_amount > 0 && (
+                            <dl className="mt-3 ml-auto max-w-xs space-y-1 text-sm">
+                                <div className="flex justify-between gap-4">
+                                    <dt className="text-gray-600">前払い（PayPay）</dt>
+                                    <dd>
+                                        <DepositBadge order={order} />
+                                    </dd>
+                                </div>
+                                {order.payment_status === 'paid' && (
+                                    <div className="flex justify-between gap-4 text-base font-bold text-gray-900">
+                                        <dt>店頭で受け取る金額</dt>
+                                        <dd>
+                                            ¥
+                                            {Number(
+                                                order.remaining_amount,
+                                            ).toLocaleString()}
+                                        </dd>
+                                    </div>
+                                )}
+                            </dl>
+                        )}
 
                         {order.available_transitions?.length > 0 && (
                             <div className="mt-6 flex flex-wrap justify-end gap-3 border-t border-gray-200 pt-6">

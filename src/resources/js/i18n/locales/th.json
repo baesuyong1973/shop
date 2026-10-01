@@ -69,7 +69,11 @@
         "total": "รวม: ¥{{amount}}",
         "checkout": "สั่งซื้อ",
         "loginRequired": "คุณต้องเข้าสู่ระบบก่อนสั่งซื้อ",
-        "loginToOrder": "เข้าสู่ระบบเพื่อสั่งซื้อ"
+        "loginToOrder": "เข้าสู่ระบบเพื่อสั่งซื้อ",
+        "depositLabel": "เงินมัดจำ (PayPay・{{rate}}%)",
+        "remainingLabel": "ชำระที่ร้าน",
+        "depositNotice": "ชำระเงินมัดจำผ่าน PayPay เมื่อสั่งซื้อ ส่วนที่เหลือชำระเมื่อมารับสินค้าที่ร้าน",
+        "confirmOrderWithDeposit": "จะไปยังหน้าชำระเงิน PayPay เพื่อชำระเงินมัดจำ ¥{{amount}} ต้องการดำเนินการต่อหรือไม่?"
     },
     "orders": {
         "detailTitle": "รายละเอียดคำสั่งซื้อ #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "จำนวนรายการ",
         "totalHeader": "รวม",
         "actionsHeader": "การดำเนินการ",
-        "detail": "รายละเอียด"
+        "detail": "รายละเอียด",
+        "depositPaid": "เงินมัดจำ (PayPay)",
+        "remainingAtPickup": "ชำระเมื่อรับสินค้า",
+        "paymentStatus": {
+            "pending": "รอชำระเงิน",
+            "paid": "ชำระแล้ว",
+            "refunded": "คืนเงินแล้ว",
+            "expired": "ยกเลิก (ไม่ได้ชำระ)",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "แดชบอร์ด",

@@ -69,7 +69,11 @@
         "total": "合計：¥{{amount}}",
         "checkout": "送出訂單",
         "loginRequired": "您必須登入才能送出訂單。",
-        "loginToOrder": "登入以進行訂購"
+        "loginToOrder": "登入以進行訂購",
+        "depositLabel": "預付款（PayPay・{{rate}}%）",
+        "remainingLabel": "門市付款",
+        "depositNotice": "下單時以PayPay支付預付款，剩餘款項請於門市取貨時支付。",
+        "confirmOrderWithDeposit": "將前往PayPay付款頁面，支付預付款 ¥{{amount}}。確定嗎？"
     },
     "orders": {
         "detailTitle": "訂單明細 #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "商品數",
         "totalHeader": "合計",
         "actionsHeader": "操作",
-        "detail": "詳細內容"
+        "detail": "詳細內容",
+        "depositPaid": "預付款（PayPay）",
+        "remainingAtPickup": "取貨時付款",
+        "paymentStatus": {
+            "pending": "待付款",
+            "paid": "已付款",
+            "refunded": "已退款",
+            "expired": "未付款已取消",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "會員中心",

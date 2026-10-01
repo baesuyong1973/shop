@@ -69,7 +69,11 @@
         "total": "Total: ¥{{amount}}",
         "checkout": "Buat Pesanan",
         "loginRequired": "Anda harus masuk untuk membuat pesanan.",
-        "loginToOrder": "Masuk untuk memesan"
+        "loginToOrder": "Masuk untuk memesan",
+        "depositLabel": "Uang muka (PayPay, {{rate}}%)",
+        "remainingLabel": "Bayar di toko",
+        "depositNotice": "Uang muka dibayar dengan PayPay saat memesan. Sisanya dibayar saat mengambil pesanan di toko.",
+        "confirmOrderWithDeposit": "Anda akan diarahkan ke PayPay untuk membayar uang muka ¥{{amount}}. Lanjutkan?"
     },
     "orders": {
         "detailTitle": "Detail Pesanan #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "Item",
         "totalHeader": "Total",
         "actionsHeader": "Aksi",
-        "detail": "Detail"
+        "detail": "Detail",
+        "depositPaid": "Uang muka (PayPay)",
+        "remainingAtPickup": "Bayar saat pengambilan",
+        "paymentStatus": {
+            "pending": "Menunggu pembayaran",
+            "paid": "Lunas",
+            "refunded": "Dikembalikan",
+            "expired": "Dibatalkan (belum dibayar)",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "Dasbor",

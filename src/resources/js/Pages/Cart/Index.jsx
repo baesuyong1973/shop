@@ -6,7 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
-export default function Index({ shop, items, total, status, error }) {
+export default function Index({ shop, items, total, deposit, status, error }) {
     const { t } = useTranslation();
     const auth = usePage().props.auth;
 
@@ -17,7 +17,13 @@ export default function Index({ shop, items, total, status, error }) {
     };
 
     const checkout = () => {
-        if (confirm(t('cart.confirmOrder'))) {
+        const message = deposit
+            ? t('cart.confirmOrderWithDeposit', {
+                  amount: Number(deposit.amount).toLocaleString(),
+              })
+            : t('cart.confirmOrder');
+
+        if (confirm(message)) {
             router.post(route('orders.store', shop));
         }
     };
@@ -222,6 +228,40 @@ export default function Index({ shop, items, total, status, error }) {
                                             ).toLocaleString(),
                                         })}
                                     </div>
+
+                                    {deposit && (
+                                        <div className="rounded-md bg-amber-50 p-4 text-sm text-amber-900 sm:max-w-md">
+                                            <dl className="space-y-1">
+                                                <div className="flex justify-between gap-4">
+                                                    <dt>
+                                                        {t('cart.depositLabel', {
+                                                            rate: deposit.rate,
+                                                        })}
+                                                    </dt>
+                                                    <dd className="font-semibold">
+                                                        ¥
+                                                        {Number(
+                                                            deposit.amount,
+                                                        ).toLocaleString()}
+                                                    </dd>
+                                                </div>
+                                                <div className="flex justify-between gap-4">
+                                                    <dt>
+                                                        {t('cart.remainingLabel')}
+                                                    </dt>
+                                                    <dd className="font-semibold">
+                                                        ¥
+                                                        {Number(
+                                                            deposit.remaining,
+                                                        ).toLocaleString()}
+                                                    </dd>
+                                                </div>
+                                            </dl>
+                                            <p className="mt-2 text-xs">
+                                                {t('cart.depositNotice')}
+                                            </p>
+                                        </div>
+                                    )}
 
                                     {auth.user ? (
                                         <PrimaryButton

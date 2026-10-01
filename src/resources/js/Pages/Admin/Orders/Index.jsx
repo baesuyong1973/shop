@@ -1,4 +1,5 @@
 import Breadcrumbs, { adminHomeCrumb } from '@/Components/Breadcrumbs';
+import DepositBadge from '@/Components/DepositBadge';
 import DangerButton from '@/Components/DangerButton';
 import InputLabel from '@/Components/InputLabel';
 import Pagination from '@/Components/Pagination';
@@ -133,6 +134,14 @@ export default function Index({ shop, orders, shops, filters }) {
                                                             {formatDateTime(
                                                                 order.created_at,
                                                             )}
+                                                            <span className="ml-2">
+                                                                <DepositBadge
+                                                                    order={
+                                                                        order
+                                                                    }
+                                                                    showRemaining
+                                                                />
+                                                            </span>
                                                         </div>
                                                         <div className="flex gap-2">
                                                             {order.available_transitions?.map(
@@ -348,8 +357,13 @@ export default function Index({ shop, orders, shops, filters }) {
                                                     <span className="text-sm font-medium text-gray-900">
                                                         注文番号 {order.id}
                                                     </span>
-                                                    <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800">
-                                                        {order.status_label}
+                                                    <span className="flex flex-wrap justify-end gap-1">
+                                                        <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800">
+                                                            {order.status_label}
+                                                        </span>
+                                                        <DepositBadge
+                                                            order={order}
+                                                        />
                                                     </span>
                                                 </div>
 
@@ -494,6 +508,13 @@ export default function Index({ shop, orders, shops, filters }) {
                                                             {
                                                                 order.status_label
                                                             }
+                                                            <div>
+                                                                <DepositBadge
+                                                                    order={
+                                                                        order
+                                                                    }
+                                                                />
+                                                            </div>
                                                         </td>
                                                         <td className="px-4 py-3 text-sm text-gray-900">
                                                             {formatDateTime(

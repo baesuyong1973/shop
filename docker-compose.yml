@@ -38,6 +38,8 @@ services:
       # Serve the assets built by the E2E global setup rather than the Vite
       # dev server (a file that never exists, so public/hot is ignored).
       VITE_HOT_FILE: /var/www/html/storage/framework/e2e-no-vite-hot
+      # Orders take their deposit through the local stand-in for PayPay.
+      PAYMENT_DRIVER: fake
       # Browsers hold keep-alive connections open, and each built-in server
       # worker serves one connection at a time, so allow plenty of workers.
       PHP_CLI_SERVER_WORKERS: "16"

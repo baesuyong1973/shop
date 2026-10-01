@@ -69,7 +69,11 @@
         "total": "합계: ¥{{amount}}",
         "checkout": "주문하기",
         "loginRequired": "주문하려면 로그인해야 합니다.",
-        "loginToOrder": "로그인 후 주문하기"
+        "loginToOrder": "로그인 후 주문하기",
+        "depositLabel": "선결제 (PayPay・{{rate}}%)",
+        "remainingLabel": "매장 결제",
+        "depositNotice": "주문 시 선결제 금액을 PayPay로 결제합니다. 나머지는 매장에서 수령하실 때 결제해 주세요.",
+        "confirmOrderWithDeposit": "PayPay 결제 화면으로 이동하여 선결제 ¥{{amount}} 을(를) 결제합니다. 계속하시겠습니까?"
     },
     "orders": {
         "detailTitle": "주문 상세 #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "상품 수",
         "totalHeader": "합계",
         "actionsHeader": "작업",
-        "detail": "상세"
+        "detail": "상세",
+        "depositPaid": "선결제 (PayPay)",
+        "remainingAtPickup": "수령 시 결제",
+        "paymentStatus": {
+            "pending": "결제 대기",
+            "paid": "결제 완료",
+            "refunded": "환불 완료",
+            "expired": "미결제로 취소",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "대시보드",

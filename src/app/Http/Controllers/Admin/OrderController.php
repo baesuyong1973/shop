@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderStatus;
 use App\Models\Shop;
+use App\Payments\DepositPayments;
+use App\Payments\PaymentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +17,8 @@ use Inertia\Response;
 
 class OrderController extends Controller
 {
+    public function __construct(private readonly DepositPayments $payments) {}
+
     /**
      * Cross-shop order listing for super admins.
      */
@@ -38,14 +42,13 @@ class OrderController extends Controller
         return Inertia::render('Admin/Orders/Show', [
             'order' => $order->load('user', 'shop', 'items.product'),
             'status' => session('status'),
+            'error' => session('error'),
         ]);
     }
 
     public function globalUpdateStatus(Request $request, Order $order): RedirectResponse
     {
-        $this->applyStatusChange($request, $order);
-
-        return back()->with('status', '注文のステータスを更新しました。');
+        return $this->applyStatusChange($request, $order);
     }
 
     public function index(Shop $shop): Response
@@ -53,6 +56,7 @@ class OrderController extends Controller
         return Inertia::render('Admin/Orders/Index', [
             'shop' => $shop,
             'orders' => $shop->orders()
+                ->confirmed()
                 ->whereNotIn('status', OrderStatus::voidKeys())
                 ->with(['user', 'items.product.unit'])
                 ->latest()
@@ -67,14 +71,13 @@ class OrderController extends Controller
             'shop' => $shop,
             'order' => $order->load('user', 'items.product'),
             'status' => session('status'),
+            'error' => session('error'),
         ]);
     }
 
     public function updateStatus(Request $request, Shop $shop, Order $order): RedirectResponse
     {
-        $this->applyStatusChange($request, $order);
-
-        return back()->with('status', '注文のステータスを更新しました。');
+        return $this->applyStatusChange($request, $order);
     }
 
     /**
@@ -95,6 +98,7 @@ class OrderController extends Controller
             ->leftJoin('units', 'units.id', '=', 'products.unit_id')
             ->where('orders.shop_id', $shop->id)
             ->whereNotIn('orders.status', OrderStatus::voidKeys())
+            ->whereNotIn('orders.payment_status', [Order::PAYMENT_PENDING, Order::PAYMENT_EXPIRED])
             ->when(
                 ! empty($data['date_from']),
                 fn ($query) => $query->whereDate('orders.created_at', '>=', $data['date_from']),
@@ -112,6 +116,7 @@ class OrderController extends Controller
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->where('orders.shop_id', $shop->id)
             ->whereNotIn('orders.status', OrderStatus::voidKeys())
+            ->whereNotIn('orders.payment_status', [Order::PAYMENT_PENDING, Order::PAYMENT_EXPIRED])
             ->when(
                 ! empty($data['date_from']),
                 fn ($query) => $query->whereDate('orders.created_at', '>=', $data['date_from']),
@@ -132,6 +137,7 @@ class OrderController extends Controller
             ->leftJoin('units', 'units.id', '=', 'products.unit_id')
             ->where('orders.shop_id', $shop->id)
             ->whereNotIn('orders.status', OrderStatus::voidKeys())
+            ->whereNotIn('orders.payment_status', [Order::PAYMENT_PENDING, Order::PAYMENT_EXPIRED])
             ->when(
                 ! empty($data['date_from']),
                 fn ($query) => $query->whereDate('orders.created_at', '>=', $data['date_from']),
@@ -168,9 +174,10 @@ class OrderController extends Controller
     /**
      * Move an order to a status reachable from its current one, per the
      * admin-configured order status transitions. Moving into a "void"
-     * status (e.g. cancellation) restores stock for each item.
+     * status (e.g. cancellation) restores stock for each item and refunds
+     * the deposit; if the refund fails, nothing changes.
      */
-    private function applyStatusChange(Request $request, Order $order): void
+    private function applyStatusChange(Request $request, Order $order): RedirectResponse
     {
         $data = $request->validate([
             'status' => ['required', 'string', 'exists:order_statuses,key'],
@@ -180,10 +187,21 @@ class OrderController extends Controller
         $target = OrderStatus::where('key', $data['status'])->first();
 
         abort_unless(
-            $current && $target && $current->nextStatuses()->whereKey($target->id)->exists(),
+            $order->payment_status !== Order::PAYMENT_PENDING
+                && $current && $target && $current->nextStatuses()->whereKey($target->id)->exists(),
             422,
             'このステータスの注文は変更できません。'
         );
+
+        if ($target->is_void) {
+            try {
+                $this->payments->refund($order);
+            } catch (PaymentException $e) {
+                report($e);
+
+                return back()->with('error', '前払い金の返金に失敗したため、キャンセルできませんでした。時間をおいて再度お試しください。');
+            }
+        }
 
         DB::transaction(function () use ($order, $target) {
             if ($target->is_void) {
@@ -196,5 +214,11 @@ class OrderController extends Controller
 
             $order->update(['status' => $target->key]);
         });
+
+        $message = $order->payment_status === Order::PAYMENT_REFUNDED && $target->is_void
+            ? "注文のステータスを更新し、前払い金 ¥".number_format($order->deposit_amount).' を返金しました。'
+            : '注文のステータスを更新しました。';
+
+        return back()->with('status', $message);
     }
 }

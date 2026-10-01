@@ -69,7 +69,11 @@
         "total": "စုစုပေါင်း: ¥{{amount}}",
         "checkout": "အော်ဒါတင်ရန်",
         "loginRequired": "အော်ဒါတင်ရန် လော့ဂ်အင်ဝင်ရမည်။",
-        "loginToOrder": "အော်ဒါတင်ရန် လော့ဂ်အင်ဝင်ပါ"
+        "loginToOrder": "အော်ဒါတင်ရန် လော့ဂ်အင်ဝင်ပါ",
+        "depositLabel": "ကြိုတင်ငွေ (PayPay・{{rate}}%)",
+        "remainingLabel": "ဆိုင်တွင် ပေးချေရန်",
+        "depositNotice": "မှာယူချိန်တွင် ကြိုတင်ငွေကို PayPay ဖြင့် ပေးချေပါ။ ကျန်ငွေကို ဆိုင်တွင် ပစ္စည်းလာယူချိန်တွင် ပေးချေပါ။",
+        "confirmOrderWithDeposit": "ကြိုတင်ငွေ ¥{{amount}} ပေးချေရန် PayPay စာမျက်နှာသို့ သွားပါမည်။ ဆက်လုပ်မလား?"
     },
     "orders": {
         "detailTitle": "အော်ဒါအသေးစိတ် #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "ကုန်ပစ္စည်းအရေအတွက်",
         "totalHeader": "စုစုပေါင်း",
         "actionsHeader": "လုပ်ဆောင်ချက်",
-        "detail": "အသေးစိတ်"
+        "detail": "အသေးစိတ်",
+        "depositPaid": "ကြိုတင်ငွေ (PayPay)",
+        "remainingAtPickup": "ပစ္စည်းယူချိန် ပေးချေရန်",
+        "paymentStatus": {
+            "pending": "ငွေပေးချေရန် စောင့်ဆိုင်းနေသည်",
+            "paid": "ပေးချေပြီး",
+            "refunded": "ငွေပြန်အမ်းပြီး",
+            "expired": "မပေးချေသဖြင့် ပယ်ဖျက်ပြီး",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "ဒက်ရှ်ဘုတ်",

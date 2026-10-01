@@ -69,7 +69,11 @@
         "total": "जम्मा: ¥{{amount}}",
         "checkout": "अर्डर गर्नुहोस्",
         "loginRequired": "अर्डर गर्नको लागि तपाईंले लगइन गर्नुपर्छ।",
-        "loginToOrder": "अर्डर गर्न लगइन गर्नुहोस्"
+        "loginToOrder": "अर्डर गर्न लगइन गर्नुहोस्",
+        "depositLabel": "अग्रिम भुक्तानी (PayPay・{{rate}}%)",
+        "remainingLabel": "पसलमा तिर्ने",
+        "depositNotice": "अर्डर गर्दा अग्रिम रकम PayPay बाट तिर्नुहोस्। बाँकी रकम पसलमा सामान लिँदा तिर्नुहोस्।",
+        "confirmOrderWithDeposit": "अग्रिम ¥{{amount}} तिर्न PayPay पृष्ठमा जानुहुनेछ। जारी राख्ने?"
     },
     "orders": {
         "detailTitle": "अर्डर विवरण #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "वस्तुहरू",
         "totalHeader": "जम्मा",
         "actionsHeader": "कार्यहरू",
-        "detail": "विवरण"
+        "detail": "विवरण",
+        "depositPaid": "अग्रिम भुक्तानी (PayPay)",
+        "remainingAtPickup": "सामान लिँदा तिर्ने",
+        "paymentStatus": {
+            "pending": "भुक्तानी बाँकी",
+            "paid": "भुक्तानी भयो",
+            "refunded": "फिर्ता भयो",
+            "expired": "भुक्तानी नभएकाले रद्द",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "ड्यासबोर्ड",

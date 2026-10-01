@@ -69,7 +69,11 @@
         "total": "Tổng cộng: ¥{{amount}}",
         "checkout": "Đặt hàng",
         "loginRequired": "Bạn cần đăng nhập để đặt hàng.",
-        "loginToOrder": "Đăng nhập để đặt hàng"
+        "loginToOrder": "Đăng nhập để đặt hàng",
+        "depositLabel": "Đặt cọc (PayPay, {{rate}}%)",
+        "remainingLabel": "Thanh toán tại cửa hàng",
+        "depositNotice": "Khoản đặt cọc được thanh toán bằng PayPay khi đặt hàng. Phần còn lại vui lòng thanh toán khi nhận hàng tại cửa hàng.",
+        "confirmOrderWithDeposit": "Quý khách sẽ được chuyển đến PayPay để thanh toán khoản đặt cọc ¥{{amount}}. Tiếp tục?"
     },
     "orders": {
         "detailTitle": "Chi tiết đơn hàng #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "Sản phẩm",
         "totalHeader": "Tổng cộng",
         "actionsHeader": "Thao tác",
-        "detail": "Chi tiết"
+        "detail": "Chi tiết",
+        "depositPaid": "Đặt cọc (PayPay)",
+        "remainingAtPickup": "Thanh toán khi nhận hàng",
+        "paymentStatus": {
+            "pending": "Chờ thanh toán",
+            "paid": "Đã thanh toán",
+            "refunded": "Đã hoàn tiền",
+            "expired": "Đã hủy (chưa thanh toán)",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "Trang tổng quan",

@@ -69,7 +69,11 @@
         "total": "合計金額：¥{{amount}}",
         "checkout": "注文する",
         "loginRequired": "注文にはログインが必要です。",
-        "loginToOrder": "ログインして注文する"
+        "loginToOrder": "ログインして注文する",
+        "depositLabel": "前払い（PayPay・{{rate}}%）",
+        "remainingLabel": "店頭でのお支払い",
+        "depositNotice": "ご注文時に前払い分をPayPayでお支払いいただきます。残りは店頭での受け取り時にお支払いください。",
+        "confirmOrderWithDeposit": "PayPayの支払い画面に移動して、前払い ¥{{amount}} をお支払いいただきます。よろしいですか？"
     },
     "orders": {
         "detailTitle": "注文詳細 #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "商品点数",
         "totalHeader": "合計金額",
         "actionsHeader": "操作",
-        "detail": "詳細"
+        "detail": "詳細",
+        "depositPaid": "前払い（PayPay）",
+        "remainingAtPickup": "店頭でのお支払い",
+        "paymentStatus": {
+            "pending": "お支払い待ち",
+            "paid": "支払い済み",
+            "refunded": "返金済み",
+            "expired": "未払いのため取消",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "ダッシュボード",

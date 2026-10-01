@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UnitController as AdminUnitController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FakePayPayController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -30,6 +31,10 @@ Route::get('/pages/{slug}', [StaticPageController::class, 'show'])
     ->whereIn('slug', ['how-to-use', 'privacy', 'company'])
     ->name('pages.show');
 
+// Stand-in PayPay payment page; 404s unless PAYMENT_DRIVER=fake.
+Route::get('/_fake-paypay/{reference}', [FakePayPayController::class, 'show'])->name('fake-paypay.show');
+Route::post('/_fake-paypay/{reference}', [FakePayPayController::class, 'update'])->name('fake-paypay.update');
+
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])
     ->middleware('throttle:6,1')
@@ -46,6 +51,7 @@ Route::prefix('shops/{shop:slug}')->scopeBindings()->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('/orders/{order}/payment-return', [OrderController::class, 'paymentReturn'])->name('orders.payment.return');
     });
 });
 

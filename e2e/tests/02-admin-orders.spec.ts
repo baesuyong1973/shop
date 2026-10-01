@@ -24,6 +24,7 @@ test('店舗管理者が注文をキャンセルすると在庫が戻る', async
     await addToCart(customer, 'Shop1', 'にんじん', 3);
     customer.once('dialog', (dialog) => dialog.accept());
     await customer.getByRole('button', { name: '注文する' }).click();
+    await customer.getByRole('button', { name: '支払う' }).click();
     const confirmation = customer.getByText(/ご注文ありがとうございます。（注文番号：\d+）/);
     await expect(confirmation).toBeVisible();
     const orderId = (await confirmation.textContent())!.match(/注文番号：(\d+)/)![1];
@@ -44,7 +45,8 @@ test('店舗管理者が注文をキャンセルすると在庫が戻る', async
         dialog.accept();
     });
     await admin.getByRole('button', { name: 'キャンセル' }).click();
-    await expect(admin.getByText('注文のステータスを更新しました。')).toBeVisible();
+    // 前払い（にんじん3個 ¥450 の10% = ¥45）が返金される
+    await expect(admin.getByText('注文のステータスを更新し、前払い金 ¥45 を返金しました。')).toBeVisible();
 
     // 在庫が注文前の数に戻る
     await customer.reload();

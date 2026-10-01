@@ -18,5 +18,11 @@
 </x-mail::table>
 
 **合計金額：** ¥{{ number_format($order->total_amount) }}
+@if ($order->deposit_amount > 0)
+
+**前払い（PayPay・支払い済み）：** ¥{{ number_format($order->deposit_amount) }}
+
+**店頭でのお支払い（受け取り時）：** ¥{{ number_format($order->remaining_amount) }}
+@endif
 
 </x-mail::message>

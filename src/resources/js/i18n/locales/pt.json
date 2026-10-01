@@ -69,7 +69,11 @@
         "total": "Total: ¥{{amount}}",
         "checkout": "Fazer Pedido",
         "loginRequired": "Você precisa estar conectado para fazer um pedido.",
-        "loginToOrder": "Entre para fazer o pedido"
+        "loginToOrder": "Entre para fazer o pedido",
+        "depositLabel": "Sinal (PayPay, {{rate}}%)",
+        "remainingLabel": "Pagar na loja",
+        "depositNotice": "O sinal é pago com PayPay no momento do pedido. Pague o restante ao retirar o pedido na loja.",
+        "confirmOrderWithDeposit": "Você será direcionado ao PayPay para pagar o sinal de ¥{{amount}}. Continuar?"
     },
     "orders": {
         "detailTitle": "Detalhes do Pedido #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "Itens",
         "totalHeader": "Total",
         "actionsHeader": "Ações",
-        "detail": "Detalhes"
+        "detail": "Detalhes",
+        "depositPaid": "Sinal (PayPay)",
+        "remainingAtPickup": "Pagar na retirada",
+        "paymentStatus": {
+            "pending": "Aguardando pagamento",
+            "paid": "Pago",
+            "refunded": "Reembolsado",
+            "expired": "Cancelado (não pago)",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "Painel",

@@ -99,6 +99,7 @@ class UserController extends Controller
             'user' => $user,
             'orders' => $user->orders()
                 ->where('shop_id', $shop->id)
+                ->confirmed()
                 ->with('items.product.unit')
                 ->latest()
                 ->paginate(20)

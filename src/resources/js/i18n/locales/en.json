@@ -69,7 +69,11 @@
         "total": "Total: ¥{{amount}}",
         "checkout": "Place Order",
         "loginRequired": "You must be logged in to place an order.",
-        "loginToOrder": "Log in to order"
+        "loginToOrder": "Log in to order",
+        "depositLabel": "Deposit (PayPay, {{rate}}%)",
+        "remainingLabel": "Pay at the store",
+        "depositNotice": "The deposit is paid with PayPay when you order. Please pay the rest when you pick up your order at the store.",
+        "confirmOrderWithDeposit": "You will be taken to PayPay to pay a deposit of ¥{{amount}}. Continue?"
     },
     "orders": {
         "detailTitle": "Order Details #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "Items",
         "totalHeader": "Total",
         "actionsHeader": "Actions",
-        "detail": "Details"
+        "detail": "Details",
+        "depositPaid": "Deposit (PayPay)",
+        "remainingAtPickup": "Pay at pickup",
+        "paymentStatus": {
+            "pending": "Awaiting payment",
+            "paid": "Paid",
+            "refunded": "Refunded",
+            "expired": "Cancelled (unpaid)",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "Dashboard",

@@ -69,7 +69,11 @@
         "total": "合计：¥{{amount}}",
         "checkout": "下单",
         "loginRequired": "下单前请先登录。",
-        "loginToOrder": "登录后下单"
+        "loginToOrder": "登录后下单",
+        "depositLabel": "预付款（PayPay・{{rate}}%）",
+        "remainingLabel": "店铺支付",
+        "depositNotice": "下单时通过PayPay支付预付款，剩余款项请在店铺取货时支付。",
+        "confirmOrderWithDeposit": "将跳转至PayPay支付页面，支付预付款 ¥{{amount}}。确定吗？"
     },
     "orders": {
         "detailTitle": "订单详情 #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "商品数量",
         "totalHeader": "合计",
         "actionsHeader": "操作",
-        "detail": "详情"
+        "detail": "详情",
+        "depositPaid": "预付款（PayPay）",
+        "remainingAtPickup": "取货时支付",
+        "paymentStatus": {
+            "pending": "待付款",
+            "paid": "已付款",
+            "refunded": "已退款",
+            "expired": "未付款已取消",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "控制台",

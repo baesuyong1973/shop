@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\AdminOrderNotification;
-use App\Mail\OrderConfirmed;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\Shop;
+use App\Payments\DepositPayments;
+use App\Payments\PaymentException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class OrderController extends Controller
 {
@@ -26,7 +26,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function store(Request $request, Shop $shop): RedirectResponse
+    public function store(Request $request, Shop $shop, DepositPayments $payments): SymfonyResponse
     {
         $cart = $request->session()->get("cart.{$shop->id}", []);
 
@@ -78,18 +78,53 @@ class OrderController extends Controller
             return $order;
         });
 
-        $request->session()->forget("cart.{$shop->id}");
+        if (! $payments->enabled()) {
+            $request->session()->forget("cart.{$shop->id}");
+            $payments->sendConfirmation($order);
 
-        $order->load('items', 'shop', 'user');
-
-        Mail::to($order->user->email)->send(new OrderConfirmed($order));
-
-        $adminEmails = $shop->admins()->pluck('email');
-
-        if ($adminEmails->isNotEmpty()) {
-            Mail::to($adminEmails)->send(new AdminOrderNotification($order));
+            return redirect()->route('shops.show', $shop)->with('status', __('messages.orders.confirmed', ['id' => $order->id]));
         }
 
-        return redirect()->route('shops.show', $shop)->with('status', __('messages.orders.confirmed', ['id' => $order->id]));
+        // The cart is kept until the deposit is paid, so the customer can
+        // simply try again if they back out of the payment.
+        try {
+            $paymentUrl = $payments->start($order, route('orders.payment.return', [$shop, $order]));
+        } catch (PaymentException $e) {
+            report($e);
+
+            return redirect()->route('cart.index', $shop)->with('error', __('messages.orders.payment_unavailable'));
+        }
+
+        return Inertia::location($paymentUrl);
+    }
+
+    /**
+     * Where the payment service sends the customer back after the deposit.
+     */
+    public function paymentReturn(Request $request, Shop $shop, Order $order, DepositPayments $payments): RedirectResponse
+    {
+        abort_unless($order->user_id === $request->user()->id, 404);
+
+        try {
+            $paid = $order->payment_status === Order::PAYMENT_PENDING
+                ? $payments->settle($order)
+                : $order->payment_status === Order::PAYMENT_PAID;
+        } catch (PaymentException $e) {
+            report($e);
+
+            return redirect()->route('cart.index', $shop)->with('error', __('messages.orders.payment_unconfirmed'));
+        }
+
+        if (! $paid) {
+            return redirect()->route('cart.index', $shop)->with('error', __('messages.orders.payment_incomplete'));
+        }
+
+        $request->session()->forget("cart.{$shop->id}");
+
+        return redirect()->route('shops.show', $shop)->with('status', __('messages.orders.confirmed_with_deposit', [
+            'id' => $order->id,
+            'deposit' => number_format($order->deposit_amount),
+            'remaining' => number_format($order->remaining_amount),
+        ]));
     }
 }

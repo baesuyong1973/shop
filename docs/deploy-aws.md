@@ -225,6 +225,38 @@ Let's Encryptの証明書は90日で失効する。EC2上のcrontab（`crontab -
 0 3 * * * cd /home/ec2-user/shop && docker run --rm -v "$PWD/docker/certbot/conf:/etc/letsencrypt" -v "$PWD/docker/certbot/www:/var/www/certbot" certbot/certbot renew --quiet && docker compose -f docker-compose.prod.yml restart web
 ```
 
+## 9. 注文時の前払い（PayPay）を有効にする
+
+`src/.env` の `PAYMENT_DRIVER` が空のあいだは、これまでどおり前払いなしで注文が確定する。PayPayの加盟店アカウント（PayPay for Developers）を用意したら以下を設定する。
+
+### 9-1. 環境変数
+
+`src/.env` に追加する（値は PayPay for Developers の管理画面で確認する）。
+
+```
+PAYMENT_DRIVER=paypay
+DEPOSIT_RATE=10
+PAYMENT_PENDING_MINUTES=30
+PAYPAY_API_KEY=<APIキー>
+PAYPAY_API_SECRET=<シークレット>
+PAYPAY_MERCHANT_ID=<加盟店ID>
+PAYPAY_PRODUCTION=false   # 審査通過後、本番キーに切り替えるときに true
+```
+
+`PAYMENT_DRIVER=fake`（開発用の疑似決済）は本番環境では起動時にエラーになるため使えない。設定後は `docker compose -f docker-compose.prod.yml restart app` で反映する。
+
+### 9-2. 定期処理（未払い注文の後始末）
+
+支払い画面で離脱した注文は、`orders:settle-pending`（5分ごと）が支払い状況を確認し、支払い済みなら確定、未払いなら取り消して在庫を戻す。EC2上のcrontabに Laravel のスケジューラーを登録する。
+
+```cron
+* * * * * cd /home/ec2-user/shop && docker compose -f docker-compose.prod.yml exec -T app php artisan schedule:run >> /dev/null 2>&1
+```
+
+### 9-3. 動作確認
+
+サンドボックス（`PAYPAY_PRODUCTION=false`）で、注文 → PayPayで支払い → 注文確定、および管理画面でのキャンセル → 返金 を一度ずつ確認してから本番キーに切り替える。
+
 ## リソースの削除（課金を止めたい場合）
 
 ```bash

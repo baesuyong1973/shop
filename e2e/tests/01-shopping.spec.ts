@@ -21,14 +21,26 @@ test('お客様が商品をカートに入れ、ログインして注文でき�
     await page.goto('/shops/shop1/cart');
     await expect(page.getByText('合計金額：¥600')).toBeVisible();
 
+    // 前払い（10%）と店頭での残額が表示される
+    await expect(page.getByText('前払い（PayPay・10%）')).toBeVisible();
+    await expect(page.getByText('¥60', { exact: true })).toBeVisible();
+    await expect(page.getByText('¥540', { exact: true })).toBeVisible();
+
     page.once('dialog', (dialog) => {
-        expect(dialog.message()).toBe('この内容で注文しますか？');
+        expect(dialog.message()).toBe('PayPayの支払い画面に移動して、前払い ¥60 をお支払いいただきます。よろしいですか？');
         dialog.accept();
     });
     await page.getByRole('button', { name: '注文する' }).click();
 
+    // PayPay（開発用の疑似決済）の画面で前払いを支払う
+    await expect(page).toHaveURL(/\/_fake-paypay\//);
+    await expect(page.getByText('¥60')).toBeVisible();
+    await page.getByRole('button', { name: '支払う' }).click();
+
     await expect(page).toHaveURL(/\/shops\/shop1$/);
-    await expect(page.getByText(/ご注文ありがとうございます。（注文番号：\d+）/)).toBeVisible();
+    await expect(
+        page.getByText(/ご注文ありがとうございます。（注文番号：\d+）前払い ¥60 のお支払いを確認しました。残りの ¥540 は店頭/),
+    ).toBeVisible();
 
     // カートは空になり、在庫が減っている
     await page.goto('/shops/shop1/cart');

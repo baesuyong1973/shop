@@ -69,7 +69,11 @@
         "total": "Kabuuan: ¥{{amount}}",
         "checkout": "Mag-order",
         "loginRequired": "Kailangan mong mag-login para mag-order.",
-        "loginToOrder": "Mag-login para mag-order"
+        "loginToOrder": "Mag-login para mag-order",
+        "depositLabel": "Deposito (PayPay, {{rate}}%)",
+        "remainingLabel": "Bayaran sa tindahan",
+        "depositNotice": "Babayaran ang deposito gamit ang PayPay sa pag-order. Bayaran ang natitira kapag kinuha mo ang order sa tindahan.",
+        "confirmOrderWithDeposit": "Dadalhin ka sa PayPay para bayaran ang depositong ¥{{amount}}. Magpatuloy?"
     },
     "orders": {
         "detailTitle": "Detalye ng Order #{{id}}",
@@ -88,7 +92,16 @@
         "itemCountHeader": "Mga Item",
         "totalHeader": "Kabuuan",
         "actionsHeader": "Aksyon",
-        "detail": "Detalye"
+        "detail": "Detalye",
+        "depositPaid": "Deposito (PayPay)",
+        "remainingAtPickup": "Bayaran sa pagkuha",
+        "paymentStatus": {
+            "pending": "Naghihintay ng bayad",
+            "paid": "Bayad na",
+            "refunded": "Naibalik na ang bayad",
+            "expired": "Kinansela (hindi nabayaran)",
+            "not_required": ""
+        }
     },
     "dashboard": {
         "title": "Dashboard",

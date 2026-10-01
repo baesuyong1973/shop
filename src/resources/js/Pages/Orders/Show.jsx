@@ -129,6 +129,40 @@ export default function Show({ order }) {
                                 ).toLocaleString(),
                             })}
                         </div>
+
+                        {order.deposit_amount > 0 && (
+                            <dl className="mt-4 ml-auto max-w-sm space-y-1 rounded-md bg-gray-50 p-4 text-sm">
+                                <div className="flex justify-between gap-4">
+                                    <dt className="text-gray-600">
+                                        {t('orders.depositPaid')}
+                                    </dt>
+                                    <dd className="font-medium text-gray-900">
+                                        ¥
+                                        {Number(
+                                            order.deposit_amount,
+                                        ).toLocaleString()}
+                                        <span className="ml-2 text-xs text-gray-500">
+                                            {t(
+                                                `orders.paymentStatus.${order.payment_status}`,
+                                            )}
+                                        </span>
+                                    </dd>
+                                </div>
+                                {order.payment_status === 'paid' && (
+                                    <div className="flex justify-between gap-4">
+                                        <dt className="text-gray-600">
+                                            {t('orders.remainingAtPickup')}
+                                        </dt>
+                                        <dd className="font-bold text-gray-900">
+                                            ¥
+                                            {Number(
+                                                order.remaining_amount,
+                                            ).toLocaleString()}
+                                        </dd>
+                                    </div>
+                                )}
+                            </dl>
+                        )}
                     </div>
                 </div>
             </div>
